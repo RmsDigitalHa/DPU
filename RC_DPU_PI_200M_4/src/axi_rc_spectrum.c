@@ -2,7 +2,7 @@
  * axi_control.c
  *
  *  Created on: 2023. 10. 13.
- *      Author: hadud
+ *      Author: hadud test
  */
 
 #include <sys/types.h>
