@@ -14,7 +14,7 @@
 //#include "dpu_regi_map.h"
 
 //Variable
-static uint32_t sts_start = 1;
+static uint32_t sts_start = 0;
 static uint32_t sts_iter_count = 0;
 uint16_t I_Offset = 0;
 uint16_t Q_Offset = 0;
