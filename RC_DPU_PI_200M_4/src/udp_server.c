@@ -105,9 +105,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 	printf("== UDP Recv\n");
 	printf("== IP : %s, port : %d, cmd_code : 0x%X\n", inet_ntoa(addr), port, recv_icd_header.CMD_CODE);
 
-	if(recv_icd_header.SRC_CODE == 0xE1 && recv_icd_header.DEST_CODE == 0x51){
+	if(recv_icd_header.SRC_CODE == 0xE1U && recv_icd_header.DEST_CODE == 0x51U){
 		/////////////////////// DPU_CTRL //////////////////////////
-		if(recv_icd_header.CMD_CODE == 0x0010){				//Set Center Frequency
+		if(recv_icd_header.CMD_CODE == 0x0010U){				//Set Center Frequency
 			reply_buf_udp[4] = 0x09;
 			*((uint64_t *)&reply_buf_udp[8]) = (uint64_t)(DPU_STATUS.CenterFreq);
 			reply_buf_udp[16] = 0x01;
@@ -117,7 +117,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0020){		//Set BW
+		else if(recv_icd_header.CMD_CODE == 0x0020U){		//Set BW
 			reply_buf_udp[4] = 0x02;
 			reply_buf_udp[8] = DPU_STATUS.ParmBw;
 			reply_buf_udp[9] = 0x01;
@@ -127,7 +127,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0030){		//Set RBW
+		else if(recv_icd_header.CMD_CODE == 0x0030U){		//Set RBW
 			reply_buf_udp[4] = 0x02;
 			reply_buf_udp[8] = DPU_STATUS.ParmRbw;
 			reply_buf_udp[9] = 0x00;
@@ -137,11 +137,11 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0040){		//Spectrum Transfer Start
+		else if(recv_icd_header.CMD_CODE == 0x0040U){		//Spectrum Transfer Start
 			client_ip = *(addr);
 			client_port = port;
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0050){		//Spectrum Transfer Stop
+		else if(recv_icd_header.CMD_CODE == 0x0050U){		//Spectrum Transfer Stop
 			reply_buf_udp[4] = 0x02;
 			reply_buf_udp[8] = DPU_STATUS.START;
 			reply_buf_udp[9] = 0x00;
@@ -151,12 +151,12 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0060){		//Get BIT Status
-			if(BIT_STATUS.BIT_SET == 0){
+		else if(recv_icd_header.CMD_CODE == 0x0060U){		//Get BIT Status
+			if(BIT_STATUS.BIT_SET == 0U){
 
 			}
 			else{
-				if(reply_buf_udp[8] == 1){			//PBIT
+				if(reply_buf_udp[8] == 1U){			//PBIT
 					reply_buf_udp[2] = 0x61;
 					reply_buf_udp[4] = 0x13;
 					reply_buf_udp[9] = PBIT_STATUS.LOCK_ADCLK;
@@ -183,7 +183,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					send_packet->len = p -> len + 18;
 					send_packet->tot_len = p -> len + 18;
 				}
-				else if(reply_buf_udp[8] == 2){		//CBIT
+				else if(reply_buf_udp[8] == 2U){		//CBIT
 					GetStatusIBIT();
 
 					reply_buf_udp[2] = 0x62;
@@ -206,7 +206,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					send_packet->len = p -> len + 12;
 					send_packet->tot_len = p -> len + 12;
 				}
-				else if(reply_buf_udp[8] == 3){		//IBIT
+				else if(reply_buf_udp[8] == 3U){		//IBIT
 					GetStatusIBIT();
 
 					reply_buf_udp[2] = 0x63;
@@ -240,7 +240,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			}
 		}
 		/////////////////////// RF_CTRL //////////////////////////
-		else if(recv_icd_header.CMD_CODE == 0x0100){		//Set RC_RCV Freq
+		else if(recv_icd_header.CMD_CODE == 0x0100U){		//Set RC_RCV Freq
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -255,15 +255,15 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0110){		//Set RF Filter Path
+		else if(recv_icd_header.CMD_CODE == 0x0110U){		//Set RF Filter Path
 			if(reply_buf_udp[8] == SET){
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				if(reply_buf_udp[9] == 0){			//BPF
+				if(reply_buf_udp[9] == 0U){			//BPF
 					reply_buf_udp[10] = rcrm_status.rcrm_bpf_bank;
 				}
-				else if(reply_buf_udp[9] == 1){		//LPF
+				else if(reply_buf_udp[9] == 1U){		//LPF
 					reply_buf_udp[10] = rcrm_status.rcrm_lpf_bank;
 				}
 				reply_buf_udp[4] = 0x03;
@@ -274,16 +274,16 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0120){		//Set RF AMP Path
+		else if(recv_icd_header.CMD_CODE == 0x0120U){		//Set RF AMP Path
 			if(reply_buf_udp[8] == SET){
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				if(reply_buf_udp[9] == 0){
+				if(reply_buf_udp[9] == 0U){
 					reply_buf_udp[10] = rcfm_status.rcfm_amp_mode1;
 
 				}
-				else if(reply_buf_udp[9] == 1){
+				else if(reply_buf_udp[9] == 1U){
 					reply_buf_udp[10] = rcrm_status.rcrm_amp_mode2;
 				}
 				reply_buf_udp[4] = 0x03;
@@ -294,15 +294,15 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0130){		//Set RF Atten
+		else if(recv_icd_header.CMD_CODE == 0x0130U){		//Set RF Atten
 			if(reply_buf_udp[8] == SET){
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				if(reply_buf_udp[9] == 0){			//SYS_ATTEN
+				if(reply_buf_udp[9] == 0U){			//SYS_ATTEN
 					reply_buf_udp[10] = (rcrm_status.rcrm_sys_att);
 				}
-				else if(reply_buf_udp[9] == 1){		//GAIN_ATTEN
+				else if(reply_buf_udp[9] == 1U){		//GAIN_ATTEN
 					reply_buf_udp[10] = (rcrm_status.rcrm_gain_att);
 				}
 				reply_buf_udp[4] = 0x03;
@@ -313,7 +313,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0140){		//Set RF_RCV Path
+		else if(recv_icd_header.CMD_CODE == 0x0140U){		//Set RF_RCV Path
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -327,7 +327,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0150){		//Set RF BIT EN
+		else if(recv_icd_header.CMD_CODE == 0x0150U){		//Set RF BIT EN
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -342,7 +342,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0160){		//Set RF ANT Path
+		else if(recv_icd_header.CMD_CODE == 0x0160U){		//Set RF ANT Path
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -356,7 +356,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0170){		//Get RF Status
+		else if(recv_icd_header.CMD_CODE == 0x0170U){		//Get RF Status
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -381,7 +381,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len + 10;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0180){		//Get RF Log
+		else if(recv_icd_header.CMD_CODE == 0x0180U){		//Get RF Log
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -389,8 +389,8 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				log_val = SPI_ReadReg(DPU_LOG, 0, 2);
 
 				reply_buf_udp[4] = 0x03;
-				reply_buf_udp[9] =  ((log_val >> 0) & 0xFF);
-				reply_buf_udp[10] =  ((log_val >> 8) & 0xFF);
+				reply_buf_udp[9] =  ((log_val >> 0U) & 0xFFU);
+				reply_buf_udp[10] =  ((log_val >> 8U) & 0xFFU);
 
 				//RCV Packet
 				memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
@@ -398,7 +398,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len + 2;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0190){		//Get RF TMP
+		else if(recv_icd_header.CMD_CODE == 0x0190U){		//Get RF TMP
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -416,7 +416,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->tot_len = p -> len + 2;
 			}
 		}
-		else if(recv_icd_header.CMD_CODE == 0x0200){		//Get RF LNA Mode
+		else if(recv_icd_header.CMD_CODE == 0x0200U){		//Get RF LNA Mode
 			if(reply_buf_udp[8] == SET){
 
 			}
@@ -431,7 +431,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			}
 		}
 		//Send RCV packet
-		if(recv_icd_header.CMD_CODE != 0x0040){
+		if(recv_icd_header.CMD_CODE != 0x0040U){
 			error = udp_sendto(tpcb, send_packet, addr, port);
 			if(error != ERR_OK){
 				printf("== UDP RecvCallback : Error in udp_sendto(%d)\n", error);
@@ -485,14 +485,14 @@ int TransferData(void)
 	recv_buf_udp[2] = (uint8_t)(0x41);
 	recv_buf_udp[3] = (uint8_t)(0x00);
 	memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
-	*((uint32_t *)AddrSpecCurHeader + 1) = (uint32_t)((DPU_STATUS.SpecBin * 2) + 0xC);
+	*((uint32_t *)AddrSpecCurHeader + 1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + 0xCU);
 
 	//ICD Body
 	memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
 
 
 
-	if(DataReady == 1){
+	if(DataReady == 1U){
 		while(1){
 
 			//UDP Send_Packet Allocation
@@ -521,9 +521,9 @@ int TransferData(void)
 				return err;
 			}
 
-			if(last_flag == 0){
+			if(last_flag == 0U){
 				send_cnt++;
-				AddrSpecCurHeader += (UDP_SEND_BUFSIZE / 4);
+				AddrSpecCurHeader += (UDP_SEND_BUFSIZE / 4U);
 			}
 			else{
 				send_cnt = 0;
@@ -532,7 +532,7 @@ int TransferData(void)
 			}
 			pbuf_free(send_packet);
 
-			if(SendDone == 1)
+			if(SendDone == 1U)
 				break;
 		}
 	}

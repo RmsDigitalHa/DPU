@@ -25,9 +25,9 @@ taliseFhmStatus_t	hopp_status;
 //#define BW_2DECI	48000000	//50MHz
 #define START_FREQ	400000000
 
-#define FREQ_OFFSET	30000
+#define FREQ_OFFSET	30000U
 #define BW_SPEC_OFFSET	120000
-#define FREQ_NCO	62640000	//64.11M(origin) -> 1.2M Shift
+#define FREQ_NCO	62640000U	//64.11M(origin) -> 1.2M Shift
 
 #define DELAY_HOP	2000
 

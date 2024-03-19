@@ -64,8 +64,8 @@
 
 
 //RF_CTRL
-#define SET		0
-#define GET		1
+#define SET		0U
+#define GET		1U
 
 #define RCFM	0
 #define RCRM	1
