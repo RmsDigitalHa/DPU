@@ -20,7 +20,7 @@
 
 #include "sleep.h"
 
-#define UDP_SEND_BUFSIZE 1440
+#define UDP_SEND_BUFSIZE 1440U
 
 extern struct netif server_netif;
 

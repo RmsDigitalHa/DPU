@@ -58,8 +58,8 @@ uint32_t *AddrSpecBufferHeader;
 
 
 
-uint64_t FreqList[13] = {433000000, 873000000, 923000000, 2425000000, 2475000000, 5035000000,
-						5085000000, 5725000000, 5775000000, 5825000000, 5875000000, 433000000, 873000000};
+uint64_t FreqList[13] = {433000000U, 873000000U, 923000000U, 2425000000U, 2475000000U, 5035000000U,
+						5085000000U, 5725000000U, 5775000000U, 5825000000U, 5875000000U, 433000000U, 873000000U};
 
 
 int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq)
@@ -67,7 +67,7 @@ int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq)
 	uint32_t talAction = TALACT_NO_ACTION;
 	uint8_t pllLockStatus = 0;
 
-	if(freq >= 6000000000){
+	if(freq >= 6000000000U){
 		freq = 5999985000;
 	}
 
@@ -88,7 +88,7 @@ int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq)
 	mdelay(200);
 
 	talAction = TALISE_getPllsLockStatus(pd, &pllLockStatus);
-	if ((pllLockStatus & 0x07) != 0x07) {
+	if ((pllLockStatus & 0x07U) != 0x07U) {
 		/*< user code - ensure lock of all PLLs before proceeding>*/
 		printf("error: RFPLL not locked\n");
 	}
@@ -183,7 +183,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 
 	tal.devHalInfo = (void *) &hal;
 
-	for(uint16_t i = 2; i < CH + 2; i++){
+	for(uint16_t i = 2U; i < CH + 2U; i++){
 		memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
 		memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
@@ -211,19 +211,19 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 
 		while(1){
 			FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
-			if((FrameDone == 1) && (Done_CNT < 2)){
-				Done_CNT += 1;
+			if((FrameDone == 1U) && (Done_CNT < 2U)){
+				Done_CNT += 1U;
 				RxDmaData();			//수정(240311)
 //				break;
 			}
-			if(Done_CNT == (ITER_CNT + 2)){
+			if(Done_CNT == (ITER_CNT + 2U)){
 				Done_CNT = 0;
 				break;
 			}
-			else if(Done_CNT > 1){		//1Cycle은 기존 BRAM 초기화 필요함(x)
+			else if(Done_CNT > 1U){		//1Cycle은 기존 BRAM 초기화 필요함(x)
 				RxDmaData();
 				IterSpectrum();
-				Done_CNT += 1;
+				Done_CNT += 1U;
 			}
 //			if(Done_CNT == 2){
 //				RxDmaData();
@@ -270,7 +270,7 @@ int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW){
 
 	while(1){
 		FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
-		if(FrameDone == 1){
+		if(FrameDone == 1U){
 			RxDmaData();
 			break;
 //			Done_CNT += 1;
