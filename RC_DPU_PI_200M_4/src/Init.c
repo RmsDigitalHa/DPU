@@ -374,6 +374,7 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 	double		Log_Step = 9.765625;
 	uint16_t	TMP_Value = 0;
 	uint16_t	Log_Value = 0;
+	uint16_t	Data_Return = 0;
 
 	switch(dev){
 	case LMX2592 :
@@ -386,12 +387,12 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 1);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_RF, u32Data_RF, NumByte);		// 2=> 16bit (8x2)
-		return u32Data_RF;
 		usleep(time_20us);
+		Data_Return = u32Data_RF;
 		break;
 	case RF_CTRL :			//Unable to read
-
-		return 0;
+		printf("This Function is not used.\n");
+		Data_Return = 0U;
 		break;
 	case DPU_LOG :
 		XSpiPs_SetOptions(&SPI_RF, XSPIPS_MASTER_OPTION | XSPIPS_FORCE_SSELECT_OPTION | XSPIPS_CLK_ACTIVE_LOW_OPTION);
@@ -410,9 +411,13 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
-		return Log_Value;
+		Data_Return = Log_Value;
+		break;
+	default :
 		break;
 	}
+
+	return Data_Return;
 }
 
 
