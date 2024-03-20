@@ -294,7 +294,7 @@ void IterSpectrum(){
 int AdrvGainCtrl(uint64_t FREQ){
 	int Status = 0;
 
-	//1차 시제
+	//2차 시제, EMI, 환경시험 진행
 	if(FREQ >= FREQ_400MHz && FREQ < FREQ_500MHz){
 		Status = SetAdrvGain(&tal, 253);
 	}
@@ -308,7 +308,7 @@ int AdrvGainCtrl(uint64_t FREQ){
 		Status = SetAdrvGain(&tal, 251);
 	}
 	else if(FREQ >= FREQ_2000MHz && FREQ < FREQ_2500MHz){
-		Status = SetAdrvGain(&tal, 255);
+		Status = SetAdrvGain(&tal, 254);
 	}
 	else if(FREQ >= FREQ_2500MHz && FREQ < FREQ_3700MHz){
 		Status = SetAdrvGain(&tal, 251);
@@ -317,16 +317,16 @@ int AdrvGainCtrl(uint64_t FREQ){
 		Status = SetAdrvGain(&tal, 250);
 	}
 	else if(FREQ >= FREQ_4400MHz && FREQ < FREQ_5700MHz){
-		Status = SetAdrvGain(&tal, 247);
-	}
-	else if(FREQ >= FREQ_5700MHz && FREQ < FREQ_5800MHz){
 		Status = SetAdrvGain(&tal, 251);
 	}
+	else if(FREQ >= FREQ_5700MHz && FREQ < FREQ_5800MHz){
+		Status = SetAdrvGain(&tal, 250);
+	}
 	else if(FREQ >= FREQ_5800MHz && FREQ < FREQ_5850MHz){
-		Status = SetAdrvGain(&tal, 249);
+		Status = SetAdrvGain(&tal, 248);
 	}
 	else if(FREQ >= FREQ_5850MHz && FREQ < FREQ_5900MHz){
-		Status = SetAdrvGain(&tal, 248);
+		Status = SetAdrvGain(&tal, 247);
 	}
 	else if(FREQ >= FREQ_5900MHz && FREQ <= FREQ_6000MHz){
 		Status = SetAdrvGain(&tal, 248);
