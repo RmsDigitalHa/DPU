@@ -309,7 +309,7 @@ typTableATTEN GetAttenValue(uint64_t TargetFreq){
 	AvgIndex = (MinIndex + MaxIndex) / 2;
 	OldAvgIndex = -1;
 
-	if (TargetFreq == GainAttenTable[MaxIndex].u64StartFreq)
+	if (TargetFreq == GainAttenTable[MaxIndex-1].u64StartFreq)
 	{
 		AvgIndex = MaxIndex;
 		memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
