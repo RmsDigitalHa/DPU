@@ -193,8 +193,7 @@ int main()
 		}
 	}
 
-	/* never reached */
-	cleanup_platform();
+	printf("System Error. DPU Shut Down.\n");
 
 	return 0;
 }
