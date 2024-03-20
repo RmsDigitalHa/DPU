@@ -81,15 +81,12 @@ adiHalErr_t jesd_init(uint32_t rx_div40_rate_hz,
 		goto error_5;
 	}
 
-//	axi_jesd204_rx_lane_clk_enable(rx_jesd);
-
-
 	return ADIHAL_OK;
 
 	error_7:
-//		axi_jesd204_rx_remove(rx_os_jesd);
+
 	error_6:
-//		axi_jesd204_tx_remove(tx_jesd);
+
 	error_5:
 		axi_jesd204_rx_remove(rx_jesd);
 
@@ -106,8 +103,7 @@ void jesd_status(void)
 	axi_jesd204_rx_status_read(rx_jesd);
 	axi_jesd204_rx_laneinfo_read(rx_jesd, 0);
 	axi_jesd204_rx_laneinfo_read(rx_jesd, 1);
-//	axi_jesd204_rx_laneinfo_read(rx_jesd, 2);
-//	axi_jesd204_rx_laneinfo_read(rx_jesd, 3);
+
 }
 
 void jesd_rx_watchdog(void)

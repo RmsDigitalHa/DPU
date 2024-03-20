@@ -168,11 +168,6 @@ struct xil_gpio_init_param xil_gpio_param = {
 .device_id = GPIO_DEVICE_ID,
 };
 
-//struct axi_clkgen_init rx_clkgen_init = {
-//	"rx_clkgen",
-//	RX_CLKGEN_BASEADDR,
-//	device_clock_khz * 1000
-//};
 
 // clock chip spi settings
 struct spi_init_param clkchip_spi_init_param = {
@@ -222,7 +217,7 @@ if (adrv9009_check_sysref_rate(lmfc_rate_hz, rate_dev))
 break;
 }
 
-//ret = ad9528_clk_set_rate(clkchip_device, FMC_SYSREF, rate_fmc);
+
 ret = ad9528_clk_set_rate(clkchip_device, FMC_SYSREF, rate_fmc);
 ret = ad9528_clk_set_rate(clkchip_device, DEV_SYSREF, rate_dev);
 
@@ -232,19 +227,6 @@ printf("Failed to set FMC SYSREF rate to %u Hz: %d\n",
 
 return ADIHAL_OK;
 
-///* Initialize CLKGEN */
-//status = axi_clkgen_init(&rx_clkgen, &rx_clkgen_init);
-//if (status != SUCCESS) {
-//	printf("error: %s: axi_clkgen_init() failed\n", rx_clkgen_init.name);
-//	goto error_1;
-//}
-//
-//status = axi_clkgen_set_rate(rx_clkgen, rx_div40_rate_hz);
-//if (status != SUCCESS) {
-//	printf("error: %s: axi_clkgen_set_rate() failed\n", rx_clkgen->name);
-//	goto error_4;
-//}
-//return ADIHAL_OK;
 
 error_4:
 axi_clkgen_remove(rx_os_clkgen);

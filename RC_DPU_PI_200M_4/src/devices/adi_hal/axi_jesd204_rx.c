@@ -211,11 +211,7 @@ uint32_t axi_jesd204_rx_status_read(struct axi_jesd204_rx *jesd)
 		       (link_disabled & 0x2U) ? "asserted" : "deasserted");
 	}
 
-//	//add 2020.05.20 LJH
-//	if((sysref_status & 1) == 0){
-//		//SYSREF captured = NO. retry ad9528 init.
-//		return 1;
-//	}
+
 	return SUCCESS;
 }
 

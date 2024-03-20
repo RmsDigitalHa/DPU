@@ -88,7 +88,6 @@ int Init_ADRV9008(void)
 
 
 
-//	uint32_t lmfc_rate = min(rx_lmfc_rate, tx_lmfc_rate);
 	uint32_t lmfc_rate = rx_lmfc_rate;
 
 
@@ -115,8 +114,7 @@ int Init_ADRV9008(void)
 
 	hal.extra_gpio = &adc_gpio_param;
 	hal.extra_spi = &adc_spi_param;
-//	hal.gpio_adrv_resetb_num = ADRV_RESETB;
-//	hal.spi_adrv_csn = ADRV_CS;
+
 
 	tal.devHalInfo = (void *) &hal;
 
@@ -172,8 +170,7 @@ int Init_ADRV9008(void)
 	status = axi_adc_init(&rx_adc, &rx_adc_init);
 
 	status = ChangeLoFreq(&tal, 1000000000);
-//	rts_start(RC_SPCTRUM_BaseAddr, iter_count, ref_level, win_func);
-//	rts_end(RC_SPCTRUM_BaseAddr);
+
 
 	if (status) {
 	printf("axi_adc_init() failed with status %d\n", status);

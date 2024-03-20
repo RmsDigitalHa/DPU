@@ -246,7 +246,6 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			}
 			else if(reply_buf_udp[8] == GET){
 				reply_buf_udp[4] = 0x09;
-//				*((uint64_t *)&reply_buf_udp[9]) = (uint64_t)(rcrm_status.rcrm_freq_hz - FREQ_OFFSET + FREQ_NCO);
 				*((uint64_t *)&reply_buf_udp[9]) = (uint64_t)(rcrm_status.rcrm_freq_hz - FREQ_OFFSET);
 
 				//RCV Packet

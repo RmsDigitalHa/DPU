@@ -61,9 +61,6 @@ uint32_t rts_start(u32 base_address, u32 iter_count, u32 ref_level, u32 win_func
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_START, 0x1);
 	usleep(100);
 
-//	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_DMA_START, 0x1);
-
-//    xil_printf("+ Capturing Start\n\r");
 
     return 0;
 }
@@ -72,9 +69,6 @@ uint32_t rts_end(u32 base_address)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_START, 0x0);
 
-//	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_DMA_START, 0x0);
-
-//    xil_printf("+ Capturing End\n\r");
 	usleep(100);
     return 0;
 }

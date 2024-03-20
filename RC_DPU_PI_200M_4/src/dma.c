@@ -118,7 +118,6 @@ extern void xil_printf(const char *format, ...);
 
 
 int RxSetup(XAxiDma * AxiDmaInstPtr);
-//static int RxDmaData(void);
 static int Rcv_Dma(void);
 
 volatile static uint8_t RX_BD_SPACE_BASE[RX_BD_SPACE_SIZE] __attribute__ ((aligned (64)));
@@ -297,7 +296,7 @@ int RxSetup(XAxiDma * AxiDmaInstPtr)
 
 	/* Clear the receive buffer, so we can verify data
 	 */
-//	memset((void *)RX_BUFFER_BASE, 0, MAX_PKT_LEN);
+
 	memset((uint8_t *)&RX_BUFFER_BASE[ICD_HEADER_SIZE + SPEC_HEADER_SIZE], 0, MAX_PKT_LEN);
 
 
@@ -341,7 +340,6 @@ int RxDmaData()
 	while ((BdCount = XAxiDma_BdRingFromHw(RxRingPtr, XAXIDMA_ALL_BDS, &BdPtr)) == 0) {
 	}
 
-//	DataReady = 0;
 
 	if(SendDone == 1U){
 		/* Receive DMA Data */
@@ -349,7 +347,6 @@ int RxDmaData()
 		for(int i = 0; i < BdCount; i++){
 			BdSts = XAxiDma_BdGetSts(BdCurPtr);
 			if ((BdSts & XAXIDMA_BD_STS_ALL_ERR_MASK) || (!(BdSts & XAXIDMA_BD_STS_COMPLETE_MASK))) {
-		//		Error = -1;
 				break;
 			}
 
@@ -382,21 +379,13 @@ int RxDmaData()
 				return XST_FAILURE;
 			}
 
-//			uint32_t *BUFFER_ADDR = (uint32_t *)RX_BUFFER_BASE;
-//			uint16_t BUFFER_SIZE = 3200;
-//
-//			transfer_data(BUFFER_ADDR, BUFFER_SIZE);
-//			memset(AddrSpecData, 0x00, sizeof(SPEC_BUF_PREV) - (ICD_HEADER_SIZE + SPEC_HEADER_SIZE));
-
 			AddrSpecData = (uint32_t *)&RX_BUFFER_BASE[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 
 			AddrSpecHeader = AddrSpecData - ((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4U);
 			AddrSpecPrevHeader = (uint32_t *)&SPEC_BUF_PREV;
 			AddrSpecCurHeader = (uint32_t *)&SPEC_BUF_CUR;
-//			memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(AddrSpecCurHeader));
 			if(DPU_STATUS.ScanMode == 0x01U){
 				memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
-//				memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
 			}
 			else if(DPU_STATUS.ScanMode == 0x02U){
 				memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
