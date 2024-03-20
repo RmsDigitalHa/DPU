@@ -231,7 +231,7 @@ typTableLMX2582 GetPLLValue(uint64_t TargetFreq){
 	AvgIndex = (MinIndex + MaxIndex) / 2;
 	OldAvgIndex = -1;
 
-	if (TargetFreq == TableLMX2582[MaxIndex].u64StartFreq)
+	if (TargetFreq == TableLMX2582[MaxIndex-1].u64StartFreq)
 	{
 		AvgIndex = MaxIndex;
 		memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));

@@ -24,7 +24,7 @@
 #include "user_func.h"
 
 
-static uint8_t		u8SpiData_RF[3] = {0, };
+static uint8_t		u8SpiData_RF[4] = {0, };
 static uint8_t		u8SpiData_LOG[3] = {0, };
 static uint8_t		u32Data_RF[4] 	= {0,};
 static uint8_t		u8Data_LOG[2] 	= {0,};
