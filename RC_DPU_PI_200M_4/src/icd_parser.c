@@ -58,7 +58,6 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		DPU_STATUS.CenterFreq = (uint64_t)(((freq_buf1 & 0xFFFFFFFF) << 32) | (freq_buf2 & 0xFFFFFFFF));
 
 		//RF BD CTRL
-//		SetRcrmStatFreq(DPU_STATUS.CenterFreq + FREQ_OFFSET - FREQ_NCO);
 		SetRcrmStatFreq(DPU_STATUS.CenterFreq + FREQ_OFFSET);
 		printf("Set Center Frequency : %luHz\r\n", DPU_STATUS.CenterFreq);
 
@@ -96,12 +95,9 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				DPU_STATUS.ParmRbw = 2;
 				DPU_STATUS.SpecBin = FFT_2048_BIN/2U;
 
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x6AB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x1AAB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_nFFT, 0xD);
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x2);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x0);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x1);
 				break;
 			case 4:								//RBW_120kHz
 				DPU_STATUS.RBW = RBW_120kHz;
@@ -112,8 +108,6 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x06AB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_nFFT, 0xB);
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x1);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x0);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x1);
 				break;
 			case 5:								//RBW_240kHz
 				DPU_STATUS.RBW = RBW_240kHz;
@@ -124,8 +118,6 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x02AB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_nFFT, 0xA);
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x0);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x0);
-//				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x1);
 				break;
 			default :							//RBW_30kHz
 				DPU_STATUS.RBW = RBW_30kHz;
@@ -214,7 +206,6 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 			freq_buf2 = (recv_buffer[12] << 24) | (recv_buffer[11] << 16) | (recv_buffer[10] << 8) | (recv_buffer[9] << 0);
 			RF_STATUS.RCV_FREQ = (uint64_t)(((freq_buf1 & 0xFFFFFFFF) << 32) | (freq_buf2 & 0xFFFFFFFF));
 
-//			SetRcrmStatFreq(RF_STATUS.RCV_FREQ + FREQ_OFFSET - FREQ_NCO);
 			SetRcrmStatFreq(RF_STATUS.RCV_FREQ + FREQ_OFFSET);
 		}
 		else{}

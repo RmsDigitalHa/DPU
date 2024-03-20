@@ -33,7 +33,6 @@ extern RF_SETTING RF_STATUS;
 extern RECV_SETTING DPU_STATUS;
 
 
-//XGpio RF_GPIO;		//10bit Input
 //  0   ADC_LD
 //  1   SYN_SDO
 //  2   LNA_ALM1
@@ -45,7 +44,6 @@ extern RECV_SETTING DPU_STATUS;
 //  8   PWR_FAULT2
 //  9   INSERT_FAULT2
 
-//XGpio PWR_GPIO;		//10bit Input
 //  0   PG4C
 //  1   PG1D
 //  2   PG3D
@@ -92,17 +90,14 @@ void GetStatusPBIT(){
 	}
 
 	PBIT_STATUS.LOCK_ADCLK = (~Data_PBIT[0]) & (0x01U);
-//	PBIT_STATUS.LOCK_BIT = Data_PBIT[1];
 	PBIT_STATUS.LNA1 = Data_PBIT[2];
 	PBIT_STATUS.REF_SIG = Data_PBIT[3];
 	PBIT_STATUS.RCFM_PWR = (~Data_PBIT[4]) & (0x01U);
 	PBIT_STATUS.RCFM_INSERT = Data_PBIT[5];
-//	PBIT_STATUS.RCFM_TMP = TMP_RCFM;
 	PBIT_STATUS.LNA2 = Data_PBIT[6];
 	PBIT_STATUS.LNA3 = Data_PBIT[7];
 	PBIT_STATUS.RCRM_PWR = (~Data_PBIT[8]) & (0x01U);
 	PBIT_STATUS.RCRM_INSERT = Data_PBIT[9];
-//	PBIT_STATUS.RCRM_TMP = TMP_RCRM;
 	PBIT_STATUS.DONE_FPGA = 0;		//Add status check function
 	PBIT_STATUS.DONE_ADC = 0;		//Add status check function
 	PBIT_STATUS.DONE_DDR = 0;		//Add status check function
@@ -144,17 +139,14 @@ void GetStatusIBIT(){
 	}
 
 	BIT_STATUS.LOCK_ADCLK = (~Data_IBIT[0]) & (0x01U);
-//	BIT_STATUS.LOCK_BIT = Data_IBIT[1];
 	BIT_STATUS.LNA1 = Data_IBIT[2];
 	BIT_STATUS.REF_SIG = Data_IBIT[3];
 	BIT_STATUS.RCFM_PWR = (~Data_IBIT[4]) & (0x01U);
 	BIT_STATUS.RCFM_INSERT = Data_IBIT[5];
-//	BIT_STATUS.RCFM_TMP = TMP_RCFM;
 	BIT_STATUS.LNA2 = Data_IBIT[6];
 	BIT_STATUS.LNA3 = Data_IBIT[7];
 	BIT_STATUS.RCRM_PWR = (~Data_IBIT[8]) & (0x01U);
 	BIT_STATUS.RCRM_INSERT = Data_IBIT[9];
-//	BIT_STATUS.RCRM_TMP = TMP_RCRM;
 	BIT_STATUS.DONE_FPGA = 0;
 	BIT_STATUS.DONE_ADC = 0;
 	BIT_STATUS.DONE_DDR = 0;
@@ -170,7 +162,7 @@ void GetStatusIBIT(){
  * RF Log IC Set
  * Check Log Level
  * BIT Freq_2 Set
- * RF Log IC Set	//?
+ * RF Log IC Set
  * Check Log Level
  * ... (ALL Filter Path)
  * BIT Disable

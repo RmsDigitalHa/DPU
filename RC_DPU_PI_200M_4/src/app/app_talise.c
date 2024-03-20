@@ -93,8 +93,6 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 	uint8_t framerStatus = 0;
 	uint32_t count = sizeof(armBinary);
 	taliseArmVersionInfo_t talArmVersionInfo;
-//	uint32_t initCalMask =  TAL_ADC_TUNER |  TAL_TIA_3DB_CORNER |
-//				TAL_DC_OFFSET | TAL_RX_GAIN_DELAY | TAL_FLASH_CAL;
 	uint32_t initCalMask =  TAL_ADC_TUNER |  TAL_TIA_3DB_CORNER |
 				TAL_RX_GAIN_DELAY | TAL_FLASH_CAL;
 	uint32_t trackingCalMask =  TAL_TRACK_RX1_QEC |
@@ -153,27 +151,6 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 		goto error_11;
 	}
 
-//	/*******************************************************/
-//	/**** Perform MultiChip Sync (MCS) on Talise Device ***/
-//	/*******************************************************/
-//	talAction = TALISE_enableMultichipSync(pd, 1, &mcsStatus);
-//	if (talAction != TALACT_NO_ACTION) {
-//		/*** < User: decide what to do based on Talise recovery action returned > ***/
-//		printf("error: TALISE_enableMultichipSync() failed\n");
-//		goto error_11;
-//	}
-//
-//	/*< user code - Request minimum 3 SYSREF pulses from Clock Device - > */
-//	ADIHAL_sysrefReq(pd->devHalInfo, SYSREF_PULSE);
-//
-//	/*******************/
-//	/**** Verify MCS ***/
-//	/*******************/
-//	talAction = TALISE_enableMultichipSync(pd, 0, &mcsStatus);
-//	if ((mcsStatus & 0x0B) != 0x0B) {
-//		/*< user code - MCS failed - ensure MCS before proceeding*/
-//		printf("warning: TALISE_enableMultichipSync() failed\n");
-//	}
 
 	/*******************************************************/
 	/**** Prepare Talise Arm binary and Load Arm and	****/
@@ -244,12 +221,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 	mdelay(200);
 
 	talAction = TALISE_getPllsLockStatus(pd, &pllLockStatus);
-////	if(0){
-//	if ((pllLockStatus & 0x07) != 0x07) {
-//		/*< user code - ensure lock of all PLLs before proceeding>*/
-//		printf("error: RFPLL not locked\n");
-//		goto error_11;
-//	}
+
 
 	/****************************************************/
 	/**** Run Talise ARM Initialization Calibrations ***/
@@ -310,22 +282,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 
 	if(talInit.rx.rxChannels != TAL_RXOFF)
 		axi_jesd204_rx_lane_clk_enable(rx_jesd);
-//
-//	if(talInit.obsRx.obsRxChannelsEnable != TAL_RXOFF)
-//		axi_jesd204_rx_lane_clk_enable(rx_os_jesd);
-//
-//	if(talInit.tx.txChannels != TAL_RXOFF) {
-//		axi_jesd204_tx_lane_clk_enable(tx_jesd);
-//
-//		/* RESET CDR */
-//		uint8_t phy_ctrl;
-//		ADIHAL_spiReadByte(pd->devHalInfo, TALISE_ADDR_DES_PHY_GENERAL_CTL_1,
-//				   &phy_ctrl);
-//		ADIHAL_spiWriteByte(pd->devHalInfo, TALISE_ADDR_DES_PHY_GENERAL_CTL_1,
-//				    phy_ctrl & ~BIT(7));
-//		ADIHAL_spiWriteByte(pd->devHalInfo, TALISE_ADDR_DES_PHY_GENERAL_CTL_1,
-//				    phy_ctrl);
-//	}
+
 
 	ADIHAL_sysrefReq(pd->devHalInfo, SYSREF_CONT_OFF);
 

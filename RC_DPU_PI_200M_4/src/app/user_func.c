@@ -188,15 +188,10 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 		memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
 		center_freq = FreqList[i] + FREQ_OFFSET - FREQ_NCO;
-//		DPU_STATUS.CenterFreq = FreqList[i - 2] + FREQ_OFFSET - FREQ_NCO;
-//		DPU_STATUS.CenterFreq = FreqList[i - 2];
-		DPU_STATUS.CenterFreq = FreqList[i - 1];		//수정(240311)
-//		SetRcrmStatFreq(FreqList[i - 1] + FREQ_OFFSET - FREQ_NCO);
-		SetRcrmStatFreq(FreqList[i - 1] + FREQ_OFFSET);
-//		SetRcrmStatFreq(FreqList[i] + FREQ_OFFSET);		//수정(240311)
+		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//수정(240311)
+		SetRcrmStatFreq(FreqList[i - 1U] + FREQ_OFFSET);
 
-//		Status = AdrvGainCtrl((uint64_t)(center_freq + FREQ_NCO));
-		Status = AdrvGainCtrl((uint64_t)(FreqList[i - 1] + FREQ_OFFSET));
+		Status = AdrvGainCtrl((uint64_t)(FreqList[i - 1U] + FREQ_OFFSET));
 		if (Status != XST_SUCCESS) {
 			return XST_FAILURE;
 		}
@@ -214,7 +209,6 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 			if((FrameDone == 1U) && (Done_CNT < 2U)){
 				Done_CNT += 1U;
 				RxDmaData();			//수정(240311)
-//				break;
 			}
 			if(Done_CNT == (ITER_CNT + 2U)){
 				Done_CNT = 0;
@@ -225,12 +219,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 				IterSpectrum();
 				Done_CNT += 1U;
 			}
-//			if(Done_CNT == 2){
-//				RxDmaData();
-////				IterSpectrum();
-//				Done_CNT = 0;
-//				break;
-//			}
+
 		}
 		rts_end(RC_SPCTRUM_BaseAddr);
 		TransferData();
@@ -273,13 +262,8 @@ int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW){
 		if(FrameDone == 1U){
 			RxDmaData();
 			break;
-//			Done_CNT += 1;
 		}
-//		if(Done_CNT == 1){
-//			RxDmaData();
-//			Done_CNT = 0;
-//			break;
-//		}
+
 	}
 
 	old_freq = center_freq;
@@ -298,10 +282,10 @@ void IterSpectrum(){
 
 	for(int spec_cnt = 0; spec_cnt < spec_length; spec_cnt++){
 		if((int16_t)(AddrCUR[spec_cnt]) > (int16_t)(AddrPrev[spec_cnt])){
-			// AddrSpecCurHeader[((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4) + i] = AddrSpecCurHeader[((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4) + i];
+
 		}
 		else{
-			//memcpy(AddrCUR[spec_cnt], AddrPrev[spec_cnt], sizeof(AddrPrev[spec_cnt]));
+
 			AddrCUR[spec_cnt] = AddrPrev[spec_cnt];
 		}
 	}
@@ -309,45 +293,6 @@ void IterSpectrum(){
 
 int AdrvGainCtrl(uint64_t FREQ){
 	int Status = 0;
-
-	// 2,3차 시제
-//	if(FREQ >= FREQ_400MHz && FREQ < FREQ_500MHz){
-//		Status = SetAdrvGain(&tal, 253);
-//	}
-//	else if(FREQ >= FREQ_500MHz && FREQ < FREQ_1000MHz){
-//		Status = SetAdrvGain(&tal, 255);
-//	}
-//	else if(FREQ >= FREQ_1000MHz && FREQ < FREQ_1500MHz){
-//		Status = SetAdrvGain(&tal, 253);
-//	}
-//	else if(FREQ >= FREQ_1500MHz && FREQ < FREQ_2000MHz){
-//		Status = SetAdrvGain(&tal, 251);
-//	}
-//	else if(FREQ >= FREQ_2000MHz && FREQ < FREQ_2500MHz){
-//		Status = SetAdrvGain(&tal, 254);
-//	}
-//	else if(FREQ >= FREQ_2500MHz && FREQ < FREQ_3700MHz){
-//		Status = SetAdrvGain(&tal, 251);
-//	}
-//	else if(FREQ >= FREQ_3700MHz && FREQ < FREQ_4400MHz){
-//		Status = SetAdrvGain(&tal, 250);
-//	}
-//	else if(FREQ >= FREQ_4400MHz && FREQ < FREQ_5700MHz){
-//		Status = SetAdrvGain(&tal, 251);
-//	}
-//	else if(FREQ >= FREQ_5700MHz && FREQ < FREQ_5800MHz){
-//		Status = SetAdrvGain(&tal, 250);
-//	}
-//	else if(FREQ >= FREQ_5800MHz && FREQ < FREQ_5850MHz){
-//		Status = SetAdrvGain(&tal, 248);
-//	}
-//	else if(FREQ >= FREQ_5850MHz && FREQ < FREQ_5900MHz){
-//		Status = SetAdrvGain(&tal, 247);
-//	}
-//	else if(FREQ >= FREQ_5900MHz && FREQ <= FREQ_6000MHz){
-//		Status = SetAdrvGain(&tal, 248);
-//	}
-
 
 	//1차 시제
 	if(FREQ >= FREQ_400MHz && FREQ < FREQ_500MHz){

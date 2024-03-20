@@ -23,8 +23,6 @@
 #include "rcrm_control.h"
 #include "user_func.h"
 
-//extern XGpio RF_GPIO; /* The Instance of the GPIO Driver */
-//extern XGpio PWR_GPIO; /* The Instance of the GPIO Driver */
 
 static uint8_t		u8SpiData_RF[3] = {0, };
 static uint8_t		u8SpiData_LOG[3] = {0, };
@@ -42,7 +40,6 @@ extern RECV_SETTING DPU_STATUS;
 uint8_t SendBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Transmitting Data */
 uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
 
-//XGpio RF_GPIO;		//10bit Input
 //  0   ADC_LD
 //  1   SYN_SDO
 //  2   LNA_ALM1
@@ -54,7 +51,6 @@ uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
 //  8   PWR_FAULT2
 //  9   INSERT_FAULT2
 
-//XGpio PWR_GPIO;		//10bit Input
 //  0   PG4C
 //  1   PG1D
 //  2   PG3D
@@ -110,7 +106,6 @@ int Init_RF_CTRL(){
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 
 	SetRcfmStatBitEn(RCFM_CAL_DIS);
-//	SetRcrmStatFreq(INIT_FREQ + FREQ_OFFSET - FREQ_NCO);
 	SetRcrmStatFreq(INIT_FREQ + FREQ_OFFSET);
 	SetRcfmStatPath(RCFM_ANT_PATH);
 	SetRcfmStatAmpFst(RCFM_BYPASS);
@@ -155,7 +150,6 @@ int Init_GPIO_CTRL(){
 	}
 	XGpio_SetDataDirection(&PWR_GPIO, PWR_GPIO_IN, GPIO_IN);
 
-//	printf("GPIO Initialize Success.\n");
 	return 0;
 }
 
@@ -244,7 +238,6 @@ int Init_I2C_CTRL(){
 
 	XIicPs_SetSClk(&I2C_1, IIC_SCLK_RATE);
 
-//	printf("I2C Initialize Success.\n");
 	return 0;
 }
 
@@ -268,11 +261,9 @@ uint8_t GetRFTmp(uint8_t dev){
 		}
 
 		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
-//			BIT_STATUS.RCFM_TMP = RecvBuffer[0] - 256;
 			return (RecvBuffer[0] - 256U);
 		}
 		else{
-//			BIT_STATUS.RCFM_TMP = RecvBuffer[0];
 			return RecvBuffer[0];
 		}
 	}
@@ -295,18 +286,14 @@ uint8_t GetRFTmp(uint8_t dev){
 		}
 
 		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
-	//		BIT_STATUS.RCFM_TMP = (int8_t)(RecvBuffer[0] - 256);
 			return (RecvBuffer[0] - 256U);
 		}
 		else{
-	//		BIT_STATUS.RCRM_TMP = (int8_t)RecvBuffer[0];
 			return RecvBuffer[0];
 		}
 
-	//	return XST_SUCCESS;
 	}
 
-//	usleep(100);
 }
 
 int GetDPUTmp(){
@@ -327,7 +314,6 @@ int GetDPUTmp(){
 	if (Status != XST_SUCCESS) {
 		return XST_FAILURE;
 	}
-//	BIT_STATUS.RCFM_TMP = RecvBuffer[0];
 
 	return 0;
 }
@@ -356,7 +342,6 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 		XSpiPs_SetSlaveSelect(&SPI_RF, 1);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_RF, NULL, NumByte);		// 2=> 16bit (8x2)
 
-//		return 0;
 		usleep(1000);
 		break;
 	case RF_CTRL :
@@ -373,7 +358,6 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 		XSpiPs_SetSlaveSelect(&SPI_RF, 0);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_RF, NULL, NumByte);		// 2=> 16bit (8x2)
 
-//		return 0;
 		usleep(10);
 		break;
 	case DPU_LOG :
@@ -404,7 +388,6 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_RF, u32Data_RF, NumByte);		// 2=> 16bit (8x2)
 		return u32Data_RF;
 		usleep(time_20us);
-//		return 0;
 		break;
 	case RF_CTRL :			//Unable to read
 
@@ -419,16 +402,14 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
 		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
-//		Log_Value = (uint16_t)((TMP_Value * Log_Step) + 0x32);	//offset?
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
 		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
-//		Log_Value = (uint16_t)((TMP_Value * Log_Step) + 0x32);	//offset?
+
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
-//		BIT_STATUS.RF_LOG = Log_Value;
 		return Log_Value;
 		break;
 	}

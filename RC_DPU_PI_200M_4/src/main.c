@@ -65,7 +65,6 @@
 /* defined by each RAW mode application */
 void print_app_header();
 int start_application();
-//int transfer_data();
 void tcp_fasttmr(void);
 void tcp_slowtmr(void);
 
@@ -94,11 +93,6 @@ extern uint32_t dpu_ref_level;
 extern uint32_t dpu_win_func;
 uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
 uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
-//extern uint64_t FreqList[12];
-
-//static struct netif server_netif;
-//struct netif server_netif;
-//struct netif *echo_netif;
 
 
 void
