@@ -61,10 +61,10 @@
 #define CORE_CLK_RX_AB		9
 #endif
 #else
-#define DEV_CLK	2
-#define FMC_CLK	10
-#define DEV_SYSREF 12
-#define FMC_SYSREF 11
+#define DEV_CLK	2U
+#define FMC_CLK	10U
+#define DEV_SYSREF 12U
+#define FMC_SYSREF 11U
 #endif
 
 adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz,

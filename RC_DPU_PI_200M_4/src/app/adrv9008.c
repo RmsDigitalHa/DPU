@@ -70,7 +70,7 @@ int Init_ADRV9008(void)
 	uint32_t rx_lane_rate_khz = talInit.rx.rxProfile.rxOutputRate_kHz *
 	    talInit.jesd204Settings.framerA.M * (20 /
 	    hweight8(talInit.jesd204Settings.framerA.serializerLanesEnabled));
-	uint32_t rx_div40_rate_hz = rx_lane_rate_khz * (1000 / 40);
+	uint32_t rx_div40_rate_hz = rx_lane_rate_khz * (1000U / 40U);
 	uint32_t device_clk_khz = talInit.rx.rxProfile.rxOutputRate_kHz;
 
 
@@ -83,7 +83,7 @@ int Init_ADRV9008(void)
 	// serializer:   lmfc_rate = (lane_rate * 100) / (K * F)
 	// deserializer: lmfc_rate = (lane_rate * 100) / (K * 2 * M / L)
 	// where K, F, L, M are explained in taliseJesd204bFramerConfig_t comments
-	uint32_t rx_lmfc_rate = (rx_lane_rate_khz * 100) /
+	uint32_t rx_lmfc_rate = (rx_lane_rate_khz * 100U) /
 	(talInit.jesd204Settings.framerA.K * talInit.jesd204Settings.framerA.F);
 
 

@@ -17,23 +17,23 @@
 #include "xgpio.h"
 
 // define
-#define RCFM_BYPASS 	0
-#define RCFM_LNA		1
+#define RCFM_BYPASS 	0U
+#define RCFM_LNA		1U
 
-#define RCFM_ANT_PATH	0
-#define RCFM_BIT_PATH	1
+#define RCFM_ANT_PATH	0U
+#define RCFM_BIT_PATH	1U
 
-#define RCFM_CAL_DIS	0
-#define RCFM_CAL_EN		1
+#define RCFM_CAL_DIS	0U
+#define RCFM_CAL_EN		1U
 
-#define RCFM_ANT_BIAS_OFF	0
-#define RCFM_ANT_BIAS_ON	1
+#define RCFM_ANT_BIAS_OFF	0U
+#define RCFM_ANT_BIAS_ON	1U
 
-#define 	PLL_TABLE_SIZE	16
+#define 	PLL_TABLE_SIZE	16U
 
-#define		MIN_Freq	400000000
-#define		MAX_Freq	6000000000
-#define		LAST_Freq	3550000000
+#define		MIN_Freq	400000000U
+#define		MAX_Freq	6000000000U
+#define		LAST_Freq	3550000000U
 
 
 typedef struct rcfm_mode_state{

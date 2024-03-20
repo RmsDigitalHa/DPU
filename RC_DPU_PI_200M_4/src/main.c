@@ -159,7 +159,7 @@ int main()
 	DPU_STATUS.RBW = RBW_30kHz;
 	DPU_STATUS.ParmBw = 2;						//BW_50MHz
 	DPU_STATUS.ParmRbw = 2;						//RBW_30kHz
-	DPU_STATUS.SpecBin = FFT_2048_BIN/2;		//FFT_256_BIN	FFT_1024_BIN	FFT_2048_BIN	FFT_4098_BIN	FFT_4098_BIN
+	DPU_STATUS.SpecBin = FFT_2048_BIN/2U;		//FFT_256_BIN	FFT_1024_BIN	FFT_2048_BIN	FFT_4098_BIN	FFT_4098_BIN
 	DPU_STATUS.ChNum = 0xB;
 	DPU_STATUS.IterCnt = 3;
 	spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//FFT 2048
@@ -179,7 +179,7 @@ int main()
 		}
 		xemacif_input(&server_netif);
 
-		if(DPU_STATUS.START == 1){
+		if(DPU_STATUS.START == 1U){
 			Status = CHScanStart(DPU_STATUS.ChNum, DPU_STATUS.IterCnt);
 			if (Status != XST_SUCCESS) {
 				printf("CH Scan Fail.\r\n");
@@ -187,7 +187,7 @@ int main()
 				return XST_FAILURE;
 			}
 		}
-		else if(DPU_STATUS.START == 2){
+		else if(DPU_STATUS.START == 2U){
 			Status = BWScanStart(DPU_STATUS.CenterFreq, DPU_STATUS.BandWidth, DPU_STATUS.RBW);
 			if (Status != XST_SUCCESS) {
 				printf("BW_50MHz Scan Fail.\r\n");

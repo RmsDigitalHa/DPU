@@ -147,7 +147,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 	}
 
 	/* Assert that Talise CLKPLL is locked */
-	if ((pllLockStatus & 0x01) == 0) {
+	if ((pllLockStatus & 0x01U) == 0U) {
 		/* <user code - CLKPLL not locked - ensure lock before proceeding */
 		printf("error: CLKPLL not locked\n");
 		goto error_11;
@@ -179,7 +179,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 	/**** Prepare Talise Arm binary and Load Arm and	****/
 	/**** Stream processor Binaryes 					****/
 	/*******************************************************/
-	if (pllLockStatus & 0x01) {
+	if (pllLockStatus & 0x01U) {
 		talAction = TALISE_initArm(pd, pi);
 		if (talAction != TALACT_NO_ACTION) {
 			/*** < User: decide what to do based on Talise recovery action returned > ***/
@@ -343,7 +343,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 		goto error_11;
 	}
 
-	if ((framerStatus & 0x07) != 0x05) {
+	if ((framerStatus & 0x07U) != 0x05U) {
 		printf("warning: TAL_FRAMER_A status 0x%X\n", framerStatus);
 	}
 

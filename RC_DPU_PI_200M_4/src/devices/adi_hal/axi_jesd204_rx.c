@@ -52,41 +52,41 @@
 /******************************************************************************/
 /********************** Macros and Constants Definitions **********************/
 /******************************************************************************/
-#define JESD204_RX_REG_VERSION			0x00
-#define JESD204_RX_REG_MAGIC			0x0c
+#define JESD204_RX_REG_VERSION			0x00U
+#define JESD204_RX_REG_MAGIC			0x0cU
 
-#define JESD204_RX_REG_SYNTH_NUM_LANES			0x10
-#define JESD204_RX_REG_SYNTH_DATA_PATH_WIDTH	0x14
+#define JESD204_RX_REG_SYNTH_NUM_LANES			0x10U
+#define JESD204_RX_REG_SYNTH_DATA_PATH_WIDTH	0x14U
 
 #define JESD204_RX_SYNTH_REG_1 0x18
 
-#define JESD204_RX_REG_LINK_DISABLE		0xc0
-#define JESD204_RX_REG_LINK_STATE		0xc4
-#define JESD204_RX_REG_LINK_CLK_RATIO	0xc8
+#define JESD204_RX_REG_LINK_DISABLE		0xc0U
+#define JESD204_RX_REG_LINK_STATE		0xc4U
+#define JESD204_RX_REG_LINK_CLK_RATIO	0xc8U
 
-#define JESD204_RX_REG_SYSREF_CONF		0x100
+#define JESD204_RX_REG_SYSREF_CONF		0x100U
 #define JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE	BIT(0)
 
-#define JESD204_RX_REG_SYSREF_STATUS	0x108
+#define JESD204_RX_REG_SYSREF_STATUS	0x108U
 
-#define JESD204_RX_REG_LINK_CONF0		0x210
-#define JESD204_RX_REG_LINK_CONF1		0x214
+#define JESD204_RX_REG_LINK_CONF0		0x210U
+#define JESD204_RX_REG_LINK_CONF1		0x214U
 
-#define JESD204_RX_REG_LINK_CONF2		0x240
+#define JESD204_RX_REG_LINK_CONF2		0x240U
 //add 2020.10.14 LJH
-#define JESD204_RX_REG_LINK_CONF3		0x244
+#define JESD204_RX_REG_LINK_CONF3		0x244U
 
 #define JESD204_RX_LINK_CONF2_BUFFER_EARLY_RELEASE	BIT(16)
 
-#define JESD204_RX_REG_LINK_STATUS		0x280
+#define JESD204_RX_REG_LINK_STATUS		0x280U
 
-#define JESD204_RX_REG_LANE_STATUS(x)	(((x) * 32) + 0x300)
-#define JESD204_RX_REG_LANE_LATENCY(x)	(((x) * 32) + 0x304)
-#define JESD204_RX_REG_LANE_ERRORS(x)	(((x) * 32) + 0x308)
-#define JESD204_RX_REG_ILAS(x, y)		(((x) * 32 + (y) * 4) + 0x310)
+#define JESD204_RX_REG_LANE_STATUS(x)	(((x) * 32U) + 0x300U)
+#define JESD204_RX_REG_LANE_LATENCY(x)	(((x) * 32U) + 0x304U)
+#define JESD204_RX_REG_LANE_ERRORS(x)	(((x) * 32U) + 0x308U)
+#define JESD204_RX_REG_ILAS(x, y)		(((x) * 32U + (y) * 4U) + 0x310U)
 
 #define JESD204_TX_REG_ILAS(x, y)		\
-	(((x) * 32 + (y) * 4) + 0x310)
+	(((x) * 32U + (y) * 4U) + 0x310U)
 
 #define JESD204_RX_MAGIC				\
 	(('2' << 24) | ('0' << 16) | ('4' << 8) | ('R'))
@@ -175,40 +175,40 @@ uint32_t axi_jesd204_rx_status_read(struct axi_jesd204_rx *jesd)
 
 	printf("%s status:\n", jesd->name);
 
-	printf("\tLink is %s\n", (link_disabled & 0x1) ? "disabled" : "enabled");
+	printf("\tLink is %s\n", (link_disabled & 0x1U) ? "disabled" : "enabled");
 
-	if (clock_ratio == 0) {
+	if (clock_ratio == 0U) {
 		printf("\tMeasured Link Clock: off\n");
 	} else {
 		clock_rate = DIV_ROUND_CLOSEST_ULL(100000ULL * clock_ratio,
 						   1ULL << 16);
 		printf("\tMeasured Link Clock: %"PRIu32".%.3"PRIu32" MHz\n",\
-		       clock_rate / 1000, clock_rate % 1000);
+		       clock_rate / 1000U, clock_rate % 1000U);
 	}
 
 	clock_rate = jesd->device_clk_khz;
 	printf("\tReported Link Clock: %"PRIu32".%.3"PRIu32" MHz\n",
-	       clock_rate / 1000, clock_rate % 1000);
+	       clock_rate / 1000U, clock_rate % 1000U);
 
 	if (!link_disabled) {
 		clock_rate = jesd->lane_clk_khz;
 		link_rate = DIV_ROUND_CLOSEST(clock_rate, 40);
 		printf("\tLane rate: %"PRIu32".%.3"PRIu32" MHz\n"
 		       "\tLane rate / 40: %"PRIu32".%.3"PRIu32" MHz\n",
-		       clock_rate / 1000, clock_rate % 1000,
-		       link_rate / 1000, link_rate % 1000);
+		       clock_rate / 1000U, clock_rate % 1000U,
+		       link_rate / 1000U, link_rate % 1000U);
 
 		printf("\tLink status: %s\n"
 		       "\tSYSREF captured: %s\n"
 		       "\tSYSREF alignment error: %s\n",
-		       axi_jesd204_rx_link_status_label[link_status & 0x3],
+		       axi_jesd204_rx_link_status_label[link_status & 0x3U],
 		       (sysref_config & JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE) ?
-		       "disabled" : (sysref_status & 1) ? "Yes" : "No",
+		       "disabled" : (sysref_status & 1U) ? "Yes" : "No",
 		       (sysref_config & JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE) ?
-		       "disabled" : (sysref_status & 2) ? "Yes" : "No");
+		       "disabled" : (sysref_status & 2U) ? "Yes" : "No");
 	} else {
 		printf("\tExternal reset is %s\n",
-		       (link_disabled & 0x2) ? "asserted" : "deasserted");
+		       (link_disabled & 0x2U) ? "asserted" : "deasserted");
 	}
 
 //	//add 2020.05.20 LJH
@@ -249,7 +249,7 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 	}
 
 	printf("\tCGS state: %s\n",
-	       axi_jesd204_rx_lane_status_label[lane_status & 0x3]);
+	       axi_jesd204_rx_lane_status_label[lane_status & 0x3U]);
 
 	printf("\tInitial Frame Synchronization: %s\n",
 	       (lane_status & BIT(4)) ? "Yes" : "No");
@@ -257,8 +257,8 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 		return FAILURE;
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_CONF0, &octets_per_multiframe);
-	octets_per_multiframe &= 0xffff;
-	octets_per_multiframe += 1;
+	octets_per_multiframe &= 0xffffU;
+	octets_per_multiframe += 1U;
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_LATENCY(lane), &lane_latency);
 	printf("\tLane Latency: %"PRIu32" Multi-frames and %"PRIu32" Octets\n",
@@ -271,44 +271,44 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 	if (!(lane_status & BIT(5)))
 		return FAILURE;
 
-	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 0), &val[0]);
-	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 1), &val[1]);
-	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 2), &val[2]);
-	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 3), &val[3]);
+	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 0U), &val[0]);
+	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 1U), &val[1]);
+	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 2U), &val[2]);
+	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 3U), &val[3]);
 
 	printf("\tDID: %"PRIu32", BID: %"PRIu32", LID: %"PRIu32", "
 	       "L: %"PRIu32", SCR: %"PRIu32", F: %"PRIu32"\n",
-	       (val[0] >> 16) & 0xff,
-	       (val[0] >> 24) & 0xf,
-	       (val[1] >> 0) & 0x1f,
-	       ((val[1] >> 8) & 0x1f) + 1,
-	       (val[1] >> 15) & 0x1,
-	       ((val[1] >> 16) & 0xff) + 1
+	       (val[0] >> 16) & 0xffU,
+	       (val[0] >> 24) & 0xfU,
+	       (val[1] >> 0) & 0x1fU,
+	       ((val[1] >> 8) & 0x1fU) + 1U,
+	       (val[1] >> 15) & 0x1U,
+	       ((val[1] >> 16) & 0xffU) + 1U
 	      );
 
 	printf("\tK: %"PRIu32", M: %"PRIu32", N: %"PRIu32", CS: %"PRIu32", "
 	       "N': %"PRIu32", S: %"PRIu32", HD: %"PRIu32"\n",
-	       ((val[1] >> 24) & 0x1f) + 1,
-	       ((val[2] >> 0) & 0xff) + 1,
-	       ((val[2] >> 8) & 0x1f) + 1,
-	       (val[2] >> 14) & 0x3,
-	       ((val[2] >> 16) & 0x1f) + 1,
-	       ((val[2] >> 24) & 0x1f) + 1,
-	       (val[3] >> 7) & 0x1
+	       ((val[1] >> 24) & 0x1fU) + 1U,
+	       ((val[2] >> 0) & 0xffU) + 1U,
+	       ((val[2] >> 8) & 0x1fU) + 1U,
+	       (val[2] >> 14) & 0x3U,
+	       ((val[2] >> 16) & 0x1fU) + 1U,
+	       ((val[2] >> 24) & 0x1fU) + 1U,
+	       (val[3] >> 7) & 0x1U
 	      );
 
 	printf("\tFCHK: 0x%"PRIX32", CF: %"PRIu32"\n",
-	       (val[3] >> 24) & 0xff,
-	       (val[3] >> 0) & 0x1f
+	       (val[3] >> 24) & 0xffU,
+	       (val[3] >> 0) & 0x1fU
 	      );
 
 	printf("\tADJCNT: %"PRIu32", PHADJ: %"PRIu32", ADJDIR: %"PRIu32", "
 	       "JESDV: %"PRIu32", SUBCLASS: %"PRIu32"\n",
-	       (val[0] >> 28) & 0xff,
-	       (val[1] >> 5) & 0x1,
-	       (val[1] >> 6) & 0x1,
-	       (val[2] >> 29) & 0x7,
-	       (val[2] >> 21) & 0x7
+	       (val[0] >> 28) & 0xffU,
+	       (val[1] >> 5) & 0x1U,
+	       (val[1] >> 6) & 0x1U,
+	       (val[2] >> 29) & 0x7U,
+	       (val[2] >> 21) & 0x7U
 	      );
 
 	printf("\tFC: %"PRIu32" kHz\n", jesd->lane_clk_khz);
@@ -327,8 +327,8 @@ bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd,
 	char error_str[sizeof(" (4294967295 errors)")];
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_STATUS(lane), &status);
-	status &= 0x3;
-	if (status != 0x0)
+	status &= 0x3U;
+	if (status != 0x0U)
 		return false;
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_ERRORS(lane), &errors);
@@ -355,7 +355,7 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 		return SUCCESS;
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_STATUS, &link_status);
-	if (link_status == 3) {
+	if (link_status == 3U) {
 		for (i = 0; i < jesd->num_lanes; i++)
 			restart |= axi_jesd204_rx_check_lane_status(jesd, i);
 
@@ -384,13 +384,13 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 
 	multiframe_align = 1 << jesd->data_path_width;
 
-	if (octets_per_multiframe % multiframe_align != 0) {
+	if (octets_per_multiframe % multiframe_align != 0U) {
 		printf("%s: octets_per_frame * frames_per_multiframe must be a "
 		       "multiple of %"PRIu32"\n", jesd->name, multiframe_align);
 		return FAILURE;
 	}
 
-	val = (octets_per_multiframe - 1);
+	val = (octets_per_multiframe - 1U);
 	val |= (config->octets_per_frame - 1) << 16;
 
 	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF0, val);
@@ -400,8 +400,8 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 
 	//add 2020.10.14 lane error count (32bit)
 	//0x7E << 8 : count only the disparity error
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x7F << 8));
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01));
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x7FU << 8));
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01U));
 
 	if (config->subclass_version == 0) {
 		axi_jesd204_rx_write(jesd, JESD204_RX_REG_SYSREF_CONF,
@@ -461,7 +461,7 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	uint32_t temp = 0x00;
 	axi_jesd204_rx_read(jesd, JESD204_RX_SYNTH_REG_1, &temp);
 	temp = temp >> 8;
-	if(temp == 0x01)
+	if(temp == 0x01U)
 		printf("Rx link : 8b/10b\n");
 	else
 		printf("Rx link : ???\n");

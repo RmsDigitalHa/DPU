@@ -42,7 +42,7 @@ void SetRcfmStatAmpFst(uint8_t rcfm_amp_fst)
 	}
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFF3) | ((rcfm_status.rcfm_amp_mode2 & 0x1) << 3) | ((rcfm_status.rcfm_amp_mode1 & 0x1) << 2);
+	New_Data = (Old_Data & 0xFFFFFFF3) | ((rcfm_status.rcfm_amp_mode2 & 0x1U) << 3) | ((rcfm_status.rcfm_amp_mode1 & 0x1U) << 2);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -61,7 +61,7 @@ void SetRcfmStatPath(uint8_t rcfm_path)
 		rcfm_status.rcfm_rf_select = 0x01;
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFEF) | (((~rcfm_status.rcfm_rf_select) & 0x1) << 4);
+	New_Data = (Old_Data & 0xFFFFFFEF) | (((~rcfm_status.rcfm_rf_select) & 0x1U) << 4);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -77,7 +77,7 @@ void SetRcfmStatBitEn(uint8_t rcfm_bit_en)
 		rcfm_status.rcfm_cal_en = 0x01;
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFBF) | ((rcfm_status.rcfm_cal_en & 0x1) << 6);
+	New_Data = (Old_Data & 0xFFFFFFBF) | ((rcfm_status.rcfm_cal_en & 0x1U) << 6);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -93,7 +93,7 @@ void SetRcfmStatPathANT(uint8_t rcfm_path_lna)
 		rcfm_status.rcfm_ant_bias = 0x01;
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFDF) | ((rcfm_status.rcfm_ant_bias & 0x1) << 5);
+	New_Data = (Old_Data & 0xFFFFFFDF) | ((rcfm_status.rcfm_ant_bias & 0x1U) << 5);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -189,15 +189,15 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 
 		Division = (uint64_t)(Segment[0] * Segment[1] * Segment[2]);
 		VCOCLK = ((double)(TargetFreq * Division) / RefCLK);
-		SendBuf = (0x0019 |((SegValue[1] & 0x0F) << 9)|((SegEN[2] & 0x01) << 8)|((SegEN[1] & 0x01) << 7)|((SegValue[0] & 0x01) << 2)|((SegEN[0] & 0x01) << 1));
+		SendBuf = (0x0019U |((SegValue[1] & 0x0FU) << 9)|((SegEN[2] & 0x01U) << 8)|((SegEN[1] & 0x01U) << 7)|((SegValue[0] & 0x01U) << 2)|((SegEN[0] & 0x01U) << 1));
 		SPI_WriteReg(LMX2592, 0x23, SendBuf, 3);
 
 		Int_Value  = (uint32_t)(VCOCLK / Prescaler);
-		Frac_Value = (uint16_t)(((VCOCLK / Prescaler)*1000) - (Int_Value * 1000));
+		Frac_Value = (uint16_t)(((VCOCLK / Prescaler)*1000U) - (Int_Value * 1000U));
 
-		SendBuf = ((Int_Value & 0xFFFF) * Prescaler);
+		SendBuf = ((Int_Value & 0xFFFFU) * Prescaler);
 		SPI_WriteReg(LMX2592, 0x26, SendBuf, 3);
-		SendBuf = Frac_Value & 0xFFFF;
+		SendBuf = Frac_Value & 0xFFFFU;
 		SPI_WriteReg(LMX2592, 0x2D, SendBuf, 3);
 
 		if(TargetFreq < LAST_Freq) {

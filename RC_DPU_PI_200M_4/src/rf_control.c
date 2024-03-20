@@ -87,20 +87,20 @@ void GetStatusPBIT(){
 
 
 	for(int i = 0; i<10; i ++){
-		Data_PBIT[i] = Buf_Read & (0x1);
+		Data_PBIT[i] = Buf_Read & (0x1U);
 		Buf_Read = Buf_Read >> 1;
 	}
 
-	PBIT_STATUS.LOCK_ADCLK = (~Data_PBIT[0]) & (0x01);
+	PBIT_STATUS.LOCK_ADCLK = (~Data_PBIT[0]) & (0x01U);
 //	PBIT_STATUS.LOCK_BIT = Data_PBIT[1];
 	PBIT_STATUS.LNA1 = Data_PBIT[2];
 	PBIT_STATUS.REF_SIG = Data_PBIT[3];
-	PBIT_STATUS.RCFM_PWR = (~Data_PBIT[4]) & (0x01);
+	PBIT_STATUS.RCFM_PWR = (~Data_PBIT[4]) & (0x01U);
 	PBIT_STATUS.RCFM_INSERT = Data_PBIT[5];
 //	PBIT_STATUS.RCFM_TMP = TMP_RCFM;
 	PBIT_STATUS.LNA2 = Data_PBIT[6];
 	PBIT_STATUS.LNA3 = Data_PBIT[7];
-	PBIT_STATUS.RCRM_PWR = (~Data_PBIT[8]) & (0x01);
+	PBIT_STATUS.RCRM_PWR = (~Data_PBIT[8]) & (0x01U);
 	PBIT_STATUS.RCRM_INSERT = Data_PBIT[9];
 //	PBIT_STATUS.RCRM_TMP = TMP_RCRM;
 	PBIT_STATUS.DONE_FPGA = 0;		//Add status check function
@@ -139,20 +139,20 @@ void GetStatusIBIT(){
 
 
 	for(int i = 0; i<10; i ++){
-		Data_IBIT[i] = Buf_Read & (0x1);
+		Data_IBIT[i] = Buf_Read & (0x1U);
 		Buf_Read = Buf_Read >> 1;
 	}
 
-	BIT_STATUS.LOCK_ADCLK = (~Data_IBIT[0]) & (0x01);
+	BIT_STATUS.LOCK_ADCLK = (~Data_IBIT[0]) & (0x01U);
 //	BIT_STATUS.LOCK_BIT = Data_IBIT[1];
 	BIT_STATUS.LNA1 = Data_IBIT[2];
 	BIT_STATUS.REF_SIG = Data_IBIT[3];
-	BIT_STATUS.RCFM_PWR = (~Data_IBIT[4]) & (0x01);
+	BIT_STATUS.RCFM_PWR = (~Data_IBIT[4]) & (0x01U);
 	BIT_STATUS.RCFM_INSERT = Data_IBIT[5];
 //	BIT_STATUS.RCFM_TMP = TMP_RCFM;
 	BIT_STATUS.LNA2 = Data_IBIT[6];
 	BIT_STATUS.LNA3 = Data_IBIT[7];
-	BIT_STATUS.RCRM_PWR = (~Data_IBIT[8]) & (0x01);
+	BIT_STATUS.RCRM_PWR = (~Data_IBIT[8]) & (0x01U);
 	BIT_STATUS.RCRM_INSERT = Data_IBIT[9];
 //	BIT_STATUS.RCRM_TMP = TMP_RCRM;
 	BIT_STATUS.DONE_FPGA = 0;
@@ -187,7 +187,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("450MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -199,7 +199,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("610MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -210,7 +210,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("830MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -221,7 +221,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("1120MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -232,7 +232,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("1500MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -243,7 +243,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("2100MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -254,7 +254,7 @@ int GetRFPathStatus(){
 
 	usleep(50);
 	LogValue = SPI_ReadReg(DPU_LOG, 0, 2);
-	if(LogValue < 1500){
+	if(LogValue < 1500U){
 		printf("4850MHz Log Level : %d\r\n", LogValue);
 		return -1;
 	}
@@ -286,13 +286,13 @@ void SetGainAtten(uint64_t Freq){
 		BypassAtten  = ParamGainAtten.u8BYPASS_GAIN_ATTEN;
 		SysAtten	 = ParamGainAtten.u8SYSTEM_ATTEN;
 
-		if((rcfm_status.rcfm_amp_mode1 == 0x00) & (rcrm_status.rcrm_amp_mode2 == 0x00)){	//BYPASS Mode
+		if((rcfm_status.rcfm_amp_mode1 == 0x00U) & (rcrm_status.rcrm_amp_mode2 == 0x00U)){	//BYPASS Mode
 			rcrm_status.rcrm_gain_att = BypassAtten;
 		}
-		else if((rcfm_status.rcfm_amp_mode1 == 0x00) & (rcrm_status.rcrm_amp_mode2 == 0x01)){	//AMP1 Mode
+		else if((rcfm_status.rcfm_amp_mode1 == 0x00U) & (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP1 Mode
 			rcrm_status.rcrm_gain_att = AmpFstAtten;
 		}
-		else if((rcfm_status.rcfm_amp_mode1 == 0x01) & (rcrm_status.rcrm_amp_mode2 == 0x01)){	//AMP2 Mode
+		else if((rcfm_status.rcfm_amp_mode1 == 0x01U) & (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP2 Mode
 			rcrm_status.rcrm_gain_att = AmpScdAtten;
 		}
 

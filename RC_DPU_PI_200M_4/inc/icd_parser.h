@@ -8,85 +8,85 @@
 #ifndef SRC_APP_TCP_SERVER_ICD_PARSER_H_
 #define SRC_APP_TCP_SERVER_ICD_PARSER_H_
 
-#define ICD_HEADER_SIZE		8
-#define SPEC_HEADER_SIZE	12
+#define ICD_HEADER_SIZE		8U
+#define SPEC_HEADER_SIZE	12U
 
 
 //DPU CTRL
-#define SET_CENTER_FREQ	 	0xE1510010
-#define SET_BW		  		0xE1510020
-#define SET_RBW		  		0xE1510030
-#define SET_SPEC_START 		0xE1510040
-#define SET_SPEC_STOP 		0xE1510050
-#define SET_REQUEST_BIT	 	0xE1510060
+#define SET_CENTER_FREQ	 	0xE1510010U
+#define SET_BW		  		0xE1510020U
+#define SET_RBW		  		0xE1510030U
+#define SET_SPEC_START 		0xE1510040U
+#define SET_SPEC_STOP 		0xE1510050U
+#define SET_REQUEST_BIT	 	0xE1510060U
 
-#define TEST_ITER_CNT	 	0xE1510070
-#define TEST_REF_LEVEL		0xE1510080
-#define TEST_ADRV_GAIN		0xE1510090
+#define TEST_ITER_CNT	 	0xE1510070U
+#define TEST_REF_LEVEL		0xE1510080U
+#define TEST_ADRV_GAIN		0xE1510090U
 
 //RF CTRL
-#define SET_RCV_FREQ	 	0xE1510100
-#define SET_FILTER_PATH	 	0xE1510110
-#define SET_AMP_MODE	 	0xE1510120
-#define SET_RCV_ATTEN	 	0xE1510130
-#define SET_RCV_PATH	 	0xE1510140
-#define SET_BIT_CTRL	 	0xE1510150
-#define SET_ANT_PATH	 	0xE1510160
-#define GET_RF_STATUS	 	0xE1510170
-#define GET_RF_LOG	 		0xE1510180		//RCRM LOG
-#define GET_RF_TMP		 	0xE1510190
-#define SET_LNA_MODE	 	0xE1510200
-#define SET_JAM_START	 	0xE1510210		//JAM Mode Start
-#define SET_JAM_STOP	 	0xE1510220		//RCV Mode Start
+#define SET_RCV_FREQ	 	0xE1510100U
+#define SET_FILTER_PATH	 	0xE1510110U
+#define SET_AMP_MODE	 	0xE1510120U
+#define SET_RCV_ATTEN	 	0xE1510130U
+#define SET_RCV_PATH	 	0xE1510140U
+#define SET_BIT_CTRL	 	0xE1510150U
+#define SET_ANT_PATH	 	0xE1510160U
+#define GET_RF_STATUS	 	0xE1510170U
+#define GET_RF_LOG	 		0xE1510180U		//RCRM LOG
+#define GET_RF_TMP		 	0xE1510190U
+#define SET_LNA_MODE	 	0xE1510200U
+#define SET_JAM_START	 	0xE1510210U		//JAM Mode Start
+#define SET_JAM_STOP	 	0xE1510220U		//RCV Mode Start
 
-#define BW_10M			10000000
-#define BW_30M			30000000
-#define BW_50M			50000000
-#define BW_100M			96000000
-#define BW_200M			200000000
-#define BW_500M			500000000
-#define BW_ALL			5616000000
+#define BW_10M			10000000U
+#define BW_30M			30000000U
+#define BW_50M			50000000U
+#define BW_100M			96000000U
+#define BW_200M			200000000U
+#define BW_500M			500000000U
+#define BW_ALL			5616000000U
 
-#define RBW_8kHz		8000
-#define RBW_15kHz		15000
-#define RBW_30kHz		30000
-#define RBW_60kHz		60000
-#define RBW_120kHz		120000
-#define RBW_240kHz		240000
+#define RBW_8kHz		8000U
+#define RBW_15kHz		15000U
+#define RBW_30kHz		30000U
+#define RBW_60kHz		60000U
+#define RBW_120kHz		120000U
+#define RBW_240kHz		240000U
 
 
-#define FFT_256_BIN		420
-#define FFT_512_BIN		836
-#define FFT_1024_BIN	1668
-#define FFT_2048_BIN	3336
-#define FFT_4098_BIN	6668
-#define FFT_8192_BIN	13336
+#define FFT_256_BIN		420U
+#define FFT_512_BIN		836U
+#define FFT_1024_BIN	1668U
+#define FFT_2048_BIN	3336U
+#define FFT_4098_BIN	6668U
+#define FFT_8192_BIN	13336U
 
 
 //RF_CTRL
 #define SET		0U
 #define GET		1U
 
-#define RCFM	0
-#define RCRM	1
+#define RCFM	0U
+#define RCRM	0U
 
-#define AMP_BYPASS	0
-#define AMP_MODE_1	1
-#define AMP_MODE_2	2
+#define AMP_BYPASS	0U
+#define AMP_MODE_1	1U
+#define AMP_MODE_2	2U
 
-#define SYS_ATTEN		0
-#define GAIN_ATTEN		1
+#define SYS_ATTEN		0U
+#define GAIN_ATTEN		1U
 
-#define PATH_ANT		0
-#define PATH_BIT		1
+#define PATH_ANT		0U
+#define PATH_BIT		1U
 
 
-#define CBIT 0x00
-#define PBIT 0x01
-#define IBIT 0x02
+#define CBIT 0x00U
+#define PBIT 0x01U
+#define IBIT 0x02U
 
-#define JAM_STOP	0
-#define JAM_START	1
+#define JAM_STOP	0U
+#define JAM_START	1U
 
 
 typedef struct ICD_HEADER{

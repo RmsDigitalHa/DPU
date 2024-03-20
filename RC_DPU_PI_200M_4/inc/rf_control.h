@@ -9,11 +9,11 @@
 #define INC_RF_CONTROL_H_
 
 
-#define RCFM 	0
-#define RCRM	1
+#define RCFM 	0U
+#define RCRM	1U
 
 
-#define 	G_ATTEN_TABLE_SIZE	167
+#define 	G_ATTEN_TABLE_SIZE	167U
 
 
 typedef struct
