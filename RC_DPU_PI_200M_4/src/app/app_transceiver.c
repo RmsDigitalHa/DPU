@@ -124,13 +124,8 @@ adiHalErr_t fpga_xcvr_init(uint32_t rx_lane_rate_khz,
 
 	return ADIHAL_OK;
 
-	error_10:
-		adxcvr_remove(rx_os_adxcvr);
-	error_9:
 	error_8:
 		adxcvr_remove(rx_adxcvr);
-	error_0:
-
 	return ADIHAL_ERR;
 }
 

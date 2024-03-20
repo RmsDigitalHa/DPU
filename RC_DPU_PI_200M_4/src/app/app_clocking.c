@@ -227,13 +227,6 @@ printf("Failed to set FMC SYSREF rate to %u Hz: %d\n",
 
 return ADIHAL_OK;
 
-
-error_4:
-axi_clkgen_remove(rx_os_clkgen);
-error_3:
-axi_clkgen_remove(tx_clkgen);
-error_2:
-axi_clkgen_remove(rx_clkgen);
 error_1:
 ad9528_remove(clkchip_device);
 error_0:

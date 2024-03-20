@@ -83,10 +83,6 @@ adiHalErr_t jesd_init(uint32_t rx_div40_rate_hz,
 
 	return ADIHAL_OK;
 
-	error_7:
-
-	error_6:
-
 	error_5:
 		axi_jesd204_rx_remove(rx_jesd);
 
