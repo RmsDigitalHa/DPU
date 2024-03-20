@@ -343,7 +343,7 @@ int RxDmaData()
 
 //	DataReady = 0;
 
-	if(SendDone == 1){
+	if(SendDone == 1U){
 		/* Receive DMA Data */
 		BdCurPtr = BdPtr;
 		for(int i = 0; i < BdCount; i++){
@@ -354,7 +354,7 @@ int RxDmaData()
 			}
 
 			RxPacketPtr = (uint8_t *)XAxiDma_BdRead(BdCurPtr, XAXIDMA_BD_BUFA_OFFSET);
-			RxPacketSize = (uint32_t)XAxiDma_BdRead(BdCurPtr, XAXIDMA_BD_STS_OFFSET) & 0x3FFFFFF;
+			RxPacketSize = (uint32_t)XAxiDma_BdRead(BdCurPtr, XAXIDMA_BD_STS_OFFSET) & 0x3FFFFFFU;
 			Xil_DCacheInvalidateRange((UINTPTR)RxPacketPtr, RxPacketSize);
 
 			BdCurPtr = (XAxiDma_Bd *)XAxiDma_BdRingNext(RxRingPtr, BdCurPtr);
@@ -390,15 +390,15 @@ int RxDmaData()
 
 			AddrSpecData = (uint32_t *)&RX_BUFFER_BASE[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 
-			AddrSpecHeader = AddrSpecData - ((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4);
+			AddrSpecHeader = AddrSpecData - ((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4U);
 			AddrSpecPrevHeader = (uint32_t *)&SPEC_BUF_PREV;
 			AddrSpecCurHeader = (uint32_t *)&SPEC_BUF_CUR;
 //			memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(AddrSpecCurHeader));
-			if(DPU_STATUS.ScanMode == 0x01){
+			if(DPU_STATUS.ScanMode == 0x01U){
 				memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
 //				memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
 			}
-			else if(DPU_STATUS.ScanMode == 0x02){
+			else if(DPU_STATUS.ScanMode == 0x02U){
 				memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
 			}
 			else{}

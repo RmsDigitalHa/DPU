@@ -79,8 +79,8 @@ adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz,
 {
 int32_t status;
 uint64_t dev_clk, fmc_clk;
-uint64_t rate_dev = device_clock_khz * 1000;
-uint64_t rate_fmc = device_clock_khz * 1000;
+uint64_t rate_dev = device_clock_khz * 1000U;
+uint64_t rate_fmc = device_clock_khz * 1000U;
 uint32_t n;
 int ret;
 
@@ -201,21 +201,21 @@ goto error_1;
 }
 
 dev_clk = ad9528_clk_round_rate(clkchip_device, DEV_CLK,
-		device_clock_khz * 1000);
+		device_clock_khz * 1000U);
 
 fmc_clk = ad9528_clk_round_rate(clkchip_device, FMC_CLK,
-		device_clock_khz * 1000);
+		device_clock_khz * 1000U);
 
-if (fmc_clk > 0 && (fmc_clk / 1000) == device_clock_khz) {
+if (fmc_clk > 0U && (fmc_clk / 1000U) == device_clock_khz) {
 	ad9528_clk_set_rate(clkchip_device, DEV_CLK, dev_clk);
 	ad9528_clk_set_rate(clkchip_device, FMC_CLK, fmc_clk);
 } else {
 printf("Requesting device clock %u failed got %u\n",
-       device_clock_khz * 1000, dev_clk);
+       device_clock_khz * 1000U, dev_clk);
 goto error_1;
 }
 
-for (n = 64; n > 0; n--) {
+for (n = 64U; n > 0U; n--) {
 rate_dev = ad9528_clk_round_rate(clkchip_device, DEV_SYSREF, lmfc_rate_hz / n);
 
 if (adrv9009_check_sysref_rate(lmfc_rate_hz, rate_dev))

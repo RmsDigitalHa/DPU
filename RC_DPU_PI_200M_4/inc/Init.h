@@ -15,34 +15,34 @@
 #define GPIO_BD_PWR_DEVICE_ID  XPAR_BD_PWR_DEVICE_ID
 #define GPIO_RF_CTRL_DEVICE_ID  XPAR_RF_CTRL_DEVICE_ID
 
-#define	LMX2592		0x0
-#define	RF_CTRL		0x1
-#define DPU_LOG		0x2
+#define	LMX2592		0x0U
+#define	RF_CTRL		0x1U
+#define DPU_LOG		0x2U
 
-#define GPIO_OUT	0
-#define GPIO_IN		1
+#define GPIO_OUT	0U
+#define GPIO_IN		1U
 
-#define RF_GPIO_OUT		1
-#define RF_GPIO_IN		2
-#define PWR_GPIO_IN		1
+#define RF_GPIO_OUT		1U
+#define RF_GPIO_IN		2U
+#define PWR_GPIO_IN		1U
 
-#define time_1us	1
-#define time_10us	10
-#define time_20us	20
-#define time_30us	30
-#define time_50us	50
+#define time_1us	1U
+#define time_10us	10U
+#define time_20us	20U
+#define time_30us	30U
+#define time_50us	50U
 
-#define INIT_FREQ	1000000000
+#define INIT_FREQ	1000000000U
 
-#define TMP_DPU_ADDR		0x1C
-#define TMP_RCFM_ADDR		0x4C
-#define TMP_RCRM_ADDR		0x4D
+#define TMP_DPU_ADDR		0x1CU
+#define TMP_RCFM_ADDR		0x4CU
+#define TMP_RCRM_ADDR		0x4DU
 
-#define TMP_RCFM_DEV	0
-#define TMP_RCRM_DEV	1
+#define TMP_RCFM_DEV	0U
+#define TMP_RCRM_DEV	1U
 
-#define I2C_BUFFER_SIZE		1
-#define IIC_SCLK_RATE		100000
+#define I2C_BUFFER_SIZE		1U
+#define IIC_SCLK_RATE		100000U
 
 #define SPI_RF_CTRL		XPAR_XSPIPS_1_DEVICE_ID
 

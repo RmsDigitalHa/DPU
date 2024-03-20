@@ -106,7 +106,7 @@ int Init_RF_CTRL(){
 
 	//RF Switch ON
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFFC) | (0x03);
+	New_Data = (Old_Data & 0xFFFFFFFC) | (0x03U);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 
 	SetRcfmStatBitEn(RCFM_CAL_DIS);
@@ -267,9 +267,9 @@ uint8_t GetRFTmp(uint8_t dev){
 			return XST_FAILURE;
 		}
 
-		if(((RecvBuffer[0] >> 7) & 0x01) == 0x01){
+		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
 //			BIT_STATUS.RCFM_TMP = RecvBuffer[0] - 256;
-			return (RecvBuffer[0] - 256);
+			return (RecvBuffer[0] - 256U);
 		}
 		else{
 //			BIT_STATUS.RCFM_TMP = RecvBuffer[0];
@@ -294,9 +294,9 @@ uint8_t GetRFTmp(uint8_t dev){
 			return XST_FAILURE;
 		}
 
-		if(((RecvBuffer[0] >> 7) & 0x01) == 0x01){
+		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
 	//		BIT_STATUS.RCFM_TMP = (int8_t)(RecvBuffer[0] - 256);
-			return (RecvBuffer[0] - 256);
+			return (RecvBuffer[0] - 256U);
 		}
 		else{
 	//		BIT_STATUS.RCRM_TMP = (int8_t)RecvBuffer[0];
@@ -340,15 +340,15 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 
 	switch(dev){
 	case LMX2592 :
-		if(NumByte == 3){
-			Addr_LMX = (Addr & (0xFF));
-			Send_Buf = (val & (0x0000FFFF));
+		if(NumByte == 3U){
+			Addr_LMX = (Addr & (0xFFU));
+			Send_Buf = (val & (0x0000FFFFU));
 
 			Buffer = ((Addr_LMX << 16) | Send_Buf);
 
-			u8SpiData_RF[0] = ((Buffer & (0xFF0000))>>16);
-			u8SpiData_RF[1] = ((Buffer & (0x00FF00))>>8);
-			u8SpiData_RF[2] =  (Buffer & (0x0000FF));
+			u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16U);
+			u8SpiData_RF[1] = ((Buffer & (0x00FF00U))>>8U);
+			u8SpiData_RF[2] =  (Buffer & (0x0000FFU));
 		}
 		else{}
 
@@ -360,13 +360,13 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 		usleep(1000);
 		break;
 	case RF_CTRL :
-		if(NumByte == 4){
+		if(NumByte == 4U){
 			Send_Buf = val;
 
 			u8SpiData_RF[0] = ((Send_Buf & (0xFF000000))>>24);
-			u8SpiData_RF[1] = ((Send_Buf & (0x00FF0000))>>16);
-			u8SpiData_RF[2] = ((Send_Buf & (0x0000FF00))>>8);
-			u8SpiData_RF[3] = (Send_Buf & (0x000000FF));
+			u8SpiData_RF[1] = ((Send_Buf & (0x00FF0000U))>>16);
+			u8SpiData_RF[2] = ((Send_Buf & (0x0000FF00U))>>8);
+			u8SpiData_RF[3] = (Send_Buf & (0x000000FFU));
 		}
 		else{}
 
@@ -393,10 +393,10 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 	switch(dev){
 	case LMX2592 :
-		Addr_RF = (Addr & (0xFF));
-		Buffer = ((Addr_RF << 16) | (1 << 23));
+		Addr_RF = (Addr & (0xFFU));
+		Buffer = ((Addr_RF << 16) | (1U << 23));
 
-		u8SpiData_RF[0] = ((Buffer & (0xFF0000))>>16);
+		u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16);
 		u8SpiData_RF[1] = 0;
 		u8SpiData_RF[2] = 0;
 
@@ -418,13 +418,13 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
-		TMP_Value = ((u8Data_LOG[0] & 0x0F) << 4) | ((u8Data_LOG[1] & 0xF0) >> 4);
+		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
 //		Log_Value = (uint16_t)((TMP_Value * Log_Step) + 0x32);	//offset?
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
-		TMP_Value = ((u8Data_LOG[0] & 0x0F) << 4) | ((u8Data_LOG[1] & 0xF0) >> 4);
+		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
 //		Log_Value = (uint16_t)((TMP_Value * Log_Step) + 0x32);	//offset?
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
