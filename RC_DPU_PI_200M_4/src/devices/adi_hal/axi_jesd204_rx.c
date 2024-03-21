@@ -50,6 +50,21 @@
 #include "axi_io.h"
 
 /******************************************************************************/
+/*************************** Prototype Definitions ****************************/
+/******************************************************************************/
+int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd, uint32_t reg_addr, uint32_t reg_val);
+int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd, uint32_t reg_addr, uint32_t *reg_val);
+int32_t axi_jesd204_rx_lane_clk_enable(struct axi_jesd204_rx *jesd);
+int32_t axi_jesd204_rx_lane_clk_disable(struct axi_jesd204_rx *jesd);
+uint32_t axi_jesd204_rx_status_read(struct axi_jesd204_rx *jesd);
+int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd, uint32_t lane, uint32_t *errors);
+int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane);
+int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd);
+int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd, struct jesd204_rx_config *config);
+int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204, const struct jesd204_rx_init *init);
+int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
+
+/******************************************************************************/
 /********************** Macros and Constants Definitions **********************/
 /******************************************************************************/
 #define JESD204_RX_REG_VERSION			0x00U
