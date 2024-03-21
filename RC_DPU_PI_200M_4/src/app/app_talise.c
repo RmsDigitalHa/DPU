@@ -80,7 +80,7 @@ bool adrv9009_check_sysref_rate(uint32_t lmfc, uint32_t sysref)
 	mod = lmfc % sysref;
 
 	/* Ignore minor deviations that can be introduced by rounding. */
-	return mod <= div || mod >= sysref - div;
+	return (mod <= div) || (mod >= (sysref - div));
 }
 
 adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
