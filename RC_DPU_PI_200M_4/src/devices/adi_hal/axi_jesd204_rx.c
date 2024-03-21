@@ -104,7 +104,7 @@ int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
 	(((x) * 32U + (y) * 4U) + 0x310U)
 
 #define JESD204_RX_MAGIC				\
-	(('2' << 24) | ('0' << 16) | ('4' << 8) | ('R'))
+	(((uint32_t)('2') << 24) | ((uint32_t)('0') << 16) | ((uint32_t)('4') << 8) | ((uint32_t)('R')))
 
 #define PCORE_VERSION_MAJOR(x)		((x) >> 16)
 #define PCORE_VERSION_MINOR(x)		(((x) >> 8) & 0xff)
@@ -411,7 +411,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 
 	//add 2020.10.14 lane error count (32bit)
 	//0x7E << 8 : count only the disparity error
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x7FU << 8));
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, ((uint16_t)0x7FU << 8));
 	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01U));
 
 	if (config->subclass_version == 0) {

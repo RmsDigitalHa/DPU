@@ -189,7 +189,7 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 
 		Division = (uint64_t)(Segment[0] * Segment[1] * Segment[2]);
 		VCOCLK = ((double)(TargetFreq * Division) / RefCLK);
-		SendBuf = (0x0019U |((SegValue[1] & 0x0FU) << 9)|((SegEN[2] & 0x01U) << 8)|((SegEN[1] & 0x01U) << 7)|((SegValue[0] & 0x01U) << 2)|((SegEN[0] & 0x01U) << 1));
+		SendBuf = (0x0019U |(((uint16_t)SegValue[1] & 0x0FU) << 9)|(((uint16_t)SegEN[2] & 0x01U) << 8)|(((uint16_t)SegEN[1] & 0x01U) << 7)|(((uint16_t)SegValue[0] & 0x01U) << 2)|(((uint16_t)SegEN[0] & 0x01U) << 1));
 		SPI_WriteReg(LMX2592, 0x23, SendBuf, 3);
 
 		Int_Value  = (uint32_t)(VCOCLK / Prescaler);

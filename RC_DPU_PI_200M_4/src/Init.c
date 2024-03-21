@@ -330,7 +330,7 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 			Addr_LMX = (Addr & (0xFFU));
 			Send_Buf = (val & (0x0000FFFFU));
 
-			Buffer = ((Addr_LMX << 16) | Send_Buf);
+			Buffer = (((uint64_t)Addr_LMX << 16) | Send_Buf);
 
 			u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16U);
 			u8SpiData_RF[1] = ((Buffer & (0x00FF00U))>>8U);
@@ -379,7 +379,7 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 	switch(dev){
 	case LMX2592 :
 		Addr_RF = (Addr & (0xFFU));
-		Buffer = ((Addr_RF << 16) | (1U << 23));
+		Buffer = (((uint32_t)Addr_RF << 16) | ((uint32_t)1U << 23));
 
 		u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16);
 		u8SpiData_RF[1] = 0;
