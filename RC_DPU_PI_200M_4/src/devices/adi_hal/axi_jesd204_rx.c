@@ -398,7 +398,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	octets_per_multiframe = config->frames_per_multiframe *
 				config->octets_per_frame;
 
-	multiframe_align = 1 << jesd->data_path_width;
+	multiframe_align = (uint32_t)1 << jesd->data_path_width;
 
 	if (octets_per_multiframe % multiframe_align != 0U) {
 		printf("%s: octets_per_frame * frames_per_multiframe must be a "
