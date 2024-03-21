@@ -236,6 +236,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					send_packet->len = p -> len + 18;
 					send_packet->tot_len = p -> len + 18;
 				}
+				else { }
 
 				BIT_STATUS.BIT_SET = 0;
 			}
@@ -254,6 +255,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0110U){		//Set RF Filter Path
 			if(reply_buf_udp[8] == SET){
@@ -266,6 +268,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				else if(reply_buf_udp[9] == 1U){		//LPF
 					reply_buf_udp[10] = rcrm_status.rcrm_lpf_bank;
 				}
+				else { }
 				reply_buf_udp[4] = 0x03;
 
 				//RCV Packet
@@ -273,6 +276,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0120U){		//Set RF AMP Path
 			if(reply_buf_udp[8] == SET){
@@ -286,6 +290,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				else if(reply_buf_udp[9] == 1U){
 					reply_buf_udp[10] = rcrm_status.rcrm_amp_mode2;
 				}
+				else { }
 				reply_buf_udp[4] = 0x03;
 
 				//RCV Packet
@@ -293,6 +298,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0130U){		//Set RF Atten
 			if(reply_buf_udp[8] == SET){
@@ -305,6 +311,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				else if(reply_buf_udp[9] == 1U){		//GAIN_ATTEN
 					reply_buf_udp[10] = (rcrm_status.rcrm_gain_att);
 				}
+				else { }
 				reply_buf_udp[4] = 0x03;
 
 				//RCV Packet
@@ -312,6 +319,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0140U){		//Set RF_RCV Path
 			if(reply_buf_udp[8] == SET){
@@ -326,6 +334,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0150U){		//Set RF BIT EN
 			if(reply_buf_udp[8] == SET){
@@ -341,6 +350,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0160U){		//Set RF ANT Path
 			if(reply_buf_udp[8] == SET){
@@ -355,6 +365,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0170U){		//Get RF Status
 			if(reply_buf_udp[8] == SET){
@@ -380,6 +391,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len + 10;
 				send_packet->tot_len = p -> len + 10;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0180U){		//Get RF Log
 			if(reply_buf_udp[8] == SET){
@@ -397,6 +409,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len + 2;
 				send_packet->tot_len = p -> len + 2;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0190U){		//Get RF TMP
 			if(reply_buf_udp[8] == SET){
@@ -415,6 +428,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len + 2;
 				send_packet->tot_len = p -> len + 2;
 			}
+			else { }
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0200U){		//Get RF LNA Mode
 			if(reply_buf_udp[8] == SET){
@@ -429,15 +443,20 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
+			else { }
 		}
+		else { }
 		//Send RCV packet
 		if(recv_icd_header.CMD_CODE != 0x0040U){
 			error = udp_sendto(tpcb, send_packet, addr, port);
 			if(error != ERR_OK){
 				printf("== UDP RecvCallback : Error in udp_sendto(%d)\n", error);
 			}
+			else { }
 		}
+		else { }
 	}
+	else { }
 
 	pbuf_free(p);
 	pbuf_free(send_packet);

@@ -219,6 +219,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 				IterSpectrum();
 				Done_CNT += 1U;
 			}
+			else { }
 
 		}
 		rts_end(RC_SPCTRUM_BaseAddr);
@@ -275,7 +276,7 @@ int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW){
 	return XST_SUCCESS;
 }
 
-void IterSpectrum(){
+void IterSpectrum(void){
 	uint16_t spec_length = (spec_packet_size - ICD_HEADER_SIZE - SPEC_HEADER_SIZE) / 2;
 	uint16_t *AddrPrev = (uint16_t *)&SPEC_BUF_PREV[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 	uint16_t *AddrCUR = (uint16_t *)&SPEC_BUF_CUR[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];

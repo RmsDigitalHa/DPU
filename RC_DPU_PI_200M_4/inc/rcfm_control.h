@@ -73,7 +73,7 @@ void SetRcfmStatBitEn(uint8_t rcfm_bit_en);
 void SetRcfmStatBitFreq(uint64_t rcfm_bit_freq_hz);
 void SetRcfmStatPathANT(uint8_t rcfm_path_lna);
 void InitRcfmLMX2592(void);
-void Init_BIT_PLL();
+void Init_BIT_PLL(void);
 void SetPLLFreq(uint64_t Freq);
 typTableLMX2582 GetPLLValue(uint64_t TargetFreq);
 

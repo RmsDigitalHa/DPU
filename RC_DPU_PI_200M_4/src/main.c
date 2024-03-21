@@ -63,8 +63,8 @@
 #include "udp_server.h"
 
 /* defined by each RAW mode application */
-void print_app_header();
-int start_application();
+void print_app_header(void);
+int start_application(void);
 void tcp_fasttmr(void);
 void tcp_slowtmr(void);
 void print_ip(char *msg, ip_addr_t *ip);
@@ -75,7 +75,7 @@ void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
 #define DMA_DEV_ID		XPAR_AXIDMA_0_DEVICE_ID
 
 /* missing declaration in lwIP */
-void lwip_init();
+void lwip_init(void);
 
 #if LWIP_IPV6==0
 #if LWIP_DHCP==1

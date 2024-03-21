@@ -39,7 +39,7 @@ int HoppingStart(taliseDevice_t * const pd, uint64_t freq);
 int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq);
 int HoppingEnd(taliseDevice_t * const pd, uint64_t freq);
 int CHScanStart(uint8_t CH, uint8_t ITER_CNT);
-void IterSpectrum();
+void IterSpectrum(void);
 int AdrvGainCtrl(uint64_t FREQ);
 int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW);
 

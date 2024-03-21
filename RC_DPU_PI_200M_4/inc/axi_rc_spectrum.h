@@ -37,7 +37,7 @@
 extern uint16_t I_Offset;
 extern uint16_t Q_Offset;
 
-uint32_t init_rc_spectrum();
+uint32_t init_rc_spectrum(void);
 uint32_t set_iter_count(u32 base_address, u32 iter_count);
 uint32_t set_ref_level(u32 base_address, u32 ref_level);
 uint32_t set_win_func(u32 base_address, u32 win_func);

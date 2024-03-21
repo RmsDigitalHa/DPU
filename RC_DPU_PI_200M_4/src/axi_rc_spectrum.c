@@ -20,7 +20,7 @@ uint16_t I_Offset = 0;
 uint16_t Q_Offset = 0;
 
 
-uint32_t init_rc_spectrum(){
+uint32_t init_rc_spectrum(void){
 	RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_START, 0);
 
 	return 0;

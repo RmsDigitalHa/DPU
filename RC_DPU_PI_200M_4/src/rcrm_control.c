@@ -43,6 +43,7 @@ void SetRcrmStatFreq(uint64_t rcrm_freq)
 	else if(rcrm_freq > FREQ_2500MHz && rcrm_freq <= FREQ_6000MHz) {
 		rcrm_status.rcrm_filter_path = RCRM_FILTER_PATH03;
 	}
+	else { }
 	if(rcrm_freq >= FREQ_400MHz && rcrm_freq <= FREQ_500MHz) {
 		rcrm_status.rcrm_bpf_bank = RCRM_BPF01;
 		rcrm_status.rcrm_lpf_bank = RCRM_LPF01;
@@ -75,6 +76,7 @@ void SetRcrmStatFreq(uint64_t rcrm_freq)
 		rcrm_status.rcrm_bpf_bank = RCRM_BPF08;
 		rcrm_status.rcrm_lpf_bank = RCRM_LPF05;
 	}
+	else { }
 
 	rcrm_status.rcrm_freq_hz = rcrm_freq;
 
@@ -124,7 +126,7 @@ void SetRcrmStatGainAtt(uint8_t rcrm_att_gain)
  * RCRM BD CTRL
  * SPI - 32 bit, Addr X
  */
-void MakeRcrmSpiCmdModeCtrl()
+void MakeRcrmSpiCmdModeCtrl(void)
 {
 	uint32_t rcrm_cmd_data = 0;
 
@@ -138,6 +140,8 @@ void MakeRcrmSpiCmdModeCtrl()
 	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH03) {  						// 2500~6000MHz
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)2U << 20) | ((uint32_t)0U << 7) | ((uint32_t)1U << 0);
 	}
+	else { }
+
 	// BPF Bank
 	switch(rcrm_status.rcrm_bpf_bank) {
 	case RCRM_BPF01 :
@@ -192,6 +196,8 @@ void MakeRcrmSpiCmdModeCtrl()
 	else if(rcrm_status.rcrm_amp_mode2 == RCRM_LNA02) {
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | ((uint32_t)2U << 8);
 	}
+	else { }
+
 	// System Atten
 	rcrm_cmd_data = (rcrm_cmd_data & 0xFFFF03FF) | ((uint32_t)(rcrm_status.rcrm_sys_att) << 10);
 	// Gain Atten

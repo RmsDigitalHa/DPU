@@ -321,7 +321,7 @@ int RxSetup(XAxiDma * AxiDmaInstPtr)
 
 
 
-int RxDmaData()
+int RxDmaData(void)
 {
 	XAxiDma_BdRing *RxRingPtr;
 	XAxiDma_Bd *BdPtr;
