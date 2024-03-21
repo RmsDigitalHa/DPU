@@ -396,6 +396,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		}
 		else{}
 	}
+	else { }
 
 return TCP_RcvBuf;
 }

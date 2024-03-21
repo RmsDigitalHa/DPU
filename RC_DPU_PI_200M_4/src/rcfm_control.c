@@ -40,6 +40,7 @@ void SetRcfmStatAmpFst(uint8_t rcfm_amp_fst)
 		rcfm_status.rcfm_amp_mode2 = 0x00;
 		rcfm_status.rcfm_amp_mode1 = 0x01;
 	}
+	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFF3) | ((rcfm_status.rcfm_amp_mode2 & 0x1U) << 3) | ((rcfm_status.rcfm_amp_mode1 & 0x1U) << 2);
@@ -61,6 +62,7 @@ void SetRcfmStatPath(uint8_t rcfm_path)
 	else if(rcfm_path == RCFM_BIT_PATH) {
 		rcfm_status.rcfm_rf_select = 0x01;
 	}
+	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFEF) | (((~rcfm_status.rcfm_rf_select) & 0x1U) << 4);
@@ -79,6 +81,7 @@ void SetRcfmStatBitEn(uint8_t rcfm_bit_en)
 	else if(rcfm_bit_en == RCFM_CAL_EN) {
 		rcfm_status.rcfm_cal_en = 0x01;
 	}
+	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFBF) | ((rcfm_status.rcfm_cal_en & 0x1U) << 6);
@@ -97,6 +100,7 @@ void SetRcfmStatPathANT(uint8_t rcfm_path_lna)
 	else if(rcfm_path_lna == RCFM_ANT_BIAS_ON) {
 		rcfm_status.rcfm_ant_bias = 0x01;
 	}
+	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFDF) | ((rcfm_status.rcfm_ant_bias & 0x1U) << 5);
@@ -104,7 +108,7 @@ void SetRcfmStatPathANT(uint8_t rcfm_path_lna)
 }
 
 
-void Init_BIT_PLL(){
+void Init_BIT_PLL(void){
 	//SPI Default Value Setting
 	SPI_WriteReg(LMX2592, 0x46, 0x0000, 3);
 	SPI_WriteReg(LMX2592, 0x45, 0x0000, 3);
@@ -216,6 +220,7 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 			SPI_WriteReg(LMX2592, 0x24, 0x0011, 3);
 			SPI_WriteReg(LMX2592, 0x1F, 0x0401, 3);
 		}
+		else { }
 
 		SPI_WriteReg(LMX2592, 0x00, 0X221C, 3);
 	}

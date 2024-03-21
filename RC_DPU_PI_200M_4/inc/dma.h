@@ -22,7 +22,7 @@
 
 
 int Init_DMA(uint32_t dev_id);
-int RxDmaData();
+int RxDmaData(void);
 
 
 #endif /* INC_DMA_H_ */

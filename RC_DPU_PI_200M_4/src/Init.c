@@ -61,7 +61,7 @@ uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
 //  7   PG3C
 //  8   PG1A
 //  9   PG1F
-int Init_FPGA_CTRL(){
+int Init_FPGA_CTRL(void){
 	int Status;
 
 	Status = Init_GPIO_CTRL();
@@ -96,7 +96,7 @@ int Init_FPGA_CTRL(){
 }
 
 
-int Init_RF_CTRL(){
+int Init_RF_CTRL(void){
 	uint32_t Old_Data = 0;
 	uint32_t New_Data = 0;
 
@@ -130,7 +130,7 @@ int Init_RF_CTRL(){
 }
 
 
-int Init_GPIO_CTRL(){
+int Init_GPIO_CTRL(void){
 	int status;
 
 	status = XGpio_Initialize(&RF_GPIO, GPIO_RF_CTRL_DEVICE_ID);
@@ -154,7 +154,7 @@ int Init_GPIO_CTRL(){
 }
 
 
-int Init_SPI_CTRL(){
+int Init_SPI_CTRL(void){
 	int Status;
 	XSpiPs_Config *SpiConfig;
 
@@ -181,7 +181,7 @@ int Init_SPI_CTRL(){
 	return 0;
 }
 
-int Init_SPI_LOG(){
+int Init_SPI_LOG(void){
 	int Status;
 	XSpiPs_Config *SpiConfig;
 
@@ -208,7 +208,7 @@ int Init_SPI_LOG(){
 	return 0;
 }
 
-int Init_I2C_CTRL(){
+int Init_I2C_CTRL(void){
 	int Status;
 	XIicPs_Config *I2C_0_Config;
 	XIicPs_Config *I2C_1_Config;
@@ -296,7 +296,7 @@ uint8_t GetRFTmp(uint8_t dev){
 
 }
 
-int GetDPUTmp(){
+int GetDPUTmp(void){
 	int Status;
 
 	//RCFM TMP

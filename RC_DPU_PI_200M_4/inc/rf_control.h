@@ -29,9 +29,9 @@ typTableATTEN;
 typTableATTEN 	GainAttenTable[167];
 
 
-int GetRFPathStatus();
-void GetStatusPBIT();
-void GetStatusIBIT();
+int GetRFPathStatus(void);
+void GetStatusPBIT(void);
+void GetStatusIBIT(void);
 void SetGainAtten(uint64_t Freq);
 typTableATTEN 	GetAttenValue(uint64_t TargetFreq);
 

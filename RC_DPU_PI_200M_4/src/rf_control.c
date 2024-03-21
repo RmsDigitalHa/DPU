@@ -55,7 +55,7 @@ extern RECV_SETTING DPU_STATUS;
 //  8   PG1A
 //  9   PG1F
 
-void GetStatusPBIT(){
+void GetStatusPBIT(void){
 	int Status = 0;
 	uint32_t Buf_Read = 0;
 	uint8_t	Data_PBIT[10] = {0, };
@@ -104,7 +104,7 @@ void GetStatusPBIT(){
 }
 
 
-void GetStatusIBIT(){
+void GetStatusIBIT(void){
 	int Status = 0;
 	uint32_t Buf_Read = 0;
 	uint8_t	Data_IBIT[10] = {0, };
@@ -167,7 +167,7 @@ void GetStatusIBIT(){
  * ... (ALL Filter Path)
  * BIT Disable
  */
-int GetRFPathStatus(){
+int GetRFPathStatus(void){
 	uint16_t LogValue;
 	SetRcfmStatBitEn(RCFM_CAL_EN);
 	SetRcfmStatPathANT(RCFM_ANT_BIAS_OFF);
@@ -287,6 +287,7 @@ void SetGainAtten(uint64_t Freq){
 		else if((rcfm_status.rcfm_amp_mode1 == 0x01U) & (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP2 Mode
 			rcrm_status.rcrm_gain_att = AmpScdAtten;
 		}
+		else { }
 
 		//Common
 		rcrm_status.rcrm_sys_att = SysAtten;
