@@ -128,69 +128,69 @@ void MakeRcrmSpiCmdModeCtrl()
 
 	// BPF, LPF Path
 	if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH01)  							// 400~1300MHz
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | (1U << 20) | (1U << 7) | (0U << 0);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)1U << 20) | ((uint32_t)1U << 7) | ((uint32_t)0U << 0);
 	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH02)  						// 1300~2500MHz
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | (1U << 20) | (0U << 7) | (1U << 0);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)1U << 20) | ((uint32_t)0U << 7) | ((uint32_t)1U << 0);
 	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH03)  						// 2500~6000MHz
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | (2U << 20) | (0U << 7) | (1U << 0);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)2U << 20) | ((uint32_t)0U << 7) | ((uint32_t)1U << 0);
 
 	// BPF Bank
 	switch(rcrm_status.rcrm_bpf_bank) {
 	case RCRM_BPF01 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | (1U << 16) | (0U << 3);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | ((uint32_t)1U << 16) | ((uint32_t)0U << 3);
 		break;
 	case RCRM_BPF02 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | (3U << 16) | (2U << 3);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | ((uint32_t)3U << 16) | ((uint32_t)2U << 3);
 		break;
 	case RCRM_BPF03 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | (2U << 16) | (3U << 3);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | ((uint32_t)2U << 16) | ((uint32_t)3U << 3);
 		break;
 	case RCRM_BPF04 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | (0U << 16) | (1U << 3);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFCFFE7) | ((uint32_t)0U << 16) | ((uint32_t)1U << 3);
 		break;
 	case RCRM_BPF05 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | (1U << 5) | (0U << 1);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | ((uint32_t)1U << 5) | ((uint32_t)0U << 1);
 		break;
 	case RCRM_BPF06 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | (3U << 5) | (2U << 1);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | ((uint32_t)3U << 5) | ((uint32_t)2U << 1);
 		break;
 	case RCRM_BPF07 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | (2U << 5) | (3U << 1);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | ((uint32_t)2U << 5) | ((uint32_t)3U << 1);
 		break;
 	case RCRM_BPF08 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | (0U << 5) | (1U << 1);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99) | ((uint32_t)0U << 5) | ((uint32_t)1U << 1);
 		break;
 	}
 
 	// LPF Bank
 	switch(rcrm_status.rcrm_lpf_bank) {
 	case RCRM_LPF01 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | (0U << 22) | (1U << 18);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | ((uint32_t)0U << 22) | ((uint32_t)1U << 18);
 		break;
 	case RCRM_LPF02 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | (3U << 22) | (2U << 18);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | ((uint32_t)3U << 22) | ((uint32_t)2U << 18);
 		break;
 	case RCRM_LPF03 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | (1U << 22) | (0U << 18);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | ((uint32_t)1U << 22) | ((uint32_t)0U << 18);
 		break;
 	case RCRM_LPF04 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | (2U << 22) | (3U << 18);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFF33FFFF) | ((uint32_t)2U << 22) | ((uint32_t)3U << 18);
 		break;
 	case RCRM_LPF05 :
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFFFF) | (2U << 20);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFFFF) | ((uint32_t)2U << 20);
 		break;
 	}
 
 	// AMP mode2(LNA2)
 	if(rcrm_status.rcrm_amp_mode2 == RCRM_BYPASS02)
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | (1U << 8);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | ((uint32_t)1U << 8);
 	else if(rcrm_status.rcrm_amp_mode2 == RCRM_LNA02)
-		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | (2U << 8);
+		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | ((uint32_t)2U << 8);
 
 	// System Atten
-	rcrm_cmd_data = (rcrm_cmd_data & 0xFFFF03FF) | (rcrm_status.rcrm_sys_att << 10);
+	rcrm_cmd_data = (rcrm_cmd_data & 0xFFFF03FF) | ((uint32_t)(rcrm_status.rcrm_sys_att) << 10);
 	// Gain Atten
-	rcrm_cmd_data = (rcrm_cmd_data & 0x03FFFFFFU) | (rcrm_status.rcrm_gain_att << 26);
+	rcrm_cmd_data = (rcrm_cmd_data & 0x03FFFFFFU) | ((uint32_t)(rcrm_status.rcrm_gain_att) << 26);
 
 	SPI_WriteReg(RF_CTRL, 0U, rcrm_cmd_data, 4U);		//32bit SPI control, Addr X
 }
