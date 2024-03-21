@@ -67,6 +67,8 @@ void print_app_header();
 int start_application();
 void tcp_fasttmr(void);
 void tcp_slowtmr(void);
+void print_ip(char *msg, ip_addr_t *ip);
+void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
 
 
 /* user definition */
