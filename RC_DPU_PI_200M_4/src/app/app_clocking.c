@@ -219,18 +219,19 @@ goto error_1;
 for (n = 64U; n > 0U; n--) {
 rate_dev = ad9528_clk_round_rate(clkchip_device, DEV_SYSREF, lmfc_rate_hz / n);
 
-if (adrv9009_check_sysref_rate(lmfc_rate_hz, rate_dev))
-break;
+if (adrv9009_check_sysref_rate(lmfc_rate_hz, rate_dev)) {
+	break;
+}
 }
 
 
 ret = ad9528_clk_set_rate(clkchip_device, FMC_SYSREF, rate_fmc);
 ret = ad9528_clk_set_rate(clkchip_device, DEV_SYSREF, rate_dev);
 
-if (ret)
+if (ret) {
 printf("Failed to set FMC SYSREF rate to %u Hz: %d\n",
    rate_fmc, ret);
-
+}
 return ADIHAL_OK;
 
 error_1:

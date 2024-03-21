@@ -135,17 +135,18 @@ int Init_ADRV9008(void)
 		talInit.clocks.deviceClock_kHz,
 		lmfc_rate);
 
-	if (err != ADIHAL_OK)
-	goto error_0;
-
+	if (err != ADIHAL_OK) {
+		goto error_0;
+	}
 
 	//AXI_ADRV9008_RX_JESD
 	err = jesd_init(rx_div40_rate_hz,
 		0,
 		0);
 
-	if (err != ADIHAL_OK)
-	goto error_1;
+	if (err != ADIHAL_OK) {
+		goto error_1;
+	}
 
 
 	//AXI_ADRV9008_RX_XCVR
@@ -154,14 +155,15 @@ int Init_ADRV9008(void)
 		0,
 		talInit.clocks.deviceClock_kHz);
 
-	if (err != ADIHAL_OK)
-	goto error_2;
-
+	if (err != ADIHAL_OK) {
+		goto error_2;
+	}
 
 	//ADRV9008 Setup
 	err = talise_setup(&tal, &talInit);
-	if (err != ADIHAL_OK)
+	if (err != ADIHAL_OK) {
 		goto error_3;
+	}
 
 	jesd_rx_watchdog();
 
