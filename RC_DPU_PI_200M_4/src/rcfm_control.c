@@ -55,10 +55,12 @@ void SetRcfmStatPath(uint8_t rcfm_path)
 	uint32_t Old_Data = 0;
 	uint32_t New_Data = 0;
 
-	if(rcfm_path == RCFM_ANT_PATH)
+	if(rcfm_path == RCFM_ANT_PATH) {
 		rcfm_status.rcfm_rf_select = 0x00;
-	else if(rcfm_path == RCFM_BIT_PATH)
+	}
+	else if(rcfm_path == RCFM_BIT_PATH) {
 		rcfm_status.rcfm_rf_select = 0x01;
+	}
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFEF) | (((~rcfm_status.rcfm_rf_select) & 0x1U) << 4);
@@ -71,10 +73,12 @@ void SetRcfmStatBitEn(uint8_t rcfm_bit_en)
 	uint32_t Old_Data = 0;
 	uint32_t New_Data = 0;
 
-	if(rcfm_bit_en == RCFM_CAL_DIS)
+	if(rcfm_bit_en == RCFM_CAL_DIS) {
 		rcfm_status.rcfm_cal_en = 0x00;
-	else if(rcfm_bit_en == RCFM_CAL_EN)
+	}
+	else if(rcfm_bit_en == RCFM_CAL_EN) {
 		rcfm_status.rcfm_cal_en = 0x01;
+	}
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFBF) | ((rcfm_status.rcfm_cal_en & 0x1U) << 6);
@@ -87,10 +91,12 @@ void SetRcfmStatPathANT(uint8_t rcfm_path_lna)
 	uint32_t Old_Data = 0;
 	uint32_t New_Data = 0;
 
-	if(rcfm_path_lna == RCFM_ANT_BIAS_OFF)
+	if(rcfm_path_lna == RCFM_ANT_BIAS_OFF) {
 		rcfm_status.rcfm_ant_bias = 0x00;
-	else if(rcfm_path_lna == RCFM_ANT_BIAS_ON)
+	}
+	else if(rcfm_path_lna == RCFM_ANT_BIAS_ON) {
 		rcfm_status.rcfm_ant_bias = 0x01;
+	}
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
 	New_Data = (Old_Data & 0xFFFFFFDF) | ((rcfm_status.rcfm_ant_bias & 0x1U) << 5);
@@ -261,8 +267,9 @@ typTableLMX2582 GetPLLValue(uint64_t TargetFreq){
 		{
 			break;
 		}
-		else
+		else {
 			OldAvgIndex = AvgIndex;
+		}
 	}
 	return ParamLMX2582;
 }

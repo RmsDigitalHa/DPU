@@ -265,9 +265,9 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 
 	printf("\tInitial Frame Synchronization: %s\n",
 	       (lane_status & BIT(4)) ? "Yes" : "No");
-	if (!(lane_status & BIT(4)))
+	if (!(lane_status & BIT(4))) {
 		return FAILURE;
-
+	}
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_CONF0, &octets_per_multiframe);
 	octets_per_multiframe &= 0xffffU;
 	octets_per_multiframe += 1U;
@@ -280,8 +280,9 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 	printf("\tInitial Lane Alignment Sequence: %s\n",
 	       (lane_status & BIT(5)) ? "Yes" : "No");
 
-	if (!(lane_status & BIT(5)))
+	if (!(lane_status & BIT(5))) {
 		return FAILURE;
+	}
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 0U), &val[0]);
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_ILAS(lane, 1U), &val[1]);
@@ -340,8 +341,9 @@ bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd,
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_STATUS(lane), &status);
 	status &= 0x3U;
-	if (status != 0x0U)
+	if (status != 0x0U) {
 		return false;
+	}
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_ERRORS(lane), &errors);
 	snprintf(error_str, sizeof(error_str), " (%"PRIu32" errors)", errors);
@@ -363,13 +365,15 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 	uint32_t i;
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_STATE, &link_disabled);
-	if (link_disabled)
+	if (link_disabled) {
 		return SUCCESS;
+	}
 
 	axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_STATUS, &link_status);
 	if (link_status == 3U) {
-		for (i = 0; i < jesd->num_lanes; i++)
+		for (i = 0; i < jesd->num_lanes; i++) {
 			restart |= axi_jesd204_rx_check_lane_status(jesd, i);
+		}
 
 		if (restart) {
 			axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x1);
@@ -394,7 +398,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	octets_per_multiframe = config->frames_per_multiframe *
 				config->octets_per_frame;
 
-	multiframe_align = 1 << jesd->data_path_width;
+	multiframe_align = (uint32_t)1 << jesd->data_path_width;
 
 	if (octets_per_multiframe % multiframe_align != 0U) {
 		printf("%s: octets_per_frame * frames_per_multiframe must be a "
@@ -435,8 +439,9 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	uint32_t status;
 
 	jesd = (struct axi_jesd204_rx *)malloc(sizeof(*jesd));
-	if (!jesd)
+	if (!jesd) {
 		return FAILURE;
+	}
 
 	jesd->name = init->name;
 	jesd->base = init->base;
@@ -473,16 +478,19 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	uint32_t temp = 0x00;
 	axi_jesd204_rx_read(jesd, JESD204_RX_SYNTH_REG_1, &temp);
 	temp = temp >> 8;
-	if(temp == 0x01U)
+	if(temp == 0x01U) {
 		printf("Rx link : 8b/10b\n");
-	else
+	}
+	else {
 		printf("Rx link : ???\n");
+	}
 
 	axi_jesd204_rx_lane_clk_disable(jesd);
 
 	status = axi_jesd204_rx_apply_config(jesd, &jesd->config);
-	if (status != SUCCESS)
+	if (status != SUCCESS) {
 		goto err;
+	}
 
 	*jesd204 = jesd;
 

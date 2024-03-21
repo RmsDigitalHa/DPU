@@ -34,13 +34,15 @@ RCRM_MODE rcrm_status;
  */
 void SetRcrmStatFreq(uint64_t rcrm_freq)
 {
-	if(rcrm_freq >= FREQ_400MHz && rcrm_freq <= FREQ_1300MHz)
+	if(rcrm_freq >= FREQ_400MHz && rcrm_freq <= FREQ_1300MHz) {
 		rcrm_status.rcrm_filter_path = RCRM_FILTER_PATH01;
-	else if(rcrm_freq > FREQ_1300MHz && rcrm_freq <= FREQ_2500MHz)
+	}
+	else if(rcrm_freq > FREQ_1300MHz && rcrm_freq <= FREQ_2500MHz) {
 		rcrm_status.rcrm_filter_path = RCRM_FILTER_PATH02;
-	else if(rcrm_freq > FREQ_2500MHz && rcrm_freq <= FREQ_6000MHz)
+	}
+	else if(rcrm_freq > FREQ_2500MHz && rcrm_freq <= FREQ_6000MHz) {
 		rcrm_status.rcrm_filter_path = RCRM_FILTER_PATH03;
-
+	}
 	if(rcrm_freq >= FREQ_400MHz && rcrm_freq <= FREQ_500MHz) {
 		rcrm_status.rcrm_bpf_bank = RCRM_BPF01;
 		rcrm_status.rcrm_lpf_bank = RCRM_LPF01;
@@ -127,13 +129,15 @@ void MakeRcrmSpiCmdModeCtrl()
 	uint32_t rcrm_cmd_data = 0;
 
 	// BPF, LPF Path
-	if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH01)  							// 400~1300MHz
+	if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH01) {  							// 400~1300MHz
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)1U << 20) | ((uint32_t)1U << 7) | ((uint32_t)0U << 0);
-	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH02)  						// 1300~2500MHz
+	}
+	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH02) { 						// 1300~2500MHz
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)1U << 20) | ((uint32_t)0U << 7) | ((uint32_t)1U << 0);
-	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH03)  						// 2500~6000MHz
+	}
+	else if(rcrm_status.rcrm_filter_path == RCRM_FILTER_PATH03) {  						// 2500~6000MHz
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFF7E) | ((uint32_t)2U << 20) | ((uint32_t)0U << 7) | ((uint32_t)1U << 0);
-
+	}
 	// BPF Bank
 	switch(rcrm_status.rcrm_bpf_bank) {
 	case RCRM_BPF01 :
@@ -182,11 +186,12 @@ void MakeRcrmSpiCmdModeCtrl()
 	}
 
 	// AMP mode2(LNA2)
-	if(rcrm_status.rcrm_amp_mode2 == RCRM_BYPASS02)
+	if(rcrm_status.rcrm_amp_mode2 == RCRM_BYPASS02) {
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | ((uint32_t)1U << 8);
-	else if(rcrm_status.rcrm_amp_mode2 == RCRM_LNA02)
+	}
+	else if(rcrm_status.rcrm_amp_mode2 == RCRM_LNA02) {
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFCFF) | ((uint32_t)2U << 8);
-
+	}
 	// System Atten
 	rcrm_cmd_data = (rcrm_cmd_data & 0xFFFF03FF) | ((uint32_t)(rcrm_status.rcrm_sys_att) << 10);
 	// Gain Atten

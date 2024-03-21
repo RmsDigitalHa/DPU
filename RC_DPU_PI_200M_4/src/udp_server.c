@@ -69,16 +69,17 @@ static void AssignDefaultIp(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 	xil_printf("Configuring default IP %s \r\n", DEFAULT_IP_ADDRESS);
 
 	err = inet_aton(DEFAULT_IP_ADDRESS, ip);
-	if (!err)
+	if (!err) {
 		xil_printf("Invalid default IP address: %d\r\n", err);
-
+	}
 	err = inet_aton(DEFAULT_IP_MASK, mask);
-	if (!err)
+	if (!err) {
 		xil_printf("Invalid default IP MASK: %d\r\n", err);
-
+	}
 	err = inet_aton(DEFAULT_GW_ADDRESS, gw);
-	if (!err)
+	if (!err) {
 		xil_printf("Invalid default gateway address: %d\r\n", err);
+	}
 }
 
 static void RecvCallback(void *arg, struct udp_pcb *tpcb,
@@ -531,8 +532,9 @@ int TransferData(void)
 			}
 			pbuf_free(send_packet);
 
-			if(SendDone == 1U)
+			if(SendDone == 1U) {
 				break;
+			}
 		}
 	}
 	return 0;

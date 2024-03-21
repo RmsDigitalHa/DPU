@@ -339,8 +339,9 @@ typTableATTEN GetAttenValue(uint64_t TargetFreq){
 		{
 			break;
 		}
-		else
+		else {
 			OldAvgIndex = AvgIndex;
+		}
 	}
 	return ParamGainAtten;
 }
