@@ -99,7 +99,7 @@ int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
 #define JESD204_RX_REG_LANE_STATUS(x)	(((x) * 32U) + 0x300U)
 #define JESD204_RX_REG_LANE_LATENCY(x)	(((x) * 32U) + 0x304U)
 #define JESD204_RX_REG_LANE_ERRORS(x)	(((x) * 32U) + 0x308U)
-#define JESD204_RX_REG_ILAS(x, y)		(((x) * 32U + (y) * 4U) + 0x310U)
+#define JESD204_RX_REG_ILAS(x, y)		((((x) * 32U) + ((y) * 4U)) + 0x310U)
 
 #define JESD204_TX_REG_ILAS(x, y)		\
 	(((x) * 32U + (y) * 4U) + 0x310U)
@@ -400,7 +400,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 
 	multiframe_align = (uint32_t)1 << jesd->data_path_width;
 
-	if (octets_per_multiframe % multiframe_align != 0U) {
+	if ((octets_per_multiframe % multiframe_align) != 0U) {
 		printf("%s: octets_per_frame * frames_per_multiframe must be a "
 		       "multiple of %"PRIu32"\n", jesd->name, multiframe_align);
 		return FAILURE;
@@ -416,7 +416,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 
 	//add 2020.10.14 lane error count (32bit)
 	//0x7E << 8 : count only the disparity error
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, ((uint16_t)0x7FU << 8));
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, ((uint16_t)0x7FU << 8U));
 	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01U));
 
 	if (config->subclass_version == 0) {

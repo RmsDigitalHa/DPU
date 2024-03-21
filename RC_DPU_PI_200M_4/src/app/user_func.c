@@ -183,7 +183,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 
 	tal.devHalInfo = (void *) &hal;
 
-	for(uint16_t i = 2U; i < CH + 2U; i++){
+	for(uint16_t i = 2U; i < (CH + 2U); i++){
 		memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
 		memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
