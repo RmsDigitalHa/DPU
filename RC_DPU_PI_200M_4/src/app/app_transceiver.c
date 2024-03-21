@@ -58,6 +58,11 @@
 // header
 #include <app_jesd.h>
 
+//Prototype
+adiHalErr_t fpga_xcvr_init(uint32_t rx_lane_rate_khz, uint32_t tx_lane_rate_khz,
+						uint32_t rx_os_lane_rate_khz, uint32_t device_clock);
+void fpga_xcvr_deinit(void);
+
 static struct adxcvr *rx_adxcvr;
 static struct adxcvr *tx_adxcvr;
 static struct adxcvr *rx_os_adxcvr;

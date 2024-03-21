@@ -68,6 +68,7 @@ int Init_FPGA_CTRL();
 int Init_RF_CTRL();
 int Init_GPIO_CTRL();
 int Init_SPI_CTRL();
+int Init_SPI_LOG();
 int Init_I2C_CTRL();
 uint8_t GetRFTmp(uint8_t dev);
 int GetDPUTmp();
