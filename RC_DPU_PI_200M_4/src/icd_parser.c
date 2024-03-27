@@ -25,9 +25,9 @@ RECV_SETTING DPU_STATUS = {0, };
 RF_SETTING	 RF_STATUS = {0, };
 HW_CHECK BIT_STATUS = {0, };
 HW_CHECK PBIT_STATUS = {0, };
-int spec_packet_size = 0;
-uint16_t	BIT_STS = 0;
-uint8_t	DPU_MODE = 1;		//1 : CH_SWEEP		2 : CH_Fix
+uint16_t spec_packet_size = 0;
+static uint16_t	BIT_STS = 0;
+static uint8_t	DPU_MODE = 1;		//1 : CH_SWEEP		2 : CH_Fix
 
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
@@ -55,7 +55,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 	if(OPCODE == SET_CENTER_FREQ){
 		freq_buf1 = ((uint64_t)recv_buffer[15] << 24) | ((uint64_t)recv_buffer[14] << 16) | ((uint64_t)recv_buffer[13] << 8) | ((uint64_t)recv_buffer[12] << 0);
 		freq_buf2 = ((uint64_t)recv_buffer[11] << 24) | ((uint64_t)recv_buffer[10] << 16) | ((uint64_t)recv_buffer[9] << 8) | ((uint64_t)recv_buffer[8] << 0);
-		DPU_STATUS.CenterFreq = (uint64_t)(((freq_buf1 & 0xFFFFFFFF) << 32) | (freq_buf2 & 0xFFFFFFFF));
+		DPU_STATUS.CenterFreq = (uint64_t)(((freq_buf1 & 0xFFFFFFFFU) << 32) | (freq_buf2 & 0xFFFFFFFFU));
 
 		//RF BD CTRL
 		SetRcrmStatFreq(DPU_STATUS.CenterFreq + FREQ_OFFSET);
@@ -204,7 +204,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		if(recv_buffer[8] == 0U){
 			freq_buf1 = ((uint64_t)recv_buffer[16] << 24) | ((uint64_t)recv_buffer[15] << 16) | ((uint64_t)recv_buffer[14] << 8) | ((uint64_t)recv_buffer[13] << 0);
 			freq_buf2 = ((uint64_t)recv_buffer[12] << 24) | ((uint64_t)recv_buffer[11] << 16) | ((uint64_t)recv_buffer[10] << 8) | ((uint64_t)recv_buffer[9] << 0);
-			RF_STATUS.RCV_FREQ = (uint64_t)(((freq_buf1 & 0xFFFFFFFF) << 32) | (freq_buf2 & 0xFFFFFFFF));
+			RF_STATUS.RCV_FREQ = (uint64_t)(((freq_buf1 & 0xFFFFFFFFU) << 32) | (freq_buf2 & 0xFFFFFFFFU));
 
 			SetRcrmStatFreq(RF_STATUS.RCV_FREQ + FREQ_OFFSET);
 		}
@@ -239,13 +239,13 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 
 
 			if((RF_STATUS.RCFM_LNA_MODE & RF_STATUS.RCRM_LNA_MODE) == 1U){
-				dpu_ref_level = 0x8000000A;
+				dpu_ref_level = 0x8000000AU;
 			}
 			else if((RF_STATUS.RCFM_LNA_MODE | RF_STATUS.RCRM_LNA_MODE) == 0U){
-				dpu_ref_level = 0x80000000;
+				dpu_ref_level = 0x80000000U;
 			}
 			else{
-				dpu_ref_level = 0x80000005;
+				dpu_ref_level = 0x80000005U;
 			}
 
 		}
@@ -283,7 +283,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 
 			freq_buf1 = ((uint64_t)recv_buffer[17] << 24) | ((uint64_t)recv_buffer[16] << 16) | ((uint64_t)recv_buffer[15] << 8) | ((uint64_t)recv_buffer[14] << 0);
 			freq_buf2 = ((uint64_t)recv_buffer[13] << 24) | ((uint64_t)recv_buffer[12] << 16) | ((uint64_t)recv_buffer[11] << 8) | ((uint64_t)recv_buffer[10] << 0);
-			RF_STATUS.RF_BIT_FREQ = (uint64_t)(((freq_buf1 & 0xFFFFFFFF) << 32) | (freq_buf2 & 0xFFFFFFFF));
+			RF_STATUS.RF_BIT_FREQ = (uint64_t)(((freq_buf1 & 0xFFFFFFFFU) << 32) | (freq_buf2 & 0xFFFFFFFFU));
 
 			SetRcfmStatBitFreq(RF_STATUS.RF_BIT_FREQ);
 
@@ -308,21 +308,21 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				RF_STATUS.RCFM_LNA_MODE = 0;
 				RF_STATUS.RCRM_LNA_MODE = 0;
 
-				dpu_ref_level = 0x80000000;		//REF_LEV	0dB
+				dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_1){
 				RF_STATUS.RCFM_LNA_MODE = 0;
 				RF_STATUS.RCRM_LNA_MODE = 1;
 
-				dpu_ref_level = 0x80000005;		//REF_LEV	20dB
+				dpu_ref_level = 0x80000005U;		//REF_LEV	20dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_2){
 				RF_STATUS.RCFM_LNA_MODE = 1;
 				RF_STATUS.RCRM_LNA_MODE = 1;
 
-				dpu_ref_level = 0x8000000A;		//REF_LEV	40dB
+				dpu_ref_level = 0x8000000AU;		//REF_LEV	40dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else{}
@@ -350,7 +350,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				SetRcfmStatAmpFst(RF_STATUS.RCFM_LNA_MODE);
 				SetRcrmStatAmpScd(RF_STATUS.RCRM_LNA_MODE);
 
-				dpu_ref_level = 0x80000000;		//REF_LEV	0dB
+				dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 
 				printf("RC_RCV : JAM mode success.\r\n");
@@ -376,15 +376,15 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				SetRcrmStatAmpScd(RF_STATUS.RCRM_LNA_MODE);
 
 				if((RF_STATUS.RCFM_LNA_MODE == 0U) && (RF_STATUS.RCRM_LNA_MODE == 0U)){
-					dpu_ref_level = 0x80000000;		//REF_LEV	0dB
+					dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
 					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 				else if((RF_STATUS.RCFM_LNA_MODE == 0U) && (RF_STATUS.RCRM_LNA_MODE == 1U)){
-					dpu_ref_level = 0x80000005;		//REF_LEV	20dB
+					dpu_ref_level = 0x80000005U;		//REF_LEV	20dB
 					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 				else{
-					dpu_ref_level = 0x8000000A;		//REF_LEV	40dB
+					dpu_ref_level = 0x8000000AU;		//REF_LEV	40dB
 					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 

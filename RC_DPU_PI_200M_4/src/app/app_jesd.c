@@ -57,8 +57,8 @@ void jesd_rx_watchdog(void);
 
 
 struct axi_jesd204_rx *rx_jesd = NULL;
-struct axi_jesd204_tx *tx_jesd = NULL;
-struct axi_jesd204_rx *rx_os_jesd = NULL;
+static struct axi_jesd204_tx *tx_jesd = NULL;
+static struct axi_jesd204_rx *rx_os_jesd = NULL;
 
 
 adiHalErr_t jesd_init(uint32_t rx_div40_rate_hz,

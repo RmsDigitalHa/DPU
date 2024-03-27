@@ -24,21 +24,21 @@
 #include "user_func.h"
 
 
-static uint8_t		u8SpiData_RF[4] = {0, };
-static uint8_t		u8SpiData_LOG[3] = {0, };
-static uint8_t		u32Data_RF[4] 	= {0,};
-static uint8_t		u8Data_LOG[2] 	= {0,};
+static uint8_t		u8SpiData_RF[4] = {0,0,0,0};
+static uint8_t		u8SpiData_LOG[3] = {0,0,0};
+static uint8_t		u32Data_RF[4] 	= {0,0,0,0};
+static uint8_t		u8Data_LOG[2] 	= {0,0};
 
 uint32_t dpu_iter_count = 1;
-uint32_t dpu_ref_level = 0x80000000;
+uint32_t dpu_ref_level = 0x80000000U;
 uint32_t dpu_win_func = 1;
 
 extern HW_CHECK BIT_STATUS;
 extern RF_SETTING	 RF_STATUS;
 extern RECV_SETTING DPU_STATUS;
 
-uint8_t SendBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Transmitting Data */
-uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
+static uint8_t SendBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Transmitting Data */
+static uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
 
 //  0   ADC_LD
 //  1   SYN_SDO
@@ -102,7 +102,7 @@ int Init_RF_CTRL(void){
 
 	//RF Switch ON
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFFC) | (0x03U);
+	New_Data = (Old_Data & 0xFFFFFFFCU) | (0x03U);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 
 	SetRcfmStatBitEn(RCFM_CAL_DIS);
@@ -130,7 +130,7 @@ int Init_RF_CTRL(void){
 }
 
 
-int Init_GPIO_CTRL(void){
+static int Init_GPIO_CTRL(void){
 	int status;
 
 	status = XGpio_Initialize(&RF_GPIO, GPIO_RF_CTRL_DEVICE_ID);
@@ -154,7 +154,7 @@ int Init_GPIO_CTRL(void){
 }
 
 
-int Init_SPI_CTRL(void){
+static int Init_SPI_CTRL(void){
 	int Status;
 	XSpiPs_Config *SpiConfig;
 
@@ -181,34 +181,8 @@ int Init_SPI_CTRL(void){
 	return 0;
 }
 
-int Init_SPI_LOG(void){
-	int Status;
-	XSpiPs_Config *SpiConfig;
 
-	/*
-	 * Initialize the SPI driver so that it's ready to use
-	 */
-	SpiConfig = XSpiPs_LookupConfig(SPI_RF_CTRL);
-	if (NULL == SpiConfig) {
-		printf("SPI Initialize Fail.\n");
-		return XST_FAILURE;
-	}
-
-	Status = XSpiPs_CfgInitialize(&SPI_RF, SpiConfig,
-				       SpiConfig->BaseAddress);
-	if (Status != XST_SUCCESS) {
-		printf("SPI Initialize Fail.\n");
-		return XST_FAILURE;
-	}
-
-	XSpiPs_SetOptions(&SPI_RF, XSPIPS_MASTER_OPTION | XSPIPS_FORCE_SSELECT_OPTION | XSPIPS_CLK_ACTIVE_LOW_OPTION);
-
-	XSpiPs_SetClkPrescaler(&SPI_RF, XSPIPS_CLK_PRESCALE_64);
-
-	return 0;
-}
-
-int Init_I2C_CTRL(void){
+static int Init_I2C_CTRL(void){
 	int Status;
 	XIicPs_Config *I2C_0_Config;
 	XIicPs_Config *I2C_1_Config;
@@ -296,28 +270,6 @@ uint8_t GetRFTmp(uint8_t dev){
 
 }
 
-int GetDPUTmp(void){
-	int Status;
-
-	//RCFM TMP
-	Status = XIicPs_MasterSendPolled(&I2C_1, SendBuffer, I2C_BUFFER_SIZE, TMP_DPU_ADDR);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
-
-	//Wait until bus is idle to start another transfer.
-	while (XIicPs_BusIsBusy(&I2C_1)) {
-		/* NOP */
-	}
-
-	Status = XIicPs_MasterRecvPolled(&I2C_1, RecvBuffer, I2C_BUFFER_SIZE, TMP_DPU_ADDR);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
-
-	return 0;
-}
-
 
 void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 	uint64_t	Buffer = 0;
@@ -328,7 +280,7 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 	case LMX2592 :
 		if(NumByte == 3U){
 			Addr_LMX = (Addr & (0xFFU));
-			Send_Buf = (val & (0x0000FFFFU));
+			Send_Buf = ((uint64_t)val & ((uint64_t)0x0000FFFFU));
 
 			Buffer = (((uint64_t)Addr_LMX << 16) | Send_Buf);
 
@@ -348,7 +300,7 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 		if(NumByte == 4U){
 			Send_Buf = val;
 
-			u8SpiData_RF[0] = ((Send_Buf & (0xFF000000))>>24);
+			u8SpiData_RF[0] = ((Send_Buf & (0xFF000000U))>>24);
 			u8SpiData_RF[1] = ((Send_Buf & (0x00FF0000U))>>16);
 			u8SpiData_RF[2] = ((Send_Buf & (0x0000FF00U))>>8);
 			u8SpiData_RF[3] = (Send_Buf & (0x000000FFU));
@@ -378,7 +330,7 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 	switch(dev){
 	case LMX2592 :
-		Addr_RF = (Addr & (0xFFU));
+		Addr_RF = ((uint16_t)Addr & ((uint16_t)0xFFU));
 		Buffer = (((uint32_t)Addr_RF << 16) | ((uint32_t)1U << 23));
 
 		u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16);
@@ -402,12 +354,12 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
-		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
+		TMP_Value = (((uint16_t)u8Data_LOG[0] & (uint16_t)0x0FU) << 4) | (((uint16_t)u8Data_LOG[1] & (uint16_t)0xF0U) >> 4);
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
-		TMP_Value = ((u8Data_LOG[0] & 0x0FU) << 4) | ((u8Data_LOG[1] & 0xF0U) >> 4);
+		TMP_Value = (((uint16_t)u8Data_LOG[0] & (uint16_t)0x0FU) << 4) | (((uint16_t)u8Data_LOG[1] & (uint16_t)0xF0U) >> 4);
 
 		Log_Value = (uint16_t)(TMP_Value * Log_Step);
 

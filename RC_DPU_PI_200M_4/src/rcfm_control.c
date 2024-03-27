@@ -19,7 +19,7 @@
 #include "rf_control.h"
 
 
-XGpio gpio_rcfm_ctrl;
+static XGpio gpio_rcfm_ctrl;
 
 RCFM_MODE rcfm_status;
 
@@ -43,7 +43,7 @@ void SetRcfmStatAmpFst(uint8_t rcfm_amp_fst)
 	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFF3) | ((rcfm_status.rcfm_amp_mode2 & 0x1U) << 3) | ((rcfm_status.rcfm_amp_mode1 & 0x1U) << 2);
+	New_Data = (Old_Data & 0xFFFFFFF3U) | (((uint32_t)rcfm_status.rcfm_amp_mode2 & 0x1U) << 3) | (((uint32_t)rcfm_status.rcfm_amp_mode1 & 0x1U) << 2);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -65,7 +65,7 @@ void SetRcfmStatPath(uint8_t rcfm_path)
 	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFEF) | (((~rcfm_status.rcfm_rf_select) & 0x1U) << 4);
+	New_Data = (Old_Data & 0xFFFFFFEFU) | (((~((uint32_t)rcfm_status.rcfm_rf_select)) & 0x1U) << 4);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -84,7 +84,7 @@ void SetRcfmStatBitEn(uint8_t rcfm_bit_en)
 	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFBF) | ((rcfm_status.rcfm_cal_en & 0x1U) << 6);
+	New_Data = (Old_Data & 0xFFFFFFBFU) | (((uint32_t)rcfm_status.rcfm_cal_en & 0x1U) << 6);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -103,7 +103,7 @@ void SetRcfmStatPathANT(uint8_t rcfm_path_lna)
 	else { }
 
 	Old_Data = XGpio_DiscreteRead(&RF_GPIO, RF_GPIO_OUT);
-	New_Data = (Old_Data & 0xFFFFFFDF) | ((rcfm_status.rcfm_ant_bias & 0x1U) << 5);
+	New_Data = (Old_Data & 0xFFFFFFDFU) | (((uint32_t)rcfm_status.rcfm_ant_bias & 0x1U) << 5);
 	XGpio_DiscreteWrite(&RF_GPIO, RF_GPIO_OUT, New_Data);
 }
 
@@ -165,9 +165,9 @@ void Init_BIT_PLL(void){
 
 
 void SetRcfmStatBitFreq(uint64_t Freq){
-	uint8_t		Segment[3] = {0, };
-	uint8_t		SegValue[3] = {0, };
-	uint8_t		SegEN[3] = {0, };
+	uint8_t		Segment[3] = {0,0,0};
+	uint8_t		SegValue[3] = {0,0,0};
+	uint8_t		SegEN[3] = {0,0,0};
 	uint8_t		Division = 0;
 	uint16_t	SendBuf = 0;
 	uint32_t	Int_Value = 0;
@@ -182,7 +182,7 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 	rcfm_status.rcfm_cal_freq = Freq;
 	TargetFreq = Freq;
 
-	if(TargetFreq >= MIN_Freq && TargetFreq <= MAX_Freq){
+	if((TargetFreq >= MIN_Freq) && (TargetFreq <= MAX_Freq)){
 		ParamLMX2582 = GetPLLValue(TargetFreq);
 
 		//LMX2582 Table Value
@@ -197,8 +197,8 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 		SegEN[2] 	= ParamLMX2582.u8SegEN3;
 
 
-		Division = (uint64_t)(Segment[0] * Segment[1] * Segment[2]);
-		VCOCLK = ((double)(TargetFreq * Division) / RefCLK);
+		Division = (Segment[0] * Segment[1] * Segment[2]);
+		VCOCLK = ((double)(TargetFreq * (uint64_t)Division) / RefCLK);
 		SendBuf = (0x0019U |(((uint16_t)SegValue[1] & 0x0FU) << 9)|(((uint16_t)SegEN[2] & 0x01U) << 8)|(((uint16_t)SegEN[1] & 0x01U) << 7)|(((uint16_t)SegValue[0] & 0x01U) << 2)|(((uint16_t)SegEN[0] & 0x01U) << 1));
 		SPI_WriteReg(LMX2592, 0x23, SendBuf, 3);
 
@@ -231,20 +231,20 @@ void SetRcfmStatBitFreq(uint64_t Freq){
 }
 
 
-typTableLMX2582 GetPLLValue(uint64_t TargetFreq){
-	int32_t MinIndex = 0;
-	int32_t MaxIndex = 0;
+static typTableLMX2582 GetPLLValue(uint64_t TargetFreq){
+	uint32_t MinIndex = 0;
+	uint32_t MaxIndex = 0;
 	int32_t AvgIndex = 0;
 	int32_t OldAvgIndex = -1;
 	typTableLMX2582 ParamLMX2582 = {0,};
 
 	MaxIndex = PLL_TABLE_SIZE;
-	AvgIndex = (MinIndex + MaxIndex) / 2;
+	AvgIndex = ((int32_t)MinIndex + (int32_t)MaxIndex) / (int32_t)2;
 	OldAvgIndex = -1;
 
-	if (TargetFreq == TableLMX2582[MaxIndex-1].u64StartFreq)
+	if (TargetFreq == TableLMX2582[MaxIndex-(uint32_t)1].u64StartFreq)
 	{
-		AvgIndex = MaxIndex;
+		AvgIndex = (int32_t)MaxIndex;
 		memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));
 		return ParamLMX2582;
 	}
@@ -259,13 +259,13 @@ typTableLMX2582 GetPLLValue(uint64_t TargetFreq){
 
 		if(TargetFreq > TableLMX2582[AvgIndex].u64StartFreq)
 		{
-			MinIndex = AvgIndex;
-			AvgIndex = (int32_t)((MinIndex + MaxIndex)/2);
+			MinIndex = (uint32_t)AvgIndex;
+			AvgIndex = ((int32_t)MinIndex + (int32_t)MaxIndex) / (int32_t)2;
 		}
 		else
 		{
-			MaxIndex = AvgIndex;
-			AvgIndex = (int32_t)((MinIndex + MaxIndex)/2);
+			MaxIndex = (uint32_t)AvgIndex;
+			AvgIndex = ((int32_t)MinIndex + (int32_t)MaxIndex) / (int32_t)2;
 		}
 
 		if(AvgIndex == OldAvgIndex)

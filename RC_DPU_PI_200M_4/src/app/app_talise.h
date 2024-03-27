@@ -57,10 +57,8 @@ enum taliseDeviceId {
 #define TALISE_NUM_CHAIN_CHANNELS	2 /* channels per RX/TX chain */
 #define TALISE_NUM_CHANNELS		(TALISE_DEVICE_ID_MAX * TALISE_NUM_CHAIN_CHANNELS * TALISE_NUM_SUBCHANNELS)
 
-adiHalErr_t talise_setup(taliseDevice_t * const talDev,
-			 taliseInit_t * const talInit);
-int talise_multi_chip_sync(taliseDevice_t * pd, int step);
-void talise_shutdown(taliseDevice_t * const pd);
+adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi);
+
 bool adrv9009_check_sysref_rate(uint32_t lmfc, uint32_t sysref);
 
 #endif /* __APP_TALISE_H */

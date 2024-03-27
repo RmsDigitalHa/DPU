@@ -117,23 +117,23 @@ extern void xil_printf(const char *format, ...);
 #define POLL_TIMEOUT_COUNTER	1000000U
 
 
-int RxSetup(XAxiDma * AxiDmaInstPtr);
-static int Rcv_Dma(void);
+static int RxSetup(XAxiDma * AxiDmaInstPtr);
+
 
 volatile static uint8_t RX_BD_SPACE_BASE[RX_BD_SPACE_SIZE] __attribute__ ((aligned (64)));
 volatile static uint8_t RX_BUFFER_BASE[RX_BUFFER_SIZE + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] __attribute__ ((aligned (64)));
 
 
-XAxiDma AxiDma;
-volatile int RxDone;
+static XAxiDma AxiDma;
+static volatile int RxDone;
 
 uint8_t DataReady;
-uint32_t *AddrSpecData;
-uint32_t *AddrSpecHeader;
+static uint32_t *AddrSpecData;
+static uint32_t *AddrSpecHeader;
 extern uint8_t SendDone;
 extern RECV_SETTING DPU_STATUS;
 
-uint32_t *AddrSpecPrevHeader;
+static uint32_t *AddrSpecPrevHeader;
 uint32_t *AddrSpecCurHeader;
 
 extern uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
@@ -206,7 +206,7 @@ int Init_DMA(uint32_t dev_id)
 * @note		None.
 *
 ******************************************************************************/
-int RxSetup(XAxiDma * AxiDmaInstPtr)
+static int RxSetup(XAxiDma * AxiDmaInstPtr)
 {
 	XAxiDma_BdRing *RxRingPtr;
 	int Delay = 0;
@@ -329,7 +329,7 @@ int RxDmaData(void)
 	int ProcessedBdCount;
 	int FreeBdCount;
 	int Status;
-	int TimeOut = POLL_TIMEOUT_COUNTER;
+	uint32_t TimeOut = POLL_TIMEOUT_COUNTER;
 	int BdCount;
 	uint8_t *RxPacketPtr;
 	uint32_t RxPacketSize;

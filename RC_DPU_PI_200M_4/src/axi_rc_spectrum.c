@@ -16,18 +16,12 @@
 //Variable
 static uint32_t sts_start = 0;
 static uint32_t sts_iter_count = 0;
-uint16_t I_Offset = 0;
-uint16_t Q_Offset = 0;
+static uint16_t I_Offset = 0;
+static uint16_t Q_Offset = 0;
 
 
-uint32_t init_rc_spectrum(void){
-	RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_START, 0);
 
-	return 0;
-}
-
-
-uint32_t set_iter_count(u32 base_address, u32 iter_count)
+static uint32_t set_iter_count(u32 base_address, u32 iter_count)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_ITER_COUNT, iter_count);
 
@@ -41,7 +35,7 @@ uint32_t set_ref_level(u32 base_address, u32 ref_level)
 	return 0;
 }
 
-uint32_t set_win_func(u32 base_address, u32 win_func)
+static uint32_t set_win_func(u32 base_address, u32 win_func)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_WIN_FUNC, win_func);
 

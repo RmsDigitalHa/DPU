@@ -58,7 +58,7 @@ extern RECV_SETTING DPU_STATUS;
 void GetStatusPBIT(void){
 	int Status = 0;
 	uint32_t Buf_Read = 0;
-	uint8_t	Data_PBIT[10] = {0, };
+	uint8_t	Data_PBIT[10] = {0,0,0,0,0,0,0,0,0,0};
 
 	SetRcfmStatAmpFst(RCFM_LNA);
 	SetRcrmStatAmpScd(RCRM_LNA02);
@@ -107,7 +107,7 @@ void GetStatusPBIT(void){
 void GetStatusIBIT(void){
 	int Status = 0;
 	uint32_t Buf_Read = 0;
-	uint8_t	Data_IBIT[10] = {0, };
+	uint8_t	Data_IBIT[10] = {0,0,0,0,0,0,0,0,0,0};
 
 	SetRcfmStatAmpFst(RCFM_LNA);
 	SetRcrmStatAmpScd(RCRM_LNA02);
@@ -167,7 +167,7 @@ void GetStatusIBIT(void){
  * ... (ALL Filter Path)
  * BIT Disable
  */
-int GetRFPathStatus(void){
+static int GetRFPathStatus(void){
 	uint16_t LogValue;
 	SetRcfmStatBitEn(RCFM_CAL_EN);
 	SetRcfmStatPathANT(RCFM_ANT_BIAS_OFF);
@@ -270,7 +270,7 @@ void SetGainAtten(uint64_t Freq){
 	typTableATTEN ParamGainAtten = {0,};
 
 
-	if(Freq >= MIN_Freq && Freq <= MAX_Freq){
+	if((Freq >= MIN_Freq) && (Freq <= MAX_Freq)){
 		ParamGainAtten = GetAttenValue(Freq);
 
 		AmpFstAtten  = ParamGainAtten.u8AMP1_GAIN_ATTEN;
@@ -278,13 +278,13 @@ void SetGainAtten(uint64_t Freq){
 		BypassAtten  = ParamGainAtten.u8BYPASS_GAIN_ATTEN;
 		SysAtten	 = ParamGainAtten.u8SYSTEM_ATTEN;
 
-		if((rcfm_status.rcfm_amp_mode1 == 0x00U) & (rcrm_status.rcrm_amp_mode2 == 0x00U)){	//BYPASS Mode
+		if((rcfm_status.rcfm_amp_mode1 == 0x00U) && (rcrm_status.rcrm_amp_mode2 == 0x00U)){	//BYPASS Mode
 			rcrm_status.rcrm_gain_att = BypassAtten;
 		}
-		else if((rcfm_status.rcfm_amp_mode1 == 0x00U) & (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP1 Mode
+		else if((rcfm_status.rcfm_amp_mode1 == 0x00U) && (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP1 Mode
 			rcrm_status.rcrm_gain_att = AmpFstAtten;
 		}
-		else if((rcfm_status.rcfm_amp_mode1 == 0x01U) & (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP2 Mode
+		else if((rcfm_status.rcfm_amp_mode1 == 0x01U) && (rcrm_status.rcrm_amp_mode2 == 0x01U)){	//AMP2 Mode
 			rcrm_status.rcrm_gain_att = AmpScdAtten;
 		}
 		else { }
@@ -299,20 +299,20 @@ void SetGainAtten(uint64_t Freq){
 }
 
 
-typTableATTEN GetAttenValue(uint64_t TargetFreq){
-	int32_t MinIndex = 0;
-	int32_t MaxIndex = 0;
+static typTableATTEN GetAttenValue(uint64_t TargetFreq){
+	uint32_t MinIndex = 0;
+	uint32_t MaxIndex = 0;
 	int32_t AvgIndex = 0;
 	int32_t OldAvgIndex = -1;
 	typTableATTEN ParamGainAtten = {0,};
 
 	MaxIndex = G_ATTEN_TABLE_SIZE;
-	AvgIndex = (MinIndex + MaxIndex) / 2;
+	AvgIndex = ((int32_t)MinIndex + (int32_t)MaxIndex) / (int32_t)2;
 	OldAvgIndex = -1;
 
-	if (TargetFreq == GainAttenTable[MaxIndex-1].u64StartFreq)
+	if (TargetFreq == GainAttenTable[MaxIndex-(uint32_t)1].u64StartFreq)
 	{
-		AvgIndex = MaxIndex;
+		AvgIndex = (int32_t)MaxIndex;
 		memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
 		return ParamGainAtten;
 	}
@@ -327,13 +327,13 @@ typTableATTEN GetAttenValue(uint64_t TargetFreq){
 
 		if(TargetFreq > GainAttenTable[AvgIndex].u64StartFreq)
 		{
-			MinIndex = AvgIndex;
-			AvgIndex = (int32_t)((MinIndex + MaxIndex)/2);
+			MinIndex = (uint32_t)AvgIndex;
+			AvgIndex = ((int32_t)MinIndex + (int32_t)MaxIndex) / (int32_t)2;
 		}
 		else
 		{
-			MaxIndex = AvgIndex;
-			AvgIndex = (int32_t)((MinIndex + MaxIndex)/2);
+			MaxIndex = (uint32_t)AvgIndex;
+			AvgIndex = ((int32_t)MinIndex +(int32_t)MaxIndex) / (int32_t)2;
 		}
 
 		if(AvgIndex == OldAvgIndex)

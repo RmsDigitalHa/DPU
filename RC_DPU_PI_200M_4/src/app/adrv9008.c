@@ -70,7 +70,7 @@ int Init_ADRV9008(void)
 	// compute the lane rate from profile settings
 	// lane_rate = input_rate * M * 20 / L
 	// where L and M are explained in taliseJesd204bFramerConfig_t comments
-	uint32_t rx_lane_rate_khz = talInit.rx.rxProfile.rxOutputRate_kHz *
+	uint32_t rx_lane_rate_khz = (uint32_t)talInit.rx.rxProfile.rxOutputRate_kHz *
 	    talInit.jesd204Settings.framerA.M * (20 /
 	    hweight8(talInit.jesd204Settings.framerA.serializerLanesEnabled));
 	uint32_t rx_div40_rate_hz = rx_lane_rate_khz * (1000U / 40U);

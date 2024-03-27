@@ -35,15 +35,13 @@
 static struct udp_pcb *udp_pcb;
 struct netif server_netif;
 
-uint8_t recv_buf_udp[NETWORK_BUFSIZE], reply_buf_udp[NETWORK_BUFSIZE];
+static uint8_t recv_buf_udp[NETWORK_BUFSIZE], reply_buf_udp[NETWORK_BUFSIZE];
 uint8_t SendDone;
 // Client IP, Port (RC_Controller)
-ip_addr_t client_ip;
-uint16_t client_port;
+static ip_addr_t client_ip;
+static uint16_t client_port;
 
 // DMA Code Variable
-extern uint32_t *AddrSpecHeader;
-extern uint32_t *AddrSpecPrevHeader;
 extern uint32_t *AddrSpecCurHeader;
 extern uint8_t DataReady;
 
@@ -100,13 +98,13 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 	memcpy(recv_buf_udp, p->payload, p->len);
 	memcpy(reply_buf_udp, recv_buf_udp, p->len);
 
-	recv_icd_header = ParserTCP(recv_buf_udp, p->len);
+	recv_icd_header = ParserTCP(recv_buf_udp, (uint16_t)(p->len));
 	SwapOPCODE(reply_buf_udp);		//Source Code <-> Destination Code
 
 	printf("== UDP Recv\n");
 	printf("== IP : %s, port : %d, cmd_code : 0x%X\n", inet_ntoa(addr), port, recv_icd_header.CMD_CODE);
 
-	if(recv_icd_header.SRC_CODE == 0xE1U && recv_icd_header.DEST_CODE == 0x51U){
+	if((recv_icd_header.SRC_CODE == 0xE1U) && (recv_icd_header.DEST_CODE == 0x51U)){
 		/////////////////////// DPU_CTRL //////////////////////////
 		if(recv_icd_header.CMD_CODE == 0x0010U){				//Set Center Frequency
 			reply_buf_udp[4] = 0x09;
@@ -493,7 +491,7 @@ int TransferData(void)
 	static uint8_t send_cnt = 0;
 	static uint8_t last_flag = 0;
 	err_t err;
-	int send_size = UDP_SEND_BUFSIZE;
+	uint16_t send_size = UDP_SEND_BUFSIZE;
 
 	struct pbuf *send_packet;
 
@@ -504,7 +502,7 @@ int TransferData(void)
 	recv_buf_udp[2] = (uint8_t)(0x41);
 	recv_buf_udp[3] = (uint8_t)(0x00);
 	memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
-	*((uint32_t *)AddrSpecCurHeader + 1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + 0xCU);
+	*((uint32_t *)AddrSpecCurHeader + (uint32_t)1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + (uint32_t)0xCU);
 
 	//ICD Body
 	memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);

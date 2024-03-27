@@ -161,7 +161,7 @@ extern RECV_SETTING DPU_STATUS;
 extern HW_CHECK BIT_STATUS;
 extern HW_CHECK PBIT_STATUS;
 extern RF_SETTING RF_STATUS;
-extern int spec_packet_size;
+extern uint16_t spec_packet_size;
 
 //////// Function Definitions ////////
 ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len);

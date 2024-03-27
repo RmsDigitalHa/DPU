@@ -70,11 +70,9 @@ extern RCFM_MODE rcfm_status;
 void SetRcfmStatAmpFst(uint8_t rcfm_amp_fst);
 void SetRcfmStatPath(uint8_t rcfm_path);
 void SetRcfmStatBitEn(uint8_t rcfm_bit_en);
-void SetRcfmStatBitFreq(uint64_t rcfm_bit_freq_hz);
+void SetRcfmStatBitFreq(uint64_t Freq);
 void SetRcfmStatPathANT(uint8_t rcfm_path_lna);
-void InitRcfmLMX2592(void);
 void Init_BIT_PLL(void);
-void SetPLLFreq(uint64_t Freq);
-typTableLMX2582 GetPLLValue(uint64_t TargetFreq);
+static typTableLMX2582 GetPLLValue(uint64_t TargetFreq);
 
 #endif /* INC_RCFM_CONTROL_H_ */

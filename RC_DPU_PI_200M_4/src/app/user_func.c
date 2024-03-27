@@ -40,25 +40,23 @@
 #include "rcrm_control.h"
 
 
-uint64_t old_freq = 0;
+static uint64_t old_freq = 0;
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
 extern uint32_t dpu_win_func;
 extern uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 extern uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 
-extern uint32_t *AddrSpecHeader;
-extern uint32_t *AddrSpecPrevHeader;
 extern uint32_t *AddrSpecCurHeader;
 
 extern RECV_SETTING DPU_STATUS;
-uint32_t *AddrSpecBuffer;
-uint32_t *AddrSpecBufTMP;
-uint32_t *AddrSpecBufferHeader;
+static uint32_t *AddrSpecBuffer;
+static uint32_t *AddrSpecBufTMP;
+static uint32_t *AddrSpecBufferHeader;
 
 
 
-uint64_t FreqList[13] = {433000000U, 873000000U, 923000000U, 2425000000U, 2475000000U, 5035000000U,
+static uint64_t FreqList[13] = {433000000U, 873000000U, 923000000U, 2425000000U, 2475000000U, 5035000000U,
 						5085000000U, 5725000000U, 5775000000U, 5825000000U, 5875000000U, 433000000U, 873000000U};
 
 
@@ -68,7 +66,7 @@ int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq)
 	uint8_t pllLockStatus = 0;
 
 	if(freq >= 6000000000U){
-		freq = 5999985000;
+		freq = (uint64_t)5999985000;
 	}
 
 	talAction = TALISE_radioOff(pd);
@@ -146,7 +144,7 @@ int HoppingStart(taliseDevice_t * const pd, uint64_t freq){
 }
 
 
-int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq){
+static int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq){
 	uint32_t talAction = TALACT_NO_ACTION;
 
 	talAction = TALISE_setFhmHop(pd, next_freq);
@@ -183,7 +181,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 
 	tal.devHalInfo = (void *) &hal;
 
-	for(uint16_t i = 2U; i < (CH + 2U); i++){
+	for(uint8_t i = 2U; i < (CH + 2U); i++){
 		memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
 		memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
@@ -276,12 +274,12 @@ int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW){
 	return XST_SUCCESS;
 }
 
-void IterSpectrum(void){
-	uint16_t spec_length = (spec_packet_size - ICD_HEADER_SIZE - SPEC_HEADER_SIZE) / 2;
+static void IterSpectrum(void){
+	uint16_t spec_length = (uint16_t)(spec_packet_size - ICD_HEADER_SIZE - SPEC_HEADER_SIZE) / (uint16_t)2;
 	uint16_t *AddrPrev = (uint16_t *)&SPEC_BUF_PREV[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 	uint16_t *AddrCUR = (uint16_t *)&SPEC_BUF_CUR[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 
-	for(int spec_cnt = 0; spec_cnt < spec_length; spec_cnt++){
+	for(uint16_t spec_cnt = 0; spec_cnt < spec_length; spec_cnt++){
 		if((int16_t)(AddrCUR[spec_cnt]) > (int16_t)(AddrPrev[spec_cnt])){
 
 		}
@@ -292,44 +290,44 @@ void IterSpectrum(void){
 	}
 }
 
-int AdrvGainCtrl(uint64_t FREQ){
+static int AdrvGainCtrl(uint64_t FREQ){
 	int Status = 0;
 
 	//2차 시제, EMI, 환경시험 진행
-	if(FREQ >= FREQ_400MHz && FREQ < FREQ_500MHz){
+	if((FREQ >= FREQ_400MHz) && (FREQ < FREQ_500MHz)){
 		Status = SetAdrvGain(&tal, 253);
 	}
-	else if(FREQ >= FREQ_500MHz && FREQ < FREQ_1000MHz){
+	else if((FREQ >= FREQ_500MHz) && (FREQ < FREQ_1000MHz)){
 		Status = SetAdrvGain(&tal, 255);
 	}
-	else if(FREQ >= FREQ_1000MHz && FREQ < FREQ_1500MHz){
+	else if((FREQ >= FREQ_1000MHz) && (FREQ < FREQ_1500MHz)){
 		Status = SetAdrvGain(&tal, 253);
 	}
-	else if(FREQ >= FREQ_1500MHz && FREQ < FREQ_2000MHz){
+	else if((FREQ >= FREQ_1500MHz) && (FREQ < FREQ_2000MHz)){
 		Status = SetAdrvGain(&tal, 251);
 	}
-	else if(FREQ >= FREQ_2000MHz && FREQ < FREQ_2500MHz){
+	else if((FREQ >= FREQ_2000MHz) && (FREQ < FREQ_2500MHz)){
 		Status = SetAdrvGain(&tal, 254);
 	}
-	else if(FREQ >= FREQ_2500MHz && FREQ < FREQ_3700MHz){
+	else if((FREQ >= FREQ_2500MHz) && (FREQ < FREQ_3700MHz)){
 		Status = SetAdrvGain(&tal, 251);
 	}
-	else if(FREQ >= FREQ_3700MHz && FREQ < FREQ_4400MHz){
+	else if((FREQ >= FREQ_3700MHz) && (FREQ < FREQ_4400MHz)){
 		Status = SetAdrvGain(&tal, 250);
 	}
-	else if(FREQ >= FREQ_4400MHz && FREQ < FREQ_5700MHz){
+	else if((FREQ >= FREQ_4400MHz) && (FREQ < FREQ_5700MHz)){
 		Status = SetAdrvGain(&tal, 251);
 	}
-	else if(FREQ >= FREQ_5700MHz && FREQ < FREQ_5800MHz){
+	else if((FREQ >= FREQ_5700MHz) && (FREQ < FREQ_5800MHz)){
 		Status = SetAdrvGain(&tal, 250);
 	}
-	else if(FREQ >= FREQ_5800MHz && FREQ < FREQ_5850MHz){
+	else if((FREQ >= FREQ_5800MHz) && (FREQ < FREQ_5850MHz)){
 		Status = SetAdrvGain(&tal, 248);
 	}
-	else if(FREQ >= FREQ_5850MHz && FREQ < FREQ_5900MHz){
+	else if((FREQ >= FREQ_5850MHz) && (FREQ < FREQ_5900MHz)){
 		Status = SetAdrvGain(&tal, 247);
 	}
-	else if(FREQ >= FREQ_5900MHz && FREQ <= FREQ_6000MHz){
+	else if((FREQ >= FREQ_5900MHz) && (FREQ <= FREQ_6000MHz)){
 		Status = SetAdrvGain(&tal, 248);
 	}
 	else{

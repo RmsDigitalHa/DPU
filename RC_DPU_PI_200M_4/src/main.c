@@ -63,12 +63,8 @@
 #include "udp_server.h"
 
 /* defined by each RAW mode application */
-void print_app_header(void);
-int start_application(void);
 void tcp_fasttmr(void);
 void tcp_slowtmr(void);
-void print_ip(char *msg, ip_addr_t *ip);
-void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
 
 
 /* user definition */
@@ -88,7 +84,7 @@ extern volatile int TcpFastTmrFlag;
 extern volatile int TcpSlowTmrFlag;
 
 extern RECV_SETTING DPU_STATUS;
-extern int spec_packet_size;
+extern uint16_t spec_packet_size;
 
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
@@ -97,25 +93,9 @@ uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, }
 uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
 
 
-void
-print_ip(char *msg, ip_addr_t *ip)
-{
-	print(msg);
-	xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip),
-			ip4_addr3(ip), ip4_addr4(ip));
-}
-
-void
-print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
-{
-
-	print_ip("Board IP: ", ip);
-	print_ip("Netmask : ", mask);
-	print_ip("Gateway : ", gw);
-}
 
 
-int IicPhyReset(void);
+
 
 int main()
 {

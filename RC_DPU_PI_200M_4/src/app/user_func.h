@@ -19,14 +19,14 @@
 
 taliseFhmConfig_t	hopp_config;
 taliseFhmMode_t		hopp_mode;
-taliseFhmStatus_t	hopp_status;
+static taliseFhmStatus_t	hopp_status;
 
-#define BW_2DECI	50000000	//50MHz
+//#define BW_2DECI	50000000	//50MHz
 //#define BW_2DECI	48000000	//50MHz
-#define START_FREQ	400000000
+//#define START_FREQ	400000000
 
 #define FREQ_OFFSET	30000U
-#define BW_SPEC_OFFSET	120000
+//#define BW_SPEC_OFFSET	120000
 #define FREQ_NCO	62640000U	//64.11M(origin) -> 1.2M Shift
 
 #define DELAY_HOP	2000
@@ -36,11 +36,11 @@ taliseFhmStatus_t	hopp_status;
 int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq);
 int SetAdrvGain(taliseDevice_t * const pd, uint8_t gain);
 int HoppingStart(taliseDevice_t * const pd, uint64_t freq);
-int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq);
+static int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq);
 int HoppingEnd(taliseDevice_t * const pd, uint64_t freq);
 int CHScanStart(uint8_t CH, uint8_t ITER_CNT);
-void IterSpectrum(void);
-int AdrvGainCtrl(uint64_t FREQ);
+static void IterSpectrum(void);
+static int AdrvGainCtrl(uint64_t FREQ);
 int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW);
 
 
