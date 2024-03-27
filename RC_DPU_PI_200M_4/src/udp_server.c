@@ -81,7 +81,7 @@ static void AssignDefaultIp(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 }
 
 static void RecvCallback(void *arg, struct udp_pcb *tpcb,
-		struct pbuf *p, const ip_addr_t *addr, u16_t port)
+		struct pbuf *p, const ip_addr_t *addr, const u16_t port)
 {
 	ICD_HEADER recv_icd_header;
 	err_t error;
@@ -107,9 +107,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 	if((recv_icd_header.SRC_CODE == 0xE1U) && (recv_icd_header.DEST_CODE == 0x51U)){
 		/////////////////////// DPU_CTRL //////////////////////////
 		if(recv_icd_header.CMD_CODE == 0x0010U){				//Set Center Frequency
-			reply_buf_udp[4] = 0x09;
+			reply_buf_udp[4] = 0x09U;
 			*((uint64_t *)&reply_buf_udp[8]) = (uint64_t)(DPU_STATUS.CenterFreq);
-			reply_buf_udp[16] = 0x01;
+			reply_buf_udp[16] = 0x01U;
 
 			//RCV Packet
 			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
@@ -117,9 +117,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->tot_len = p -> len + 1;
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0020U){		//Set BW
-			reply_buf_udp[4] = 0x02;
+			reply_buf_udp[4] = 0x02U;
 			reply_buf_udp[8] = DPU_STATUS.ParmBw;
-			reply_buf_udp[9] = 0x01;
+			reply_buf_udp[9] = 0x01U;
 
 			//RCV Packet
 			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
@@ -127,9 +127,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			send_packet->tot_len = p -> len + 1;
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0030U){		//Set RBW
-			reply_buf_udp[4] = 0x02;
+			reply_buf_udp[4] = 0x02U;
 			reply_buf_udp[8] = DPU_STATUS.ParmRbw;
-			reply_buf_udp[9] = 0x00;
+			reply_buf_udp[9] = 0x00U;
 
 			//RCV Packet
 			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
@@ -141,9 +141,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			client_port = port;
 		}
 		else if(recv_icd_header.CMD_CODE == 0x0050U){		//Spectrum Transfer Stop
-			reply_buf_udp[4] = 0x02;
+			reply_buf_udp[4] = 0x02U;
 			reply_buf_udp[8] = DPU_STATUS.START;
-			reply_buf_udp[9] = 0x00;
+			reply_buf_udp[9] = 0x00U;
 
 			//RCV Packet
 			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
@@ -156,8 +156,8 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			}
 			else{
 				if(reply_buf_udp[8] == 1U){			//PBIT
-					reply_buf_udp[2] = 0x61;
-					reply_buf_udp[4] = 0x13;
+					reply_buf_udp[2] = 0x61U;
+					reply_buf_udp[4] = 0x13U;
 					reply_buf_udp[9] = PBIT_STATUS.LOCK_ADCLK;
 					reply_buf_udp[10] = PBIT_STATUS.LOCK_BIT;
 					reply_buf_udp[11] = RCFM_LNA;				//Init Val = BYPASS, LNA Mode for check LNA status
@@ -185,8 +185,8 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				else if(reply_buf_udp[8] == 2U){		//CBIT
 					GetStatusIBIT();
 
-					reply_buf_udp[2] = 0x62;
-					reply_buf_udp[4] = 0x0d;
+					reply_buf_udp[2] = 0x62U;
+					reply_buf_udp[4] = 0x0dU;
 					reply_buf_udp[9] = BIT_STATUS.LOCK_ADCLK;
 					reply_buf_udp[10] = BIT_STATUS.REF_SIG;
 					reply_buf_udp[11] = BIT_STATUS.RCFM_PWR;
@@ -208,8 +208,8 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				else if(reply_buf_udp[8] == 3U){		//IBIT
 					GetStatusIBIT();
 
-					reply_buf_udp[2] = 0x63;
-					reply_buf_udp[4] = 0x13;
+					reply_buf_udp[2] = 0x63U;
+					reply_buf_udp[4] = 0x13U;
 					reply_buf_udp[9] = BIT_STATUS.LOCK_ADCLK;
 					reply_buf_udp[10] = BIT_STATUS.LOCK_BIT;
 					reply_buf_udp[11] = RCFM_LNA;
@@ -245,7 +245,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x09;
+				reply_buf_udp[4] = 0x09U;
 				*((uint64_t *)&reply_buf_udp[9]) = (uint64_t)(rcrm_status.rcrm_freq_hz - FREQ_OFFSET);
 
 				//RCV Packet
@@ -267,7 +267,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[10] = rcrm_status.rcrm_lpf_bank;
 				}
 				else { }
-				reply_buf_udp[4] = 0x03;
+				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
 				memcpy(send_packet->payload, reply_buf_udp, p->len);
@@ -289,7 +289,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[10] = rcrm_status.rcrm_amp_mode2;
 				}
 				else { }
-				reply_buf_udp[4] = 0x03;
+				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
 				memcpy(send_packet->payload, reply_buf_udp, p->len);
@@ -310,7 +310,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[10] = (rcrm_status.rcrm_gain_att);
 				}
 				else { }
-				reply_buf_udp[4] = 0x03;
+				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
 				memcpy(send_packet->payload, reply_buf_udp, p->len);
@@ -324,7 +324,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x02;
+				reply_buf_udp[4] = 0x02U;
 				reply_buf_udp[9] =  rcfm_status.rcfm_rf_select;
 
 				//RCV Packet
@@ -339,7 +339,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x0A;
+				reply_buf_udp[4] = 0x0AU;
 				reply_buf_udp[9] =  rcfm_status.rcfm_cal_en;
 				*((uint64_t *)&reply_buf_udp[10]) = rcfm_status.rcfm_cal_freq;
 
@@ -355,7 +355,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x02;
+				reply_buf_udp[4] = 0x02U;
 				reply_buf_udp[9] =  rcfm_status.rcfm_ant_bias;
 
 				//RCV Packet
@@ -372,7 +372,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			else if(reply_buf_udp[8] == GET){
 				GetStatusIBIT();
 
-				reply_buf_udp[4] = 0x0B;
+				reply_buf_udp[4] = 0x0BU;
 				reply_buf_udp[9] =  BIT_STATUS.LOCK_ADCLK;
 				reply_buf_udp[10] =  BIT_STATUS.LOCK_BIT;
 				reply_buf_udp[11] =  BIT_STATUS.LNA1;
@@ -396,9 +396,9 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				log_val = SPI_ReadReg(DPU_LOG, 0, 2);
+				log_val = SPI_ReadReg(DPU_LOG, 0U, 2U);
 
-				reply_buf_udp[4] = 0x03;
+				reply_buf_udp[4] = 0x03U;
 				reply_buf_udp[9] =  ((log_val >> 0U) & 0xFFU);
 				reply_buf_udp[10] =  ((log_val >> 8U) & 0xFFU);
 
@@ -414,7 +414,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x03;
+				reply_buf_udp[4] = 0x03U;
 				BIT_STATUS.RCFM_TMP = GetRFTmp(TMP_RCFM_DEV);
 				BIT_STATUS.RCRM_TMP = GetRFTmp(TMP_RCRM_DEV);
 
@@ -433,7 +433,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 			}
 			else if(reply_buf_udp[8] == GET){
-				reply_buf_udp[4] = 0x02;
+				reply_buf_udp[4] = 0x02U;
 				reply_buf_udp[9] = (uint8_t)(RF_STATUS.RCFM_LNA_MODE + RF_STATUS.RCRM_LNA_MODE);
 
 				//RCV Packet
@@ -526,7 +526,7 @@ int TransferData(void)
 				send_size = UDP_SEND_BUFSIZE;
 			}
 			else{
-				last_flag = 1;
+				last_flag = 1U;
 			}
 
 			memcpy(send_packet->payload, AddrSpecCurHeader, send_size);
@@ -543,9 +543,9 @@ int TransferData(void)
 				AddrSpecCurHeader += (UDP_SEND_BUFSIZE / 4U);
 			}
 			else{
-				send_cnt = 0;
-				SendDone = 1;
-				last_flag = 0;
+				send_cnt = 0U;
+				SendDone = 1U;
+				last_flag = 0U;
 			}
 			pbuf_free(send_packet);
 

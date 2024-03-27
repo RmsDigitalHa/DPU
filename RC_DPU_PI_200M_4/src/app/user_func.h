@@ -34,14 +34,14 @@ static taliseFhmStatus_t	hopp_status;
 
 
 int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq);
-int SetAdrvGain(taliseDevice_t * const pd, uint8_t gain);
-int HoppingStart(taliseDevice_t * const pd, uint64_t freq);
-static int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq);
-int HoppingEnd(taliseDevice_t * const pd, uint64_t freq);
-int CHScanStart(uint8_t CH, uint8_t ITER_CNT);
+int SetAdrvGain(taliseDevice_t * const pd, const uint8_t gain);
+int HoppingStart(taliseDevice_t * const pd, const uint64_t freq);
+static int HoppingNext(taliseDevice_t * const pd, const uint64_t next_freq);
+int HoppingEnd(taliseDevice_t * const pd, const uint64_t freq);
+int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT);
 static void IterSpectrum(void);
-static int AdrvGainCtrl(uint64_t FREQ);
-int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW);
+static int AdrvGainCtrl(const uint64_t FREQ);
+int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW);
 
 
 #endif /* SRC_APP_USER_FUNC_H_ */

@@ -130,14 +130,14 @@ int main()
 	//UDP Init
 	UdpInitUser();
 
-	DPU_STATUS.CenterFreq = 1000000000;
-	DPU_STATUS.BandWidth = 50000000;			//Default BW = 50MHz(Fix)
+	DPU_STATUS.CenterFreq = 1000000000U;
+	DPU_STATUS.BandWidth = 50000000U;			//Default BW = 50MHz(Fix)
 	DPU_STATUS.RBW = RBW_30kHz;
-	DPU_STATUS.ParmBw = 2;						//BW_50MHz
-	DPU_STATUS.ParmRbw = 2;						//RBW_30kHz
+	DPU_STATUS.ParmBw = 2U;						//BW_50MHz
+	DPU_STATUS.ParmRbw = 2U;						//RBW_30kHz
 	DPU_STATUS.SpecBin = FFT_2048_BIN/2U;		//FFT_256_BIN	FFT_1024_BIN	FFT_2048_BIN	FFT_4098_BIN	FFT_4098_BIN
-	DPU_STATUS.ChNum = 0xB;
-	DPU_STATUS.IterCnt = 3;
+	DPU_STATUS.ChNum = 0xBU;
+	DPU_STATUS.IterCnt = 3U;
 	spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//FFT 2048
 	memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
 	memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));

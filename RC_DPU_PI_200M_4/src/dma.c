@@ -158,7 +158,7 @@ extern uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 * @note		None.
 *
 ******************************************************************************/
-int Init_DMA(uint32_t dev_id)
+int Init_DMA(const uint32_t dev_id)
 {
 	int Status;
 	XAxiDma_Config *Config;
@@ -220,7 +220,7 @@ static int RxSetup(XAxiDma * AxiDmaInstPtr)
 	UINTPTR RxBufferPtr;
 	int Index;
 
-	SendDone = 1;
+	SendDone = 1U;
 	RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
 
 	/* Disable all RX interrupts before RxBD space setup */
@@ -397,7 +397,7 @@ int RxDmaData(void)
 				xil_printf("Submit %d rx BDs failed %d\r\n", FreeBdCount, Status);
 				return XST_FAILURE;
 			}
-			DataReady = 1;
+			DataReady = 1U;
 		}
 	}
 	else{}

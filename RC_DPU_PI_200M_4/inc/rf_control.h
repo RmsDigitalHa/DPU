@@ -32,7 +32,7 @@ typTableATTEN 	GainAttenTable[167];
 static int GetRFPathStatus(void);
 void GetStatusPBIT(void);
 void GetStatusIBIT(void);
-void SetGainAtten(uint64_t Freq);
-static typTableATTEN 	GetAttenValue(uint64_t TargetFreq);
+void SetGainAtten(const uint64_t Freq);
+static typTableATTEN GetAttenValue(const uint64_t TargetFreq);
 
 #endif /* INC_RF_CONTROL_H_ */

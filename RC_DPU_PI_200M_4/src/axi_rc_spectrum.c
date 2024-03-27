@@ -21,28 +21,28 @@ static uint16_t Q_Offset = 0;
 
 
 
-static uint32_t set_iter_count(u32 base_address, u32 iter_count)
+static uint32_t set_iter_count(const u32 base_address, const u32 iter_count)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_ITER_COUNT, iter_count);
 
 	return 0;
 }
 
-uint32_t set_ref_level(u32 base_address, u32 ref_level)
+uint32_t set_ref_level(const u32 base_address, const u32 ref_level)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_REF_LEVEL, ref_level);
 
 	return 0;
 }
 
-static uint32_t set_win_func(u32 base_address, u32 win_func)
+static uint32_t set_win_func(const u32 base_address, const u32 win_func)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_WIN_FUNC, win_func);
 
 	return 0;
 }
 
-uint32_t rts_start(u32 base_address, u32 iter_count, u32 ref_level, u32 win_func)
+uint32_t rts_start(const u32 base_address, const u32 iter_count, const u32 ref_level, const u32 win_func)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_SEL_SG, 0x0);			//External Path
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_MULT_PARM, 0x04);		//0x04(Max) -> +12dB
@@ -59,7 +59,7 @@ uint32_t rts_start(u32 base_address, u32 iter_count, u32 ref_level, u32 win_func
     return 0;
 }
 
-uint32_t rts_end(u32 base_address)
+uint32_t rts_end(const u32 base_address)
 {
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_START, 0x0);
 

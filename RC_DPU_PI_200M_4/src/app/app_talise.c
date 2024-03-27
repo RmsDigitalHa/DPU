@@ -72,7 +72,7 @@
 #include "app_jesd.h"
 
 
-bool adrv9009_check_sysref_rate(uint32_t lmfc, uint32_t sysref)
+bool adrv9009_check_sysref_rate(const uint32_t lmfc, const uint32_t sysref)
 {
 	uint32_t div, mod;
 

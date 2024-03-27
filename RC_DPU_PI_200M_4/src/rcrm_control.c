@@ -32,7 +32,7 @@ RCRM_MODE rcrm_status;
  * - Gain CTRL(Sys, Gain)
  * - LNA2,3 (Gain Control Block)
  */
-void SetRcrmStatFreq(uint64_t rcrm_freq)
+void SetRcrmStatFreq(const uint64_t rcrm_freq)
 {
 	if((rcrm_freq >= FREQ_400MHz) && (rcrm_freq <= FREQ_1300MHz)) {
 		rcrm_status.rcrm_filter_path = RCRM_FILTER_PATH01;
@@ -85,21 +85,21 @@ void SetRcrmStatFreq(uint64_t rcrm_freq)
 }
 
 // LNA 2 (Gain Control Block)
-void SetRcrmStatAmpScd(uint8_t rcrm_amp_scd)
+void SetRcrmStatAmpScd(const uint8_t rcrm_amp_scd)
 {
 	rcrm_status.rcrm_amp_mode2 = rcrm_amp_scd;
 
 	MakeRcrmSpiCmdModeCtrl();
 }
 
-void SetRcrmStatSysAtt(uint8_t rcrm_sys_att)
+void SetRcrmStatSysAtt(const uint8_t rcrm_sys_att)
 {
 	rcrm_status.rcrm_sys_att = rcrm_sys_att;
 
 	MakeRcrmSpiCmdModeCtrl();
 }
 
-void SetRcrmStatGainAtt(uint8_t rcrm_att_gain)
+void SetRcrmStatGainAtt(const uint8_t rcrm_att_gain)
 {
 	rcrm_status.rcrm_gain_att = rcrm_att_gain;
 

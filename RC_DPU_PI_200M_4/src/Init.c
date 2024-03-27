@@ -29,9 +29,9 @@ static uint8_t		u8SpiData_LOG[3] = {0,0,0};
 static uint8_t		u32Data_RF[4] 	= {0,0,0,0};
 static uint8_t		u8Data_LOG[2] 	= {0,0};
 
-uint32_t dpu_iter_count = 1;
+uint32_t dpu_iter_count = 1U;
 uint32_t dpu_ref_level = 0x80000000U;
-uint32_t dpu_win_func = 1;
+uint32_t dpu_win_func = 1U;
 
 extern HW_CHECK BIT_STATUS;
 extern RF_SETTING	 RF_STATUS;
@@ -215,7 +215,7 @@ static int Init_I2C_CTRL(void){
 	return 0;
 }
 
-uint8_t GetRFTmp(uint8_t dev){
+uint8_t GetRFTmp(const uint8_t dev){
 	int Status;
 	if(dev == TMP_RCFM_DEV){
 		//RCFM TMP
@@ -271,7 +271,7 @@ uint8_t GetRFTmp(uint8_t dev){
 }
 
 
-void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
+void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, const uint8_t NumByte){
 	uint64_t	Buffer = 0;
 	uint8_t		Addr_LMX = 0;
 	uint64_t	Send_Buf = 0;
@@ -280,7 +280,7 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 	case LMX2592 :
 		if(NumByte == 3U){
 			Addr_LMX = (Addr & (0xFFU));
-			Send_Buf = ((uint64_t)val & ((uint64_t)0x0000FFFFU));
+			Send_Buf = ((uint64_t)val & 0x0000FFFFU);
 
 			Buffer = (((uint64_t)Addr_LMX << 16) | Send_Buf);
 
@@ -320,7 +320,7 @@ void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte){
 }
 
 //Function type casting
-uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
+uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByte){
 	uint32_t	Buffer = 0;
 	uint16_t	Addr_RF = 0;
 	double		Log_Step = 9.765625;
@@ -330,7 +330,7 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 
 	switch(dev){
 	case LMX2592 :
-		Addr_RF = ((uint16_t)Addr & ((uint16_t)0xFFU));
+		Addr_RF = ((uint16_t)Addr & 0xFFU);
 		Buffer = (((uint32_t)Addr_RF << 16) | ((uint32_t)1U << 23));
 
 		u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16);
@@ -349,8 +349,8 @@ uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte){
 	case DPU_LOG :
 		XSpiPs_SetOptions(&SPI_RF, XSPIPS_MASTER_OPTION | XSPIPS_FORCE_SSELECT_OPTION | XSPIPS_CLK_ACTIVE_LOW_OPTION);
 
-		u8SpiData_LOG[0] = 0x83;
-		u8SpiData_LOG[1] = 0x30;
+		u8SpiData_LOG[0] = 0x83U;
+		u8SpiData_LOG[1] = 0x30U;
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)

@@ -174,7 +174,7 @@ int Init_ADRV9008(void)
 	//JESD_TPL core
 	status = axi_adc_init(&rx_adc, &rx_adc_init);
 
-	status = ChangeLoFreq(&tal, 1000000000);
+	status = ChangeLoFreq(&tal, 1000000000U);
 
 
 	if (status) {

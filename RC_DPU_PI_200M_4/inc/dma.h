@@ -21,7 +21,7 @@
 #define MARK_UNCACHEABLE    		0x701U
 
 
-int Init_DMA(uint32_t dev_id);
+int Init_DMA(const uint32_t dev_id);
 int RxDmaData(void);
 
 

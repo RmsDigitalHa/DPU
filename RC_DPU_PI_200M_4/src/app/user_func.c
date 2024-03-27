@@ -101,7 +101,7 @@ int ChangeLoFreq(taliseDevice_t * const pd, uint64_t freq)
 }
 
 
-int HoppingStart(taliseDevice_t * const pd, uint64_t freq){
+int HoppingStart(taliseDevice_t * const pd, const uint64_t freq){
 	uint32_t talAction = TALACT_NO_ACTION;
 
 	hopp_config.fhmGpioPin = TAL_GPIO_INVALID;
@@ -144,7 +144,7 @@ int HoppingStart(taliseDevice_t * const pd, uint64_t freq){
 }
 
 
-static int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq){
+static int HoppingNext(taliseDevice_t * const pd, const uint64_t next_freq){
 	uint32_t talAction = TALACT_NO_ACTION;
 
 	talAction = TALISE_setFhmHop(pd, next_freq);
@@ -156,7 +156,7 @@ static int HoppingNext(taliseDevice_t * const pd, uint64_t next_freq){
 	return 0;
 }
 
-int HoppingEnd(taliseDevice_t * const pd, uint64_t freq){
+int HoppingEnd(taliseDevice_t * const pd, const uint64_t freq){
 	uint32_t talAction = TALACT_NO_ACTION;
 
 	hopp_mode.fhmInitFrequency_Hz = freq;
@@ -173,7 +173,7 @@ int HoppingEnd(taliseDevice_t * const pd, uint64_t freq){
 }
 
 
-int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
+int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 	uint64_t center_freq = 0;
 	int Status = 0;
 	uint8_t FrameDone = 0;
@@ -228,7 +228,7 @@ int CHScanStart(uint8_t CH, uint8_t ITER_CNT){
 	return 0;
 }
 
-int BWScanStart(uint64_t FREQ, uint64_t BW, uint16_t RBW){
+int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 	uint64_t center_freq = 0;
 	uint8_t FrameDone = 0;
 	uint8_t Done_CNT = 0;
@@ -290,48 +290,48 @@ static void IterSpectrum(void){
 	}
 }
 
-static int AdrvGainCtrl(uint64_t FREQ){
+static int AdrvGainCtrl(const uint64_t FREQ){
 	int Status = 0;
 
 	//2차 시제, EMI, 환경시험 진행
 	if((FREQ >= FREQ_400MHz) && (FREQ < FREQ_500MHz)){
-		Status = SetAdrvGain(&tal, 253);
+		Status = SetAdrvGain(&tal, 253U);
 	}
 	else if((FREQ >= FREQ_500MHz) && (FREQ < FREQ_1000MHz)){
-		Status = SetAdrvGain(&tal, 255);
+		Status = SetAdrvGain(&tal, 255U);
 	}
 	else if((FREQ >= FREQ_1000MHz) && (FREQ < FREQ_1500MHz)){
-		Status = SetAdrvGain(&tal, 253);
+		Status = SetAdrvGain(&tal, 253U);
 	}
 	else if((FREQ >= FREQ_1500MHz) && (FREQ < FREQ_2000MHz)){
-		Status = SetAdrvGain(&tal, 251);
+		Status = SetAdrvGain(&tal, 251U);
 	}
 	else if((FREQ >= FREQ_2000MHz) && (FREQ < FREQ_2500MHz)){
-		Status = SetAdrvGain(&tal, 254);
+		Status = SetAdrvGain(&tal, 254U);
 	}
 	else if((FREQ >= FREQ_2500MHz) && (FREQ < FREQ_3700MHz)){
-		Status = SetAdrvGain(&tal, 251);
+		Status = SetAdrvGain(&tal, 251U);
 	}
 	else if((FREQ >= FREQ_3700MHz) && (FREQ < FREQ_4400MHz)){
-		Status = SetAdrvGain(&tal, 250);
+		Status = SetAdrvGain(&tal, 250U);
 	}
 	else if((FREQ >= FREQ_4400MHz) && (FREQ < FREQ_5700MHz)){
-		Status = SetAdrvGain(&tal, 251);
+		Status = SetAdrvGain(&tal, 251U);
 	}
 	else if((FREQ >= FREQ_5700MHz) && (FREQ < FREQ_5800MHz)){
-		Status = SetAdrvGain(&tal, 250);
+		Status = SetAdrvGain(&tal, 250U);
 	}
 	else if((FREQ >= FREQ_5800MHz) && (FREQ < FREQ_5850MHz)){
-		Status = SetAdrvGain(&tal, 248);
+		Status = SetAdrvGain(&tal, 248U);
 	}
 	else if((FREQ >= FREQ_5850MHz) && (FREQ < FREQ_5900MHz)){
-		Status = SetAdrvGain(&tal, 247);
+		Status = SetAdrvGain(&tal, 247U);
 	}
 	else if((FREQ >= FREQ_5900MHz) && (FREQ <= FREQ_6000MHz)){
-		Status = SetAdrvGain(&tal, 248);
+		Status = SetAdrvGain(&tal, 248U);
 	}
 	else{
-		Status = SetAdrvGain(&tal, 255);
+		Status = SetAdrvGain(&tal, 255U);
 		printf("AdrvGainCtrl - Frequency is out of range.\r\n");
 	}
 
@@ -344,7 +344,7 @@ static int AdrvGainCtrl(uint64_t FREQ){
 }
 
 
-int SetAdrvGain(taliseDevice_t * const pd, uint8_t gain){
+int SetAdrvGain(taliseDevice_t * const pd, const uint8_t gain){
 	uint32_t talAction = TALACT_NO_ACTION;
 
 	talAction = TALISE_setRxManualGain(pd, TAL_RX1, gain);

@@ -59,6 +59,6 @@ enum taliseDeviceId {
 
 adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi);
 
-bool adrv9009_check_sysref_rate(uint32_t lmfc, uint32_t sysref);
+bool adrv9009_check_sysref_rate(const uint32_t lmfc, const uint32_t sysref);
 
 #endif /* __APP_TALISE_H */

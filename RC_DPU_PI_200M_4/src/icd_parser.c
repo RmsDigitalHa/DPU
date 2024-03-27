@@ -27,7 +27,7 @@ HW_CHECK BIT_STATUS = {0, };
 HW_CHECK PBIT_STATUS = {0, };
 uint16_t spec_packet_size = 0;
 static uint16_t	BIT_STS = 0;
-static uint8_t	DPU_MODE = 1;		//1 : CH_SWEEP		2 : CH_Fix
+static uint8_t	DPU_MODE = 1U;		//1 : CH_SWEEP		2 : CH_Fix
 
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
@@ -72,13 +72,13 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 //BW Fix(50MHz)
 	else if(OPCODE == SET_BW){
 		switch(recv_buffer[8]){
-			case 2:
+			case 2U:
 				DPU_STATUS.BandWidth = BW_50M;
-				DPU_STATUS.ParmBw = 2;
+				DPU_STATUS.ParmBw = 2U;
 				break;
 			default :
 				DPU_STATUS.BandWidth = BW_50M;
-				DPU_STATUS.ParmBw = 2;
+				DPU_STATUS.ParmBw = 2U;
 				break;
 		}
 		printf("Set BW : %luHz\r\n", DPU_STATUS.BandWidth);
@@ -89,30 +89,30 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		rts_end(RC_SPCTRUM_BaseAddr);
 
 		switch(recv_buffer[8]){
-			case 2:								//RBW_30kHz
+			case 2U:								//RBW_30kHz
 				DPU_STATUS.RBW = RBW_30kHz;
 				spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//Actual FFT Size = 8192, Resize to 2048(240222)
-				DPU_STATUS.ParmRbw = 2;
+				DPU_STATUS.ParmRbw = 2U;
 				DPU_STATUS.SpecBin = FFT_2048_BIN/2U;
 
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x1AAB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_nFFT, 0xD);
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x2);
 				break;
-			case 4:								//RBW_120kHz
+			case 4U:								//RBW_120kHz
 				DPU_STATUS.RBW = RBW_120kHz;
 				spec_packet_size = FFT_512_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//Actual FFT Size = 2048, Resize to 512(240222)
-				DPU_STATUS.ParmRbw = 4;
+				DPU_STATUS.ParmRbw = 4U;
 				DPU_STATUS.SpecBin = FFT_512_BIN/2U;
 
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x06AB);	//0x2AB	0x6AB
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_nFFT, 0xB);
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x1);
 				break;
-			case 5:								//RBW_240kHz
+			case 5U:								//RBW_240kHz
 				DPU_STATUS.RBW = RBW_240kHz;
 				spec_packet_size = FFT_256_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//Actual FFT Size = 1024, Resize to 256(240222)
-				DPU_STATUS.ParmRbw = 5;
+				DPU_STATUS.ParmRbw = 5U;
 				DPU_STATUS.SpecBin = FFT_256_BIN/2U;
 
 				RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_FFT_SCALE, 0x02AB);	//0x2AB	0x6AB
@@ -122,7 +122,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 			default :							//RBW_30kHz
 				DPU_STATUS.RBW = RBW_30kHz;
 				spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//Default RBW = 30kHz
-				DPU_STATUS.ParmRbw = 2;
+				DPU_STATUS.ParmRbw = 2U;
 				DPU_STATUS.SpecBin = FFT_2048_BIN/2U;
 				break;
 		}
@@ -144,10 +144,10 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				return TCP_RcvBuf;
 			}
 
-			DPU_STATUS.ScanMode = 0x01;
+			DPU_STATUS.ScanMode = 0x01U;
 		}
 		else{								//CH Fix Mode(50MHz) for DPU Board TEST
-			DPU_STATUS.ScanMode = 0x02;
+			DPU_STATUS.ScanMode = 0x02U;
 		}
 
 		DPU_STATUS.START = recv_buffer[8];
@@ -178,7 +178,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		else{
 			GetStatusIBIT();
 		}
-		BIT_STATUS.BIT_SET = 1;
+		BIT_STATUS.BIT_SET = 1U;
 	}
 	else if(OPCODE == TEST_ITER_CNT){
 		DPU_STATUS.IterCnt = recv_buffer[8];
@@ -288,7 +288,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 			SetRcfmStatBitFreq(RF_STATUS.RF_BIT_FREQ);
 
 			if(recv_buffer[9] == 0U){
-				SPI_WriteReg(LMX2592, 0x00, 0X221D, 3);
+				SPI_WriteReg(LMX2592, 0x00U, 0X221DU, 3U);
 			}
 			else{}
 		}
@@ -312,15 +312,15 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_1){
-				RF_STATUS.RCFM_LNA_MODE = 0;
-				RF_STATUS.RCRM_LNA_MODE = 1;
+				RF_STATUS.RCFM_LNA_MODE = 0U;
+				RF_STATUS.RCRM_LNA_MODE = 1U;
 
 				dpu_ref_level = 0x80000005U;		//REF_LEV	20dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_2){
-				RF_STATUS.RCFM_LNA_MODE = 1;
-				RF_STATUS.RCRM_LNA_MODE = 1;
+				RF_STATUS.RCFM_LNA_MODE = 1U;
+				RF_STATUS.RCRM_LNA_MODE = 1U;
 
 				dpu_ref_level = 0x8000000AU;		//REF_LEV	40dB
 				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
@@ -340,10 +340,10 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				RF_STATUS.JAM_RCFM_LNA_MODE = RF_STATUS.RCFM_LNA_MODE;
 				RF_STATUS.JAM_RCRM_LNA_MODE = RF_STATUS.RCRM_LNA_MODE;
 
-				RF_STATUS.RCV_PATH = 0x01;			//BIT PATH
-				RF_STATUS.ANT_PATH = 0x00;			//LAN OFF
-				RF_STATUS.RCFM_LNA_MODE = 0x00;		//LNA BYPASS Mode
-				RF_STATUS.RCRM_LNA_MODE = 0x00;		//LNA BYPASS Mode
+				RF_STATUS.RCV_PATH = 0x01U;			//BIT PATH
+				RF_STATUS.ANT_PATH = 0x00U;			//LAN OFF
+				RF_STATUS.RCFM_LNA_MODE = 0x00U;		//LNA BYPASS Mode
+				RF_STATUS.RCRM_LNA_MODE = 0x00U;		//LNA BYPASS Mode
 
 				SetRcfmStatPath(RF_STATUS.RCV_PATH);
 				SetRcfmStatPathANT(RF_STATUS.ANT_PATH);
