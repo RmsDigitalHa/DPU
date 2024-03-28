@@ -72,7 +72,7 @@
 #include "app_jesd.h"
 
 
-bool adrv9009_check_sysref_rate(uint32_t lmfc, uint32_t sysref)
+bool adrv9009_check_sysref_rate(const uint32_t lmfc, const uint32_t sysref)
 {
 	uint32_t div, mod;
 
@@ -345,28 +345,3 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 
 }
 
-
-void talise_shutdown(taliseDevice_t * const pd)
-{
-	uint32_t talAction = TALACT_NO_ACTION;
-
-	/***********************************************
-	* Shutdown Procedure *
-	* **********************************************/
-	/* Function to turn radio on, Disables transmitters and receivers */
-	talAction = TALISE_radioOff(pd);
-	if (talAction != TALACT_NO_ACTION) {
-		/*** < User: decide what to do based on Talise recovery action returned > ***/
-	}
-	/* Put Talise in safe state for power down */
-	talAction = TALISE_shutdown(pd);
-	if (talAction != TALACT_NO_ACTION) {
-		/*** < User: decide what to do based on Talise recovery action returned > ***/
-	}
-
-	/*Close Talise Hw Device*/
-	talAction = TALISE_closeHw(pd);
-	if(talAction != TALACT_NO_ACTION) {
-		/*** < User: decide what to do based on Talise recovery action returned > ***/
-	}
-}

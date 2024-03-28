@@ -34,15 +34,15 @@
 #define DPU_REGI_BaseAddr		XPAR_DPU_REGI_MAP_0_S00_AXI_BASEADDR
 
 
-extern uint16_t I_Offset;
-extern uint16_t Q_Offset;
+static uint16_t I_Offset;
+static uint16_t Q_Offset;
 
-uint32_t init_rc_spectrum(void);
-uint32_t set_iter_count(u32 base_address, u32 iter_count);
-uint32_t set_ref_level(u32 base_address, u32 ref_level);
-uint32_t set_win_func(u32 base_address, u32 win_func);
-uint32_t rts_start(u32 base_address, u32 iter_count, u32 ref_level, u32 win_func);
-uint32_t rts_end(u32 base_address);
+
+static uint32_t set_iter_count(const u32 base_address, const u32 iter_count);
+uint32_t set_ref_level(const u32 base_address, const u32 ref_level);
+static uint32_t set_win_func(const u32 base_address, const u32 win_func);
+uint32_t rts_start(const u32 base_address, const u32 iter_count, const u32 ref_level, const u32 win_func);
+uint32_t rts_end(const u32 base_address);
 
 
 

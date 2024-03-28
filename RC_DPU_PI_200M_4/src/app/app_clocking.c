@@ -67,21 +67,21 @@
 
 // Prototype
 adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz, uint32_t tx_div40_rate_hz, uint32_t rx_os_div40_rate_hz,
-						uint32_t device_clock_khz, uint32_t lmfc_rate_hz);
+		const uint32_t device_clock_khz, const uint32_t lmfc_rate_hz);
 void clocking_deinit(void);
 
 
-struct ad9528_dev* clkchip_device;
+static struct ad9528_dev* clkchip_device;
 
-struct axi_clkgen *rx_clkgen;
-struct axi_clkgen *tx_clkgen;
-struct axi_clkgen *rx_os_clkgen;
+static struct axi_clkgen *rx_clkgen;
+static struct axi_clkgen *tx_clkgen;
+static struct axi_clkgen *rx_os_clkgen;
 
 adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz,
   uint32_t tx_div40_rate_hz,
   uint32_t rx_os_div40_rate_hz,
-  uint32_t device_clock_khz,
-  uint32_t lmfc_rate_hz)
+  const uint32_t device_clock_khz,
+  const uint32_t lmfc_rate_hz)
 {
 int32_t status;
 uint64_t dev_clk, fmc_clk;
@@ -207,7 +207,7 @@ dev_clk = ad9528_clk_round_rate(clkchip_device, DEV_CLK,
 fmc_clk = ad9528_clk_round_rate(clkchip_device, FMC_CLK,
 		device_clock_khz * 1000U);
 
-if (fmc_clk > 0U && (fmc_clk / 1000U) == device_clock_khz) {
+if ((fmc_clk > 0U) && ((fmc_clk / 1000U) == device_clock_khz)) {
 	ad9528_clk_set_rate(clkchip_device, DEV_CLK, dev_clk);
 	ad9528_clk_set_rate(clkchip_device, FMC_CLK, fmc_clk);
 } else {

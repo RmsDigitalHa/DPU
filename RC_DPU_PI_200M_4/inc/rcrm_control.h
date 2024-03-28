@@ -118,14 +118,11 @@ typedef struct rcrm_mode_state{
 extern RCRM_MODE rcrm_status;
 
 // 외부 함수 정의
-void SetRcrmStatFreq(uint64_t rcrm_freq);
-void SetRcrmStatBpf(uint8_t rcrm_bpf);
-void SetRcrmStatLpf(uint8_t rcrm_lpf);
-void SetRcrmStatAmpScd(uint8_t rcrm_amp_scd);
-void SetRcrmStatSysAtt(uint8_t rcrm_sys_att);
-void SetRcrmStatGainAtt(uint8_t rcrm_att_gain);
+void SetRcrmStatFreq(const uint64_t rcrm_freq);
+void SetRcrmStatAmpScd(const uint8_t rcrm_amp_scd);
+void SetRcrmStatSysAtt(const uint8_t rcrm_sys_att);
+void SetRcrmStatGainAtt(const uint8_t rcrm_att_gain);
 void MakeRcrmSpiCmdModeCtrl(void);
-void GetRcvModuleState(uint16_t *rcv_module_state);
-void GetRcvModuleLog(uint16_t *rcv_module_log);
+
 
 #endif /* INC_RCRM_CONTROL_H_ */

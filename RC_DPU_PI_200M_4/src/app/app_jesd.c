@@ -50,19 +50,19 @@
 #include <util.h>
 
 // Prototype
-adiHalErr_t jesd_init(uint32_t rx_div40_rate_hz, uint32_t tx_div40_rate_hz, uint32_t rx_os_div40_rate_hz);
+adiHalErr_t jesd_init(const uint32_t rx_div40_rate_hz, const uint32_t tx_div40_rate_hz, uint32_t rx_os_div40_rate_hz);
 void jesd_deinit(void);
 void jesd_status(void);
 void jesd_rx_watchdog(void);
 
 
 struct axi_jesd204_rx *rx_jesd = NULL;
-struct axi_jesd204_tx *tx_jesd = NULL;
-struct axi_jesd204_rx *rx_os_jesd = NULL;
+static struct axi_jesd204_tx *tx_jesd = NULL;
+static struct axi_jesd204_rx *rx_os_jesd = NULL;
 
 
-adiHalErr_t jesd_init(uint32_t rx_div40_rate_hz,
-      uint32_t tx_div40_rate_hz,
+adiHalErr_t jesd_init(const uint32_t rx_div40_rate_hz,
+		const uint32_t tx_div40_rate_hz,
       uint32_t rx_os_div40_rate_hz)
 {
 	int32_t status;

@@ -66,14 +66,12 @@ XIicPs I2C_1;
 
 int Init_FPGA_CTRL(void);
 int Init_RF_CTRL(void);
-int Init_GPIO_CTRL(void);
-int Init_SPI_CTRL(void);
-int Init_SPI_LOG(void);
-int Init_I2C_CTRL(void);
-uint8_t GetRFTmp(uint8_t dev);
-int GetDPUTmp(void);
-void SPI_WriteReg(uint8_t dev, uint16_t Addr, uint32_t val, uint8_t NumByte);
-uint16_t SPI_ReadReg(uint8_t dev, uint8_t Addr, uint8_t NumByte);
+static int Init_GPIO_CTRL(void);
+static int Init_SPI_CTRL(void);
+static int Init_I2C_CTRL(void);
+uint8_t GetRFTmp(const uint8_t dev);
+void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, const uint8_t NumByte);
+uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByte);
 
 
 #endif /* INC_INIT_H_ */

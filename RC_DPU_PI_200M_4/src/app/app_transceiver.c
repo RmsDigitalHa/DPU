@@ -59,18 +59,18 @@
 #include <app_jesd.h>
 
 //Prototype
-adiHalErr_t fpga_xcvr_init(uint32_t rx_lane_rate_khz, uint32_t tx_lane_rate_khz,
-						uint32_t rx_os_lane_rate_khz, uint32_t device_clock);
+adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz, uint32_t tx_lane_rate_khz,
+						uint32_t rx_os_lane_rate_khz, const uint32_t device_clock);
 void fpga_xcvr_deinit(void);
 
 static struct adxcvr *rx_adxcvr;
 static struct adxcvr *tx_adxcvr;
 static struct adxcvr *rx_os_adxcvr;
 
-adiHalErr_t fpga_xcvr_init(uint32_t rx_lane_rate_khz,
+adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
    uint32_t tx_lane_rate_khz,
    uint32_t rx_os_lane_rate_khz,
-   uint32_t device_clock)
+   const uint32_t device_clock)
 {
 	int32_t status;
 

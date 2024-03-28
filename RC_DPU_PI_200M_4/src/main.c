@@ -63,12 +63,8 @@
 #include "udp_server.h"
 
 /* defined by each RAW mode application */
-void print_app_header(void);
-int start_application(void);
 void tcp_fasttmr(void);
 void tcp_slowtmr(void);
-void print_ip(char *msg, ip_addr_t *ip);
-void print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw);
 
 
 /* user definition */
@@ -88,7 +84,7 @@ extern volatile int TcpFastTmrFlag;
 extern volatile int TcpSlowTmrFlag;
 
 extern RECV_SETTING DPU_STATUS;
-extern int spec_packet_size;
+extern uint16_t spec_packet_size;
 
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
@@ -97,25 +93,9 @@ uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, }
 uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
 
 
-void
-print_ip(char *msg, ip_addr_t *ip)
-{
-	print(msg);
-	xil_printf("%d.%d.%d.%d\n\r", ip4_addr1(ip), ip4_addr2(ip),
-			ip4_addr3(ip), ip4_addr4(ip));
-}
-
-void
-print_ip_settings(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
-{
-
-	print_ip("Board IP: ", ip);
-	print_ip("Netmask : ", mask);
-	print_ip("Gateway : ", gw);
-}
 
 
-int IicPhyReset(void);
+
 
 int main()
 {
@@ -150,14 +130,14 @@ int main()
 	//UDP Init
 	UdpInitUser();
 
-	DPU_STATUS.CenterFreq = 1000000000;
-	DPU_STATUS.BandWidth = 50000000;			//Default BW = 50MHz(Fix)
+	DPU_STATUS.CenterFreq = 1000000000U;
+	DPU_STATUS.BandWidth = 50000000U;			//Default BW = 50MHz(Fix)
 	DPU_STATUS.RBW = RBW_30kHz;
-	DPU_STATUS.ParmBw = 2;						//BW_50MHz
-	DPU_STATUS.ParmRbw = 2;						//RBW_30kHz
+	DPU_STATUS.ParmBw = 2U;						//BW_50MHz
+	DPU_STATUS.ParmRbw = 2U;						//RBW_30kHz
 	DPU_STATUS.SpecBin = FFT_2048_BIN/2U;		//FFT_256_BIN	FFT_1024_BIN	FFT_2048_BIN	FFT_4098_BIN	FFT_4098_BIN
-	DPU_STATUS.ChNum = 0xB;
-	DPU_STATUS.IterCnt = 3;
+	DPU_STATUS.ChNum = 0xBU;
+	DPU_STATUS.IterCnt = 3U;
 	spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//FFT 2048
 	memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
 	memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));

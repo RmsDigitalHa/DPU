@@ -52,16 +52,16 @@
 /******************************************************************************/
 /*************************** Prototype Definitions ****************************/
 /******************************************************************************/
-int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd, uint32_t reg_addr, uint32_t reg_val);
-int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd, uint32_t reg_addr, uint32_t *reg_val);
+static int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd, const uint32_t reg_addr, const uint32_t reg_val);
+static int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd, const uint32_t reg_addr, uint32_t *reg_val);
 int32_t axi_jesd204_rx_lane_clk_enable(struct axi_jesd204_rx *jesd);
-int32_t axi_jesd204_rx_lane_clk_disable(struct axi_jesd204_rx *jesd);
+static int32_t axi_jesd204_rx_lane_clk_disable(struct axi_jesd204_rx *jesd);
 uint32_t axi_jesd204_rx_status_read(struct axi_jesd204_rx *jesd);
-int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd, uint32_t lane, uint32_t *errors);
-int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane);
-bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd, uint32_t lane);
+static int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd, const uint32_t lane, uint32_t *errors);
+int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, const uint32_t lane);
+static bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd, const uint32_t lane);
 int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd);
-int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd, struct jesd204_rx_config *config);
+static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd, struct jesd204_rx_config *config);
 int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204, const struct jesd204_rx_init *init);
 int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
 
@@ -74,7 +74,7 @@ int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
 #define JESD204_RX_REG_SYNTH_NUM_LANES			0x10U
 #define JESD204_RX_REG_SYNTH_DATA_PATH_WIDTH	0x14U
 
-#define JESD204_RX_SYNTH_REG_1 0x18
+#define JESD204_RX_SYNTH_REG_1 0x18U
 
 #define JESD204_RX_REG_LINK_DISABLE		0xc0U
 #define JESD204_RX_REG_LINK_STATE		0xc4U
@@ -108,17 +108,17 @@ int32_t axi_jesd204_rx_remove(struct axi_jesd204_rx *jesd);
 	(((uint32_t)('2') << 24) | ((uint32_t)('0') << 16) | ((uint32_t)('4') << 8) | ((uint32_t)('R')))
 
 #define PCORE_VERSION_MAJOR(x)		((x) >> 16)
-#define PCORE_VERSION_MINOR(x)		(((x) >> 8) & 0xff)
-#define PCORE_VERSION_PATCH(x)		((x) & 0xff)
+#define PCORE_VERSION_MINOR(x)		(((x) >> 8) & (uint32_t)0xff)
+#define PCORE_VERSION_PATCH(x)		((x) & (uint32_t)0xff)
 
-const char *axi_jesd204_rx_link_status_label[] = {
+static const char *axi_jesd204_rx_link_status_label[] = {
 	"RESET",
 	"WAIT FOR PHY",
 	"CGS",
 	"DATA",
 };
 
-const char *axi_jesd204_rx_lane_status_label[] = {
+static const char *axi_jesd204_rx_lane_status_label[] = {
 	"INIT",
 	"CHECK",
 	"DATA",
@@ -132,8 +132,8 @@ const char *axi_jesd204_rx_lane_status_label[] = {
 /**
  * @brief axi_jesd204_rx_write
  */
-int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd,
-			     uint32_t reg_addr, uint32_t reg_val)
+static int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd,
+		const uint32_t reg_addr, const uint32_t reg_val)
 {
 	axi_io_write(jesd->base, reg_addr, reg_val);
 
@@ -143,8 +143,8 @@ int32_t axi_jesd204_rx_write(struct axi_jesd204_rx *jesd,
 /**
  * @brief axi_jesd204_rx_read
  */
-int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd,
-			    uint32_t reg_addr, uint32_t *reg_val)
+static int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd,
+		const uint32_t reg_addr, uint32_t *reg_val)
 {
 	axi_io_read(jesd->base, reg_addr, reg_val);
 
@@ -156,8 +156,8 @@ int32_t axi_jesd204_rx_read(struct axi_jesd204_rx *jesd,
  */
 int32_t axi_jesd204_rx_lane_clk_enable(struct axi_jesd204_rx *jesd)
 {
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_SYSREF_STATUS, 0x3);
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x0);
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_SYSREF_STATUS, 0x3U);
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x0U);
 
 	return SUCCESS;
 }
@@ -165,9 +165,9 @@ int32_t axi_jesd204_rx_lane_clk_enable(struct axi_jesd204_rx *jesd)
 /**
  * @brief axi_jesd204_rx_lane_clk_disable
  */
-int32_t axi_jesd204_rx_lane_clk_disable(struct axi_jesd204_rx *jesd)
+static int32_t axi_jesd204_rx_lane_clk_disable(struct axi_jesd204_rx *jesd)
 {
-	return axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x1);
+	return axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x1U);
 }
 
 /**
@@ -234,8 +234,8 @@ uint32_t axi_jesd204_rx_status_read(struct axi_jesd204_rx *jesd)
 /**
  * @brief axi_jesd204_rx_get_lane_errors
  */
-int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd,
-				       uint32_t lane, uint32_t *errors)
+static int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd,
+		const uint32_t lane, uint32_t *errors)
 {
 	return axi_jesd204_rx_read(jesd, JESD204_RX_REG_LANE_ERRORS(lane), errors);
 }
@@ -243,7 +243,7 @@ int32_t axi_jesd204_rx_get_lane_errors(struct axi_jesd204_rx *jesd,
 /**
  * @brief axi_jesd204_rx_laneinfo_read
  */
-int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
+int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, const uint32_t lane)
 {
 	uint32_t lane_status;
 	uint32_t errors;
@@ -332,8 +332,8 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, uint32_t lane)
 /**
  * @brief axi_jesd204_rx_check_lane_status
  */
-bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd,
-				      uint32_t lane)
+static bool axi_jesd204_rx_check_lane_status(struct axi_jesd204_rx *jesd,
+		const uint32_t lane)
 {
 	uint32_t status;
 	uint32_t errors;
@@ -376,9 +376,9 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 		}
 
 		if (restart) {
-			axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x1);
+			axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x1U);
 			mdelay(100);
-			axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x0);
+			axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_DISABLE, 0x0U);
 		}
 	}
 
@@ -388,7 +388,7 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 /**
  * @brief axi_jesd204_rx_apply_config
  */
-int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
+static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 				    struct jesd204_rx_config *config)
 {
 	uint32_t octets_per_multiframe;
@@ -412,7 +412,7 @@ int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF0, val);
 
 	//JESD RX SCRAMBLER , Character Replacement DISABLE.
-	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF1, 0x03);
+	axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF1, 0x03U);
 
 	//add 2020.10.14 lane error count (32bit)
 	//0x7E << 8 : count only the disparity error

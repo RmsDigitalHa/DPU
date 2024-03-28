@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-extern taliseDevice_t talDevice;
+static taliseDevice_t talDevice;
 extern taliseInit_t talInit;
 
 #ifdef __cplusplus

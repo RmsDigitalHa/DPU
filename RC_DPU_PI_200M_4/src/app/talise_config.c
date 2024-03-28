@@ -24,11 +24,11 @@
 #include "zynq_platform.h"
 #endif
 
-int16_t txFirCoefs[40] = {-14, 5, -9, 6, -4, 19, -29, 27, -30, 46, -63, 77, -103, 150, -218, 337, -599, 1266, -2718, 19537, -2718, 1266, -599, 337, -218, 150, -103, 77, -63, 46, -30, 27, -29, 19, -4, 6, -9, 5, -14, 0};
+static int16_t txFirCoefs[40] = {-14, 5, -9, 6, -4, 19, -29, 27, -30, 46, -63, 77, -103, 150, -218, 337, -599, 1266, -2718, 19537, -2718, 1266, -599, 337, -218, 150, -103, 77, -63, 46, -30, 27, -29, 19, -4, 6, -9, 5, -14, 0};
 
-int16_t rxFirCoefs[48] = {-2, 23, 46, -17, -104, 10, 208, 23, -370, -97, 607, 240, -942, -489, 1407, 910, -2065, -1637, 3058, 2995, -4912, -6526, 9941, 30489, 30489, 9941, -6526, -4912, 2995, 3058, -1637, -2065, 910, 1407, -489, -942, 240, 607, -97, -370, 23, 208, 10, -104, -17, 46, 23, -2};
+static  int16_t rxFirCoefs[48] = {-2, 23, 46, -17, -104, 10, 208, 23, -370, -97, 607, 240, -942, -489, 1407, 910, -2065, -1637, 3058, 2995, -4912, -6526, 9941, 30489, 30489, 9941, -6526, -4912, 2995, 3058, -1637, -2065, 910, 1407, -489, -942, 240, 607, -97, -370, 23, 208, 10, -104, -17, 46, 23, -2};
 
-int16_t obsrxFirCoefs[24] = {-10, 7, -10, -12, 6, -12, 16, -16, 1, 63, -431, 17235, -431, 63, 1, -16, 16, -12, 6, -12, -10, 7, -10, 0};
+static int16_t obsrxFirCoefs[24] = {-10, 7, -10, -12, 6, -12, 16, -16, 1, 63, -431, 17235, -431, 63, 1, -16, 16, -12, 6, -12, -10, 7, -10, 0};
 
 #ifdef ADI_ZYNQ_PLATFORM /** < Insert Customer Platform HAL State Container here>*/
 /*
@@ -66,7 +66,7 @@ zynqAdiDev_t talDevHalInfo = {
  *  structure information, as well as an internal Talise API state container
  *  (devStateInfo) of runtime information used by the API.
  **/
-taliseDevice_t talDevice = {
+static taliseDevice_t talDevice = {
 #ifdef ADI_ZYNQ_PLATFORM
 	/* Void pointer of users platform HAL settings to pass to HAL layer calls
 	 * Talise API does not use the devHalInfo member */
