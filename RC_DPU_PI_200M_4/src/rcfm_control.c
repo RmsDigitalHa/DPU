@@ -245,7 +245,7 @@ static typTableLMX2582 GetPLLValue(const uint64_t TargetFreq){
 	if (TargetFreq == TableLMX2582[MaxIndex-(uint32_t)1].u64StartFreq)
 	{
 		AvgIndex = (int32_t)MaxIndex;
-		memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));
+		(void)memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));
 		return ParamLMX2582;
 	}
 
@@ -253,7 +253,7 @@ static typTableLMX2582 GetPLLValue(const uint64_t TargetFreq){
 	{
 		if((TargetFreq >= TableLMX2582[AvgIndex].u64StartFreq) && (TargetFreq < TableLMX2582[AvgIndex + 1].u64StartFreq))
 		{
-			memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));
+			(void)memcpy(&ParamLMX2582, &TableLMX2582[AvgIndex], sizeof(typTableLMX2582));
 			return ParamLMX2582;
 		}
 

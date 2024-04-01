@@ -89,7 +89,7 @@
 #define JAM_START	1U
 
 
-typedef struct ICD_HEADER{
+typedef struct{
 	uint8_t SRC_CODE;
 	uint8_t DEST_CODE;
 	uint16_t CMD_CODE;

@@ -48,9 +48,9 @@ uint32_t rts_start(const u32 base_address, const u32 iter_count, const u32 ref_l
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_MULT_PARM, 0x04);		//0x04(Max) -> +12dB
 
 	sts_iter_count = iter_count;
-	set_iter_count(base_address, iter_count);
-	set_ref_level(base_address, ref_level);
-	set_win_func(base_address, win_func);
+	(void)set_iter_count(base_address, iter_count);
+	(void)set_ref_level(base_address, ref_level);
+	(void)set_win_func(base_address, win_func);
 
 	RTS_SPECTRUM_CTRL_mWriteReg(base_address, REG_RTS_START, 0x1);
 	usleep(100);

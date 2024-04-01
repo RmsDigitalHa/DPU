@@ -182,11 +182,11 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 	tal.devHalInfo = (void *) &hal;
 
 	for(uint8_t i = 2U; i < (CH + 2U); i++){
-		memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
-		memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
+		(void)memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
+		(void)memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
 		center_freq = FreqList[i] + FREQ_OFFSET - FREQ_NCO;
-		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//¼öÁ¤(240311)
+		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//ï¿½ï¿½ï¿½ï¿½(240311)
 		SetRcrmStatFreq(FreqList[i - 1U] + FREQ_OFFSET);
 
 		Status = AdrvGainCtrl((uint64_t)(FreqList[i - 1U] + FREQ_OFFSET));
@@ -200,28 +200,28 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 			return XST_FAILURE;
 		}
 		usleep(100);
-		rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+		(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
 		while(1){
 			FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
 			if((FrameDone == 1U) && (Done_CNT < 2U)){
 				Done_CNT += 1U;
-				RxDmaData();			//¼öÁ¤(240311)
+				(void)RxDmaData();			//ï¿½ï¿½ï¿½ï¿½(240311)
 			}
 			if(Done_CNT == (ITER_CNT + 2U)){
 				Done_CNT = 0;
 				break;
 			}
-			else if(Done_CNT > 1U){		//1CycleÀº ±âÁ¸ BRAM ÃÊ±âÈ­ ÇÊ¿äÇÔ(x)
-				RxDmaData();
+			else if(Done_CNT > 1U){		//1Cycleï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ BRAM ï¿½Ê±ï¿½È­ ï¿½Ê¿ï¿½ï¿½ï¿½(x)
+				(void)RxDmaData();
 				IterSpectrum();
 				Done_CNT += 1U;
 			}
 			else { }
 
 		}
-		rts_end(RC_SPCTRUM_BaseAddr);
-		TransferData();
+		(void)rts_end(RC_SPCTRUM_BaseAddr);
+		(void)TransferData();
 		xemacif_input(&server_netif);
 	}
 
@@ -238,7 +238,7 @@ int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 
 	center_freq = FREQ + FREQ_OFFSET - FREQ_NCO;
 
-	rts_end(RC_SPCTRUM_BaseAddr);
+	(void)rts_end(RC_SPCTRUM_BaseAddr);
 
 
 	if(old_freq != center_freq){
@@ -254,12 +254,12 @@ int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 		}
 	}
 
-	rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+	(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
 	while(1){
 		FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
 		if(FrameDone == 1U){
-			RxDmaData();
+			(void)RxDmaData();
 			break;
 		}
 
@@ -267,7 +267,7 @@ int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 
 	old_freq = center_freq;
 
-	TransferData();
+	(void)TransferData();
 
 	xemacif_input(&server_netif);
 
@@ -293,7 +293,7 @@ static void IterSpectrum(void){
 static int AdrvGainCtrl(const uint64_t FREQ){
 	int Status = 0;
 
-	//2Â÷ ½ÃÁ¦, EMI, È¯°æ½ÃÇè ÁøÇà
+	//2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, EMI, È¯ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if((FREQ >= FREQ_400MHz) && (FREQ < FREQ_500MHz)){
 		Status = SetAdrvGain(&tal, 253U);
 	}

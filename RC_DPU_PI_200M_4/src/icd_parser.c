@@ -65,7 +65,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		tal.devHalInfo = (void *) &hal;
 		Status = ChangeLoFreq(&tal, DPU_STATUS.CenterFreq + FREQ_OFFSET - FREQ_NCO);
 		if (Status != XST_SUCCESS) {
-			memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
+			(void)memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
 			return TCP_RcvBuf;
 		}
 	}
@@ -86,7 +86,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 
 	else if(OPCODE == SET_RBW){
 		//Spectrum AP Stop
-		rts_end(RC_SPCTRUM_BaseAddr);
+		(void)rts_end(RC_SPCTRUM_BaseAddr);
 
 		switch(recv_buffer[8]){
 			case 2U:								//RBW_30kHz
@@ -126,9 +126,9 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				DPU_STATUS.SpecBin = FFT_2048_BIN/2U;
 				break;
 		}
-		rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
-		rts_end(RC_SPCTRUM_BaseAddr);
-		rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+		(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+		(void)rts_end(RC_SPCTRUM_BaseAddr);
+		(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
 		printf("Set RBW : %dHz\r\n", DPU_STATUS.RBW);
 	}
@@ -140,7 +140,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 			Status = HoppingStart(&tal, 433000000U + FREQ_OFFSET - FREQ_NCO);
 			if (Status != XST_SUCCESS) {
 				printf("ADRV Freq Hopping Start Fail\r\n");
-				memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
+				(void)memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
 				return TCP_RcvBuf;
 			}
 
@@ -160,7 +160,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 			Status = HoppingEnd(&tal, 433000000U + FREQ_OFFSET - FREQ_NCO);
 			if (Status != XST_SUCCESS) {
 				printf("ADRV Freq Hopping End Fail\r\n");
-				memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
+				(void)memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
 				return TCP_RcvBuf;
 			}
 		}
@@ -186,7 +186,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 	else if(OPCODE == TEST_REF_LEVEL){
 		dpu_ref_level = ((uint32_t)recv_buffer[11] << 24) | ((uint32_t)recv_buffer[10] << 16) | ((uint32_t)recv_buffer[9] << 8) | ((uint32_t)recv_buffer[8] << 0);
 
-		set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+		(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 	}
 	else if(OPCODE == TEST_ADRV_GAIN){
 		tmp_adrv_gain = recv_buffer[8];
@@ -195,7 +195,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 		tal.devHalInfo = (void *) &hal;
 		Status = SetAdrvGain(&tal, tmp_adrv_gain);
 		if (Status != XST_SUCCESS) {
-			memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
+			(void)memset(&TCP_RcvBuf, 0x00, sizeof(ICD_HEADER));
 			return TCP_RcvBuf;
 		}
 	}
@@ -309,21 +309,21 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				RF_STATUS.RCRM_LNA_MODE = 0;
 
 				dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
-				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+				(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_1){
 				RF_STATUS.RCFM_LNA_MODE = 0U;
 				RF_STATUS.RCRM_LNA_MODE = 1U;
 
 				dpu_ref_level = 0x80000005U;		//REF_LEV	20dB
-				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+				(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else if(recv_buffer[9] == AMP_MODE_2){
 				RF_STATUS.RCFM_LNA_MODE = 1U;
 				RF_STATUS.RCRM_LNA_MODE = 1U;
 
 				dpu_ref_level = 0x8000000AU;		//REF_LEV	40dB
-				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+				(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 			}
 			else{}
 
@@ -351,7 +351,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 				SetRcrmStatAmpScd(RF_STATUS.RCRM_LNA_MODE);
 
 				dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
-				set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+				(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 
 				printf("RC_RCV : JAM mode success.\r\n");
 			}
@@ -377,15 +377,15 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 
 				if((RF_STATUS.RCFM_LNA_MODE == 0U) && (RF_STATUS.RCRM_LNA_MODE == 0U)){
 					dpu_ref_level = 0x80000000U;		//REF_LEV	0dB
-					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+					(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 				else if((RF_STATUS.RCFM_LNA_MODE == 0U) && (RF_STATUS.RCRM_LNA_MODE == 1U)){
 					dpu_ref_level = 0x80000005U;		//REF_LEV	20dB
-					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+					(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 				else{
 					dpu_ref_level = 0x8000000AU;		//REF_LEV	40dB
-					set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
+					(void)set_ref_level(RC_SPCTRUM_BaseAddr, dpu_ref_level);
 				}
 
 				printf("RC_RCV : RCV mode success.\r\n");

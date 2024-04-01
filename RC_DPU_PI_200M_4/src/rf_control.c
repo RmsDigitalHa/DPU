@@ -313,7 +313,7 @@ static typTableATTEN GetAttenValue(const uint64_t TargetFreq){
 	if (TargetFreq == GainAttenTable[MaxIndex-(uint32_t)1].u64StartFreq)
 	{
 		AvgIndex = (int32_t)MaxIndex;
-		memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
+		(void)memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
 		return ParamGainAtten;
 	}
 
@@ -321,7 +321,7 @@ static typTableATTEN GetAttenValue(const uint64_t TargetFreq){
 	{
 		if((TargetFreq >= GainAttenTable[AvgIndex].u64StartFreq) && (TargetFreq < GainAttenTable[AvgIndex + 1].u64StartFreq))
 		{
-			memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
+			(void)memcpy(&ParamGainAtten, &GainAttenTable[AvgIndex], sizeof(typTableATTEN));
 			return ParamGainAtten;
 		}
 

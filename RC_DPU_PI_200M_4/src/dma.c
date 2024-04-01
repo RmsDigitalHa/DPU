@@ -297,7 +297,7 @@ static int RxSetup(XAxiDma * AxiDmaInstPtr)
 	/* Clear the receive buffer, so we can verify data
 	 */
 
-	memset((uint8_t *)&RX_BUFFER_BASE[ICD_HEADER_SIZE + SPEC_HEADER_SIZE], 0, MAX_PKT_LEN);
+	(void)memset((uint8_t *)&RX_BUFFER_BASE[ICD_HEADER_SIZE + SPEC_HEADER_SIZE], 0, MAX_PKT_LEN);
 
 
 	Status = XAxiDma_BdRingToHw(RxRingPtr, FreeBdCount, BdPtr);
@@ -385,10 +385,10 @@ int RxDmaData(void)
 			AddrSpecPrevHeader = (uint32_t *)&SPEC_BUF_PREV;
 			AddrSpecCurHeader = (uint32_t *)&SPEC_BUF_CUR;
 			if(DPU_STATUS.ScanMode == 0x01U){
-				memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
+				(void)memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
 			}
 			else if(DPU_STATUS.ScanMode == 0x02U){
-				memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
+				(void)memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
 			}
 			else{}
 
