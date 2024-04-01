@@ -131,7 +131,6 @@ uint8_t DataReady;
 static uint32_t *AddrSpecData;
 static uint32_t *AddrSpecHeader;
 extern uint8_t SendDone;
-extern RECV_SETTING DPU_STATUS;
 
 static uint32_t *AddrSpecPrevHeader;
 uint32_t *AddrSpecCurHeader;

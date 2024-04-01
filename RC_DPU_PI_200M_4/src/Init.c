@@ -33,10 +33,6 @@ uint32_t dpu_iter_count = 1U;
 uint32_t dpu_ref_level = 0x80000000U;
 uint32_t dpu_win_func = 1U;
 
-extern HW_CHECK BIT_STATUS;
-extern RF_SETTING	 RF_STATUS;
-extern RECV_SETTING DPU_STATUS;
-
 static uint8_t SendBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Transmitting Data */
 static uint8_t RecvBuffer[I2C_BUFFER_SIZE];    /**< Buffer for Receiving Data */
 
