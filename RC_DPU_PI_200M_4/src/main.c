@@ -84,9 +84,6 @@ err_t dhcp_start(struct netif *netif);
 extern volatile int TcpFastTmrFlag;
 extern volatile int TcpSlowTmrFlag;
 
-extern RECV_SETTING DPU_STATUS;
-extern uint16_t spec_packet_size;
-
 extern uint32_t dpu_iter_count;
 extern uint32_t dpu_ref_level;
 extern uint32_t dpu_win_func;

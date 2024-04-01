@@ -23,16 +23,8 @@
 #include "rcfm_control.h"
 #include "rcrm_control.h"
 
-extern HW_CHECK BIT_STATUS;
-extern HW_CHECK PBIT_STATUS;
 extern XGpio RF_GPIO; /* The Instance of the GPIO Driver */
 extern XGpio PWR_GPIO; /* The Instance of the GPIO Driver */
-
-extern RCFM_MODE rcfm_status;
-extern RCRM_MODE rcrm_status;
-extern RF_SETTING RF_STATUS;
-extern RECV_SETTING DPU_STATUS;
-
 
 //  0   ADC_LD
 //  1   SYN_SDO
