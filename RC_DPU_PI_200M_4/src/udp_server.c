@@ -95,8 +95,8 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 		return;
 	}
 
-	memcpy(recv_buf_udp, p->payload, p->len);
-	memcpy(reply_buf_udp, recv_buf_udp, p->len);
+	(void)memcpy(recv_buf_udp, p->payload, p->len);
+	(void)memcpy(reply_buf_udp, recv_buf_udp, p->len);
 
 	recv_icd_header = ParserTCP(recv_buf_udp, (uint16_t)(p->len));
 	SwapOPCODE(reply_buf_udp);		//Source Code <-> Destination Code
@@ -112,7 +112,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			reply_buf_udp[16] = 0x01U;
 
 			//RCV Packet
-			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
+			(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
@@ -122,7 +122,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			reply_buf_udp[9] = 0x01U;
 
 			//RCV Packet
-			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
+			(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
@@ -132,7 +132,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			reply_buf_udp[9] = 0x00U;
 
 			//RCV Packet
-			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
+			(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
@@ -146,7 +146,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 			reply_buf_udp[9] = 0x00U;
 
 			//RCV Packet
-			memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
+			(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 1);
 			send_packet->len = p -> len + 1;
 			send_packet->tot_len = p -> len + 1;
 		}
@@ -178,7 +178,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[26] = PBIT_STATUS.RF_PATH;
 
 					//RCV Packet
-					memcpy(send_packet->payload, reply_buf_udp, p->len + 18);
+					(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 18);
 					send_packet->len = p -> len + 18;
 					send_packet->tot_len = p -> len + 18;
 				}
@@ -201,7 +201,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[20] = BIT_STATUS.DONE_DDR;
 
 					//RCV Packet
-					memcpy(send_packet->payload, reply_buf_udp, p->len + 12);
+					(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 12);
 					send_packet->len = p -> len + 12;
 					send_packet->tot_len = p -> len + 12;
 				}
@@ -230,7 +230,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[26] = BIT_STATUS.RF_PATH;
 
 					//RCV Packet
-					memcpy(send_packet->payload, reply_buf_udp, p->len + 18);
+					(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 18);
 					send_packet->len = p -> len + 18;
 					send_packet->tot_len = p -> len + 18;
 				}
@@ -249,7 +249,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				*((uint64_t *)&reply_buf_udp[9]) = (uint64_t)(rcrm_status.rcrm_freq_hz - FREQ_OFFSET);
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -270,7 +270,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -292,7 +292,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -313,7 +313,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[4] = 0x03U;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -328,7 +328,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[9] =  rcfm_status.rcfm_rf_select;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -344,7 +344,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				*((uint64_t *)&reply_buf_udp[10]) = rcfm_status.rcfm_cal_freq;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -359,7 +359,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[9] =  rcfm_status.rcfm_ant_bias;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -385,7 +385,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[18] =  BIT_STATUS.RCRM_INSERT;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len + 10);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 10);
 				send_packet->len = p -> len + 10;
 				send_packet->tot_len = p -> len + 10;
 			}
@@ -403,7 +403,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[10] =  ((log_val >> 8U) & 0xFFU);
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
 				send_packet->len = p -> len + 2;
 				send_packet->tot_len = p -> len + 2;
 			}
@@ -422,7 +422,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[10] = BIT_STATUS.RCRM_TMP;
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
 				send_packet->len = p -> len + 2;
 				send_packet->tot_len = p -> len + 2;
 			}
@@ -437,7 +437,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				reply_buf_udp[9] = (uint8_t)(RF_STATUS.RCFM_LNA_MODE + RF_STATUS.RCRM_LNA_MODE);
 
 				//RCV Packet
-				memcpy(send_packet->payload, reply_buf_udp, p->len);
+				(void)memcpy(send_packet->payload, reply_buf_udp, p->len);
 				send_packet->len = p -> len;
 				send_packet->tot_len = p -> len;
 			}
@@ -501,11 +501,11 @@ int TransferData(void)
 	recv_buf_udp[1] = (uint8_t)(0xE1);
 	recv_buf_udp[2] = (uint8_t)(0x41);
 	recv_buf_udp[3] = (uint8_t)(0x00);
-	memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
+	(void)memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
 	*((uint32_t *)AddrSpecCurHeader + (uint32_t)1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + (uint32_t)0xCU);
 
 	//ICD Body
-	memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
+	(void)memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
 
 
 
@@ -529,7 +529,7 @@ int TransferData(void)
 				last_flag = 1U;
 			}
 
-			memcpy(send_packet->payload, AddrSpecCurHeader, send_size);
+			(void)memcpy(send_packet->payload, AddrSpecCurHeader, send_size);
 			send_packet->tot_len = send_size;
 			send_packet->len = send_size;
 			err = udp_sendto(udp_pcb, send_packet, &client_ip, client_port);

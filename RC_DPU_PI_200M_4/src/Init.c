@@ -87,9 +87,9 @@ int Init_FPGA_CTRL(void){
 	RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_FFT_SIZE, 0x2);
 	RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_RTS_DMA_START, 0x1);
 	RTS_SPECTRUM_CTRL_mWriteReg(RC_SPCTRUM_BaseAddr, REG_MULT_PARM, 0x7);
-	rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
-	rts_end(RC_SPCTRUM_BaseAddr);
-	rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+	(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
+	(void)rts_end(RC_SPCTRUM_BaseAddr);
+	(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
 	printf("FPGA Initialize Success.\n");
 	return XST_SUCCESS;

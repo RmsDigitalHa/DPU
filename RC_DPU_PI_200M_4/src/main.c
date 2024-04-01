@@ -128,7 +128,7 @@ int main()
 	}
 
 	//UDP Init
-	UdpInitUser();
+	(void)UdpInitUser();
 
 	DPU_STATUS.CenterFreq = 1000000000U;
 	DPU_STATUS.BandWidth = 50000000U;			//Default BW = 50MHz(Fix)
@@ -139,8 +139,8 @@ int main()
 	DPU_STATUS.ChNum = 0xBU;
 	DPU_STATUS.IterCnt = 3U;
 	spec_packet_size = FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE;		//FFT 2048
-	memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
-	memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
+	(void)memset((uint8_t *)&SPEC_BUF_PREV, 0x00, sizeof(SPEC_BUF_PREV));
+	(void)memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
 
 	/* receive and process packets */
@@ -174,8 +174,6 @@ int main()
 		else{
 		}
 	}
-
-	printf("System Error. DPU Shut Down.\n");
-
+	
 	return 0;
 }
