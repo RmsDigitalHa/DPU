@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "xparameters.h"
 #include "xgpio.h"
 #include "xgpiops.h"
@@ -249,7 +250,7 @@ static typTableLMX2582 GetPLLValue(const uint64_t TargetFreq){
 		return ParamLMX2582;
 	}
 
-	while(1)
+	while(true)
 	{
 		if((TargetFreq >= TableLMX2582[AvgIndex].u64StartFreq) && (TargetFreq < TableLMX2582[AvgIndex + 1].u64StartFreq))
 		{

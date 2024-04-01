@@ -24,6 +24,7 @@
 #include "parameters.h"
 #include "stdio.h"
 #include "xil_types.h"
+#include <stdbool.h>
 
 #include "util.h"
 #include "adi_hal.h"
@@ -177,7 +178,7 @@ int Init_ADRV9008(void)
 	status = ChangeLoFreq(&tal, 1000000000U);
 
 
-	if (status) {
+	if (status == true) {
 	printf("axi_adc_init() failed with status %d\n", status);
 	goto error_3;
 	}

@@ -14,6 +14,7 @@
 #include "xstatus.h"
 #include "axi_rc_spectrum.h"
 #include "sleep.h"
+#include <stdbool.h>
 
 #include "user_func.h"
 #include "adrv9008.h"
@@ -317,7 +318,7 @@ static typTableATTEN GetAttenValue(const uint64_t TargetFreq){
 		return ParamGainAtten;
 	}
 
-	while(1)
+	while(true)
 	{
 		if((TargetFreq >= GainAttenTable[AvgIndex].u64StartFreq) && (TargetFreq < GainAttenTable[AvgIndex + 1].u64StartFreq))
 		{

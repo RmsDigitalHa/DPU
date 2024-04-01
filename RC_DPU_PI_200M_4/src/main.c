@@ -27,6 +27,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "xparameters.h"
 #include "xstatus.h"
@@ -144,12 +145,12 @@ int main()
 
 
 	/* receive and process packets */
-	while (1) {
-		if (TcpFastTmrFlag) {
+	while (true) {
+		if (TcpFastTmrFlag == true) {
 			tcp_fasttmr();
 			TcpFastTmrFlag = 0;
 		}
-		if (TcpSlowTmrFlag) {
+		if (TcpSlowTmrFlag == true) {
 			tcp_slowtmr();
 			TcpSlowTmrFlag = 0;
 		}
