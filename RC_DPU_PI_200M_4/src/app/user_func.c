@@ -10,6 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 // platform drivers
 #include "xstatus.h"
@@ -186,7 +187,7 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 		(void)memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
 		center_freq = FreqList[i] + FREQ_OFFSET - FREQ_NCO;
-		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//����(240311)
+		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//수정(240311)
 		SetRcrmStatFreq(FreqList[i - 1U] + FREQ_OFFSET);
 
 		Status = AdrvGainCtrl((uint64_t)(FreqList[i - 1U] + FREQ_OFFSET));
@@ -202,17 +203,17 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 		usleep(100);
 		(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
-		while(1){
+		while(true){
 			FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
 			if((FrameDone == 1U) && (Done_CNT < 2U)){
 				Done_CNT += 1U;
-				(void)RxDmaData();			//����(240311)
+				(void)RxDmaData();			//수정(240311)
 			}
 			if(Done_CNT == (ITER_CNT + 2U)){
 				Done_CNT = 0;
 				break;
 			}
-			else if(Done_CNT > 1U){		//1Cycle�� ���� BRAM �ʱ�ȭ �ʿ���(x)
+			else if(Done_CNT > 1U){		//1Cycle은 기존 BRAM 초기화 필요함(x)
 				(void)RxDmaData();
 				IterSpectrum();
 				Done_CNT += 1U;
@@ -256,7 +257,7 @@ int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 
 	(void)rts_start(RC_SPCTRUM_BaseAddr, dpu_iter_count, dpu_ref_level, dpu_win_func);
 
-	while(1){
+	while(true){
 		FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
 		if(FrameDone == 1U){
 			(void)RxDmaData();
@@ -293,7 +294,7 @@ static void IterSpectrum(void){
 static int AdrvGainCtrl(const uint64_t FREQ){
 	int Status = 0;
 
-	//2�� ����, EMI, ȯ����� ����
+	//2차 시제, EMI, 환경시험 진행
 	if((FREQ >= FREQ_400MHz) && (FREQ < FREQ_500MHz)){
 		Status = SetAdrvGain(&tal, 253U);
 	}

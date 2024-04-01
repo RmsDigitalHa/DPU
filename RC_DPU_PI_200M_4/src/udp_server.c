@@ -5,6 +5,8 @@
  *      Author: Lee Jeho
  */
 
+#include <stdbool.h>
+
 #include "lwip/ip_addr.h"
 #include "lwip/err.h"
 #include "lwip/udp.h"
@@ -67,15 +69,15 @@ static void AssignDefaultIp(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 	xil_printf("Configuring default IP %s \r\n", DEFAULT_IP_ADDRESS);
 
 	err = inet_aton(DEFAULT_IP_ADDRESS, ip);
-	if (!err) {
+	if ((!err) == true) {
 		xil_printf("Invalid default IP address: %d\r\n", err);
 	}
 	err = inet_aton(DEFAULT_IP_MASK, mask);
-	if (!err) {
+	if ((!err) == true) {
 		xil_printf("Invalid default IP MASK: %d\r\n", err);
 	}
 	err = inet_aton(DEFAULT_GW_ADDRESS, gw);
-	if (!err) {
+	if ((!err) == true) {
 		xil_printf("Invalid default gateway address: %d\r\n", err);
 	}
 }
@@ -90,7 +92,7 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 	struct pbuf *send_packet;
 
 	send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
-	if(!send_packet){
+	if((!send_packet) == true){
 		xil_printf("error allocating pbuf to send\r\n");
 		return;
 	}
@@ -514,7 +516,7 @@ int TransferData(void)
 
 			//UDP Send_Packet Allocation
 			send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
-			if(!send_packet){
+			if((!send_packet) == true){
 				xil_printf("error allocating pbuf to send\r\n");
 				return -1;
 			}
