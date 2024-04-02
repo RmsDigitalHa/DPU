@@ -98,10 +98,6 @@
 #include "xil_mmu.h"
 #endif
 
-#if (!defined(DEBUG))
-extern void xil_printf(const char *format, ...);
-#endif
-
 /******************** Constant Definitions **********************************/
 
 /*
