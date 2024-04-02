@@ -335,10 +335,7 @@ int RxDmaData(void)
 	uint32_t BdSts;
 
 	RxRingPtr = XAxiDma_GetRxRing(&AxiDma);
-
-	while ((BdCount = XAxiDma_BdRingFromHw(RxRingPtr, XAXIDMA_ALL_BDS, &BdPtr)) == 0) {
-	}
-
+	BdCount = XAxiDma_BdRingFromHw(RxRingPtr, XAXIDMA_ALL_BDS, &BdPtr);
 
 	if(SendDone == 1U){
 		/* Receive DMA Data */

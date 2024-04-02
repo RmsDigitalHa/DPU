@@ -214,7 +214,11 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 			}
 			else if(Done_CNT > 1U){		//1Cycle??? ê¸°ì¡´ BRAM ì´ˆê¸°?™” ?•„?š”?•¨(x)
 				(void)RxDmaData();
-				IterSpectrum();
+				Status = IterSpectrum();
+				if (Status != XST_SUCCESS) {
+					printf("ADRV Freq hopping fail\r\n");
+					return XST_FAILURE;
+				}
 				Done_CNT += 1U;
 			}
 			else { }
@@ -274,7 +278,7 @@ int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
 	return XST_SUCCESS;
 }
 
-static void IterSpectrum(void){
+static int IterSpectrum(void){
 	uint16_t spec_length = (uint16_t)(spec_packet_size - ICD_HEADER_SIZE - SPEC_HEADER_SIZE) / (uint16_t)2;
 	uint16_t *AddrPrev = (uint16_t *)&SPEC_BUF_PREV[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
 	uint16_t *AddrCUR = (uint16_t *)&SPEC_BUF_CUR[ICD_HEADER_SIZE + SPEC_HEADER_SIZE];
