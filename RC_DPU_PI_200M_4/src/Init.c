@@ -211,7 +211,7 @@ static int Init_I2C_CTRL(void){
 	return 0;
 }
 
-uint8_t GetRFTmp(const uint8_t dev){
+int8_t GetRFTmp(const uint8_t dev){
 	int Status;
 	if(dev == TMP_RCFM_DEV){
 		//RCFM TMP
@@ -231,10 +231,10 @@ uint8_t GetRFTmp(const uint8_t dev){
 		}
 
 		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
-			return (RecvBuffer[0] - 256U);
+			return (int8_t)(RecvBuffer[0] - 256U);
 		}
 		else{
-			return RecvBuffer[0];
+			return (int8_t)RecvBuffer[0];
 		}
 	}
 
