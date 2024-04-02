@@ -92,10 +92,6 @@ static void RecvCallback(void *arg, struct udp_pcb *tpcb,
 	struct pbuf *send_packet;
 
 	send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
-	if(send_packet != 1U){
-		xil_printf("error allocating pbuf to send\r\n");
-		return;
-	}
 
 	(void)memcpy(recv_buf_udp, p->payload, (const uint16_t)p->len);
 	(void)memcpy(reply_buf_udp, recv_buf_udp, (const uint16_t)p->len);
@@ -516,10 +512,6 @@ int TransferData(void)
 
 			//UDP Send_Packet Allocation
 			send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
-			if(send_packet != 1U){
-				xil_printf("error allocating pbuf to send\r\n");
-				return -1;
-			}
 
 			SendDone = 0;
 			send_size = spec_packet_size - (UDP_SEND_BUFSIZE * send_cnt);
