@@ -69,7 +69,7 @@ int Init_RF_CTRL(void);
 static int Init_GPIO_CTRL(void);
 static int Init_SPI_CTRL(void);
 static int Init_I2C_CTRL(void);
-uint8_t GetRFTmp(const uint8_t dev);
+int8_t GetRFTmp(const uint8_t dev);
 void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, const uint8_t NumByte);
 uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByte);
 
