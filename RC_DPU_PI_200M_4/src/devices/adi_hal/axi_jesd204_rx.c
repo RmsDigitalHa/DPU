@@ -411,7 +411,7 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	}
 
 	val = (octets_per_multiframe - 1U);
-	val |= (config->octets_per_frame - 1) << 16;
+	val |= (uint8_t)(config->octets_per_frame - 1) << 16U;
 
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF0, val);
 

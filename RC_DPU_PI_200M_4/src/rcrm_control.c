@@ -20,9 +20,9 @@
 #include "Init.h"
 
 
-static XGpio gpio_rcv_monitor; // RC½ÅÈ£Å½Áö±â »óÅÂ Á¶È¸ °ª º¯¼ö
-static XGpio pll_lock_status; // PLL Lock »óÅÂ °ª º¯¼ö
-static XGpio log_spi, log_value, log_addr; // Log°ª ÀÐ±â À§ÇÑ º¯¼öµé
+static XGpio gpio_rcv_monitor; // RCï¿½ï¿½È£Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+static XGpio pll_lock_status; // PLL Lock ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+static XGpio log_spi, log_value, log_addr; // Logï¿½ï¿½ ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 RCRM_MODE rcrm_status;
 
@@ -153,6 +153,8 @@ void MakeRcrmSpiCmdModeCtrl(void)
 	case RCRM_BPF08 :
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99U) | ((uint32_t)0U << 5) | ((uint32_t)1U << 1);
 		break;
+	default :
+		break;
 	}
 
 	// LPF Bank
@@ -171,6 +173,8 @@ void MakeRcrmSpiCmdModeCtrl(void)
 		break;
 	case RCRM_LPF05 :
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFFFFU) | ((uint32_t)2U << 20);
+		break;
+	default :
 		break;
 	}
 
