@@ -269,7 +269,7 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, const uint32_t
 
 	printf("\tInitial Frame Synchronization: %d (0 : No / 1 : Yes)\n",
 	       (lane_status & BIT(4)));
-	if ((lane_status & BIT(4)) != 1U) {
+	if (((lane_status >> 4) & 0x1U) != 1U) {
 		return FAILURE;
 	}
 	(void)axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_CONF0, &octets_per_multiframe);
@@ -284,7 +284,7 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, const uint32_t
 	printf("\tInitial Lane Alignment Sequence: %d (0 : No / 1 : Yes)\n",
 	       (lane_status & BIT(5)));
 
-	if ((lane_status & BIT(5)) != 1U) {
+	if (((lane_status >> 5) & 0x1U) != 1U) {
 		return FAILURE;
 	}
 
@@ -443,9 +443,6 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	uint32_t status;
 
 	jesd = (struct axi_jesd204_rx *)malloc(sizeof(*jesd));
-	if (jesd != 1U) {
-		return FAILURE;
-	}
 
 	jesd->name = init->name;
 	jesd->base = init->base;

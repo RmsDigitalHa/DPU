@@ -292,6 +292,8 @@ static int IterSpectrum(void){
 			AddrCUR[spec_cnt] = AddrPrev[spec_cnt];
 		}
 	}
+
+	return XST_SUCCESS;
 }
 
 static int AdrvGainCtrl(const uint64_t FREQ){
