@@ -63,16 +63,8 @@
 
 #include "udp_server.h"
 
-/* defined by each RAW mode application */
-void tcp_fasttmr(void);
-void tcp_slowtmr(void);
-
-
 /* user definition */
 #define DMA_DEV_ID		XPAR_AXIDMA_0_DEVICE_ID
-
-/* missing declaration in lwIP */
-void lwip_init(void);
 
 #if LWIP_IPV6==0
 #if LWIP_DHCP==1
@@ -89,10 +81,6 @@ extern uint32_t dpu_ref_level;
 extern uint32_t dpu_win_func;
 uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
 uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
-
-
-
-
 
 
 int main()
