@@ -83,7 +83,7 @@ uint8_t SPEC_BUF_PREV[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, }
 uint8_t SPEC_BUF_CUR[FFT_2048_BIN + ICD_HEADER_SIZE + SPEC_HEADER_SIZE] = {0, };
 
 
-int main(void)
+void main(void)
 {
 	int Status = 0;
 
@@ -160,6 +160,4 @@ int main(void)
 		else{
 		}
 	}
-	
-	return 0;
 }

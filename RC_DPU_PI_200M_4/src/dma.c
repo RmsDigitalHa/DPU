@@ -376,14 +376,16 @@ int RxDmaData(void)
 			AddrSpecHeader = AddrSpecData - ((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4U);
 			AddrSpecPrevHeader = (uint32_t *)&SPEC_BUF_PREV;
 			AddrSpecCurHeader = (uint32_t *)&SPEC_BUF_CUR;
-			if(DPU_STATUS.ScanMode == 0x01U){
-				(void)memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
-			}
-			else if(DPU_STATUS.ScanMode == 0x02U){
-				(void)memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
+			if((AddrSpecPrevHeader != NULL) && (AddrSpecHeader != NULL)){
+				if(DPU_STATUS.ScanMode == 0x01U){
+					(void)memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
+				}
+				else if(DPU_STATUS.ScanMode == 0x02U){
+					(void)memcpy(AddrSpecCurHeader, AddrSpecHeader, sizeof(SPEC_BUF_CUR));
+				}
+				else{}
 			}
 			else{}
-
 			Status = XAxiDma_BdRingToHw(RxRingPtr, FreeBdCount, BdPtr);
 			if (Status != XST_SUCCESS) {
 				xil_printf("Submit %d rx BDs failed %d\r\n", FreeBdCount, Status);

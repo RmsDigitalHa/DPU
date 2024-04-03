@@ -75,9 +75,10 @@
 bool adrv9009_check_sysref_rate(const uint32_t lmfc, const uint32_t sysref)
 {
 	uint32_t div, mod;
-
-	div = lmfc / sysref;
-	mod = lmfc % sysref;
+	if(sysref != 0U){
+		div = lmfc / sysref;
+		mod = lmfc % sysref;
+	}
 
 	/* Ignore minor deviations that can be introduced by rounding. */
 	return (mod <= div) || (mod >= (sysref - div));

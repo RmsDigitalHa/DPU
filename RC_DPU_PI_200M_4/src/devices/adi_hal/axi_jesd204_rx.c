@@ -259,7 +259,7 @@ int32_t axi_jesd204_rx_laneinfo_read(struct axi_jesd204_rx *jesd, const uint32_t
 
 	printf("%s lane %"PRIu32" status:\n", jesd->name, lane);
 
-	if (PCORE_VERSION_MINOR(jesd->version) >= 2) {
+	if (PCORE_VERSION_MINOR(jesd->version) >= 2U) {
 		(void)axi_jesd204_rx_get_lane_errors(jesd, lane, &errors);
 		printf("Errors: %"PRIu32"\n", errors);
 	}
@@ -413,7 +413,7 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	}
 
 	val = (octets_per_multiframe - 1U);
-	val |= (uint8_t)(config->octets_per_frame - 1) << 16U;
+	val |= (uint8_t)(config->octets_per_frame - 1U) << 16U;
 
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF0, val);
 
@@ -425,7 +425,7 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, ((uint16_t)0x7FU << 8U));
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01U));
 
-	if (config->subclass_version == 0) {
+	if (config->subclass_version == 0U) {
 		(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_SYSREF_CONF,
 				     JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE);
 		(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF2,
@@ -459,7 +459,7 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	}
 
 	(void)axi_jesd204_rx_read(jesd, JESD204_RX_REG_VERSION, &jesd->version);
-	if (PCORE_VERSION_MAJOR(jesd->version) != 1) {
+	if (PCORE_VERSION_MAJOR(jesd->version) != 1U) {
 		printf("%s: Unsupported peripheral version %"
 		       ""PRIu32".%"PRIu32".%"PRIu32"\n",
 		       jesd->name,
