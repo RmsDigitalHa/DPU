@@ -256,10 +256,10 @@ int8_t GetRFTmp(const uint8_t dev){
 		}
 
 		if(((RecvBuffer[0] >> 7U) & 0x01U) == 0x01U){
-			return (RecvBuffer[0] - 256U);
+			return (int8_t)(RecvBuffer[0] - 256U);
 		}
 		else{
-			return RecvBuffer[0];
+			return (int8_t)RecvBuffer[0];
 		}
 
 	}
