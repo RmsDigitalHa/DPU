@@ -3,10 +3,12 @@
  *  Created on: 2022. 11. 21.
  *      Author: hadud
  */
-#include <stdint.h>
 
-#ifndef SRC_APP_TCP_SERVER_ICD_PARSER_H_
-#define SRC_APP_TCP_SERVER_ICD_PARSER_H_
+
+#ifndef INC_ICD_PARSER_H_
+#define INC_ICD_PARSER_H_
+
+#include <stdint.h>
 
 #define ICD_HEADER_SIZE		8U
 #define SPEC_HEADER_SIZE	12U
