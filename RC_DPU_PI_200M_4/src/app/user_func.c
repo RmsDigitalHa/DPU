@@ -204,7 +204,7 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 
 		while(true){
 			FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
-			if((FrameDone == 1U) && (Done_CNT < 2U)){
+			if(FrameDone == 1U){
 				Done_CNT += 1U;
 				(void)RxDmaData();			//?ˆ˜? •(240311)
 			}
