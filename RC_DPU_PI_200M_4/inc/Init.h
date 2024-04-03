@@ -57,9 +57,8 @@
 //TMP (on DPU)
 
 
-
-XGpio RF_GPIO; /* The Instance of the GPIO Driver */
-XGpio PWR_GPIO; /* The Instance of the GPIO Driver */
+extern XGpio RF_GPIO; /* The Instance of the GPIO Driver */
+extern XGpio PWR_GPIO; /* The Instance of the GPIO Driver */
 XSpiPs SPI_RF;
 XIicPs I2C_0;
 XIicPs I2C_1;

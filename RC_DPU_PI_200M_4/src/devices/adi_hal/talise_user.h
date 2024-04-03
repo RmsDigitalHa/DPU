@@ -8,8 +8,8 @@
  * Released under the AD9378-AD9379 API license, for more information see the "LICENSE.txt" file in this zip file.
  */
 
-#ifndef _TALISEPROFILES_H_
-#define _TALISEPROFILES_H_
+#ifndef TALISEPROFILES_H_
+#define TALISEPROFILES_H_
 
 #ifdef __cplusplus
 extern "C" {

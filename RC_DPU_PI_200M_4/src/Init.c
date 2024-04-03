@@ -29,6 +29,9 @@ static uint8_t		u8SpiData_LOG[3] = {0,0,0};
 static uint8_t		u32Data_RF[4] 	= {0,0,0,0};
 static uint8_t		u8Data_LOG[2] 	= {0,0};
 
+XGpio RF_GPIO; /* The Instance of the GPIO Driver */
+XGpio PWR_GPIO; /* The Instance of the GPIO Driver */
+
 uint32_t dpu_iter_count = 1U;
 uint32_t dpu_ref_level = 0x80000000U;
 uint32_t dpu_win_func = 1U;
