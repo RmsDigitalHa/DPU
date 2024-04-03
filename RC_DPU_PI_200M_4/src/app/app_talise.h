@@ -36,8 +36,8 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
-#ifndef __APP_TALISE_H
-#define __APP_TALISE_H
+#ifndef APP_TALISE_H
+#define APP_TALISE_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -61,4 +61,4 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi);
 
 bool adrv9009_check_sysref_rate(const uint32_t lmfc, const uint32_t sysref);
 
-#endif /* __APP_TALISE_H */
+#endif /* APP_TALISE_H */

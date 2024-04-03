@@ -22,6 +22,28 @@
 
 static XGpio gpio_rcfm_ctrl;
 
+typTableLMX2582 TableLMX2582[16] =
+{
+	//	StartFreq			SEG1		SEG2		SEG3		VALUE1		VALUE2		VALUE3		EN1			EN2			EN3			SEL
+		{ 20000000U,		3U,			8U,			8U,			1U,			8U,			8U,			1U,			1U,			1U,			4U},
+		{ 28000000U,		2U,			8U,			8U,			0U,			8U,			8U,			1U,			1U,			1U,			4U},
+		{ 37000000U,		2U,			8U,			6U,			0U,			8U,			4U,			1U,			1U,			1U,			4U},
+		{ 56000000U,		2U,			8U,			4U,			0U,			8U,			2U,			1U,			1U,			1U,			4U},
+		{ 74000000U,		3U,			8U,			2U,			1U,			8U,			1U,			1U,			1U,			1U,			4U},
+		{ 99000000U,		3U,			6U,			2U,			1U,			4U,			1U,			1U,			1U,			1U,			4U},
+		{ 111000000U,		2U,			8U,			2U,			0U,			8U,			1U,			1U,			1U,			1U,			4U},
+		{ 148000000U,		3U,			8U,			1U,			1U,			8U,			1U,			1U,			1U,			1U,			2U},
+		{ 222000000U,		2U,			8U,			1U,			0U,			8U,			1U,			1U,			1U,			1U,			2U},
+		{ 296000000U,		2U,			6U,			1U,			0U,			4U,			1U,			1U,			1U,			1U,			2U},
+		{ 444000000U,		2U,			4U,			1U,			0U,			2U,			1U,			1U,			1U,			1U,			2U},
+		{ 592000000U,		3U,			2U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			2U},
+		{ 888000000U,		2U,			2U,			1U,			0U,			1U,			1U,			1U,			1U,			1U,			2U},
+		{ 1184000000U,		3U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			1U},
+		{ 1775000000U,		2U,			1U,			1U,			0U,			1U,			1U,			1U,			1U,			1U,			1U},
+		{ 3550000000U,		1U,			1U,			1U,			1U,			1U,			0U,			0U,			0U,			0U,			1U}
+};
+
+
 RCFM_MODE rcfm_status;
 
 /* LNA 1 CTRL(RCFM BD)
@@ -279,26 +301,3 @@ static typTableLMX2582 GetPLLValue(const uint64_t TargetFreq){
 	}
 	return ParamLMX2582;
 }
-
-
-
-typTableLMX2582 TableLMX2582[16] =
-{
-	//	StartFreq			SEG1		SEG2		SEG3		VALUE1		VALUE2		VALUE3		EN1			EN2			EN3			SEL
-		{ 20000000U,		3U,			8U,			8U,			1U,			8U,			8U,			1U,			1U,			1U,			4U},
-		{ 28000000U,		2U,			8U,			8U,			0U,			8U,			8U,			1U,			1U,			1U,			4U},
-		{ 37000000U,		2U,			8U,			6U,			0U,			8U,			4U,			1U,			1U,			1U,			4U},
-		{ 56000000U,		2U,			8U,			4U,			0U,			8U,			2U,			1U,			1U,			1U,			4U},
-		{ 74000000U,		3U,			8U,			2U,			1U,			8U,			1U,			1U,			1U,			1U,			4U},
-		{ 99000000U,		3U,			6U,			2U,			1U,			4U,			1U,			1U,			1U,			1U,			4U},
-		{ 111000000U,		2U,			8U,			2U,			0U,			8U,			1U,			1U,			1U,			1U,			4U},
-		{ 148000000U,		3U,			8U,			1U,			1U,			8U,			1U,			1U,			1U,			1U,			2U},
-		{ 222000000U,		2U,			8U,			1U,			0U,			8U,			1U,			1U,			1U,			1U,			2U},
-		{ 296000000U,		2U,			6U,			1U,			0U,			4U,			1U,			1U,			1U,			1U,			2U},
-		{ 444000000U,		2U,			4U,			1U,			0U,			2U,			1U,			1U,			1U,			1U,			2U},
-		{ 592000000U,		3U,			2U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			2U},
-		{ 888000000U,		2U,			2U,			1U,			0U,			1U,			1U,			1U,			1U,			1U,			2U},
-		{ 1184000000U,		3U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			1U,			1U},
-		{ 1775000000U,		2U,			1U,			1U,			0U,			1U,			1U,			1U,			1U,			1U,			1U},
-		{ 3550000000U,		1U,			1U,			1U,			1U,			1U,			0U,			0U,			0U,			0U,			1U}
-};

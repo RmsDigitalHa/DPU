@@ -62,7 +62,6 @@ typedef struct
 }
 typTableLMX2582;
 
-typTableLMX2582 TableLMX2582[16];
 
 
 extern RCFM_MODE rcfm_status;

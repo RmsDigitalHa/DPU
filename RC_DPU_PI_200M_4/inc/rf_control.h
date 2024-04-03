@@ -26,8 +26,6 @@ typedef struct
 }
 typTableATTEN;
 
-typTableATTEN 	GainAttenTable[167];
-
 
 static int GetRFPathStatus(void);
 void GetStatusPBIT(void);
