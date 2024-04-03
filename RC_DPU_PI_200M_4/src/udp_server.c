@@ -499,12 +499,15 @@ int TransferData(void)
 	recv_buf_udp[1] = (uint8_t)(0xE1);
 	recv_buf_udp[2] = (uint8_t)(0x41);
 	recv_buf_udp[3] = (uint8_t)(0x00);
-	(void)memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
-	*((uint32_t *)AddrSpecCurHeader + (uint32_t)1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + (uint32_t)0xCU);
 
-	//ICD Body
-	(void)memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
+	if(AddrSpecCurHeader != NULL){
+		(void)memcpy(AddrSpecCurHeader, recv_buf_udp, 4);
+		*((uint32_t *)AddrSpecCurHeader + (uint32_t)1U) = (uint32_t)((DPU_STATUS.SpecBin * 2U) + (uint32_t)0xCU);
 
+		//ICD Body
+		(void)memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
+	}
+	else{}
 
 
 	if(DataReady == 1U){

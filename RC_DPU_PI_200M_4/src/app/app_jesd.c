@@ -57,8 +57,6 @@ void jesd_rx_watchdog(void);
 
 
 struct axi_jesd204_rx *rx_jesd = NULL;
-static struct axi_jesd204_tx *tx_jesd = NULL;
-static struct axi_jesd204_rx *rx_os_jesd = NULL;
 
 
 adiHalErr_t jesd_init(const uint32_t rx_div40_rate_hz,
@@ -77,7 +75,7 @@ adiHalErr_t jesd_init(const uint32_t rx_div40_rate_hz,
 		rx_lane_rate_khz
 	};
 
-	uint32_t tx_lane_rate_khz = tx_div40_rate_hz / 1000U * 40U;
+
 
 
 	/* Initialize JESD */

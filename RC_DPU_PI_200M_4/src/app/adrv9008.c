@@ -68,6 +68,12 @@ int Init_ADRV9008(void)
 	adiHalErr_t err;
 	int status;
 
+	if((talInit.jesd204Settings.framerA.serializerLanesEnabled & talInit.jesd204Settings.framerA.K
+		& talInit.jesd204Settings.framerA.F) == 0U){
+
+		goto error_0;
+	}
+
 	// compute the lane rate from profile settings
 	// lane_rate = input_rate * M * 20 / L
 	// where L and M are explained in taliseJesd204bFramerConfig_t comments
