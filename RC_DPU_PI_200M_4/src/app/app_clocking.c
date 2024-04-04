@@ -200,7 +200,7 @@ printf("error: ad9528_setup() failed with %d\n", status);
 goto error_1;
 }
 
-if(clkchip_device != NULL){
+if(clkchip_device == NULL){
 	goto error_1;
 }
 else{}
