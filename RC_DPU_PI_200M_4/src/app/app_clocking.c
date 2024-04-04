@@ -75,8 +75,6 @@ void clocking_deinit(void);
 static struct ad9528_dev* clkchip_device;
 
 static struct axi_clkgen *rx_clkgen;
-static struct axi_clkgen *tx_clkgen;
-static struct axi_clkgen *rx_os_clkgen;
 
 adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz,
   uint32_t tx_div40_rate_hz,
@@ -202,6 +200,11 @@ printf("error: ad9528_setup() failed with %d\n", status);
 goto error_1;
 }
 
+if(clkchip_device != NULL){
+	goto error_1;
+}
+else{}
+
 dev_clk = ad9528_clk_round_rate(clkchip_device, DEV_CLK,
 		device_clock_khz * 1000U);
 
@@ -243,9 +246,9 @@ return ADIHAL_ERR;
 
 void clocking_deinit(void)
 {
-axi_clkgen_remove(rx_os_clkgen);
-axi_clkgen_remove(tx_clkgen);
-axi_clkgen_remove(rx_clkgen);
-
-ad9528_remove(clkchip_device);
+	if(rx_clkgen != NULL){
+		axi_clkgen_remove(rx_clkgen);
+		ad9528_remove(clkchip_device);
+	}
+	else{}
 }

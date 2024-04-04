@@ -68,11 +68,12 @@ int Init_ADRV9008(void)
 	adiHalErr_t err;
 	int status;
 
-	if((talInit.jesd204Settings.framerA.serializerLanesEnabled & talInit.jesd204Settings.framerA.K
-		& talInit.jesd204Settings.framerA.F) == 0U){
-
+	if((talInit.jesd204Settings.framerA.serializerLanesEnabled == 0U) && (talInit.jesd204Settings.framerA.K == 0U)
+		&& (talInit.jesd204Settings.framerA.F == 0U) == 1U){
 		goto error_0;
 	}
+	else{}
+
 
 	// compute the lane rate from profile settings
 	// lane_rate = input_rate * M * 20 / L

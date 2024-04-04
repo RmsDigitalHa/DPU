@@ -64,8 +64,6 @@ adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz, uint32_t tx_lane_rat
 void fpga_xcvr_deinit(void);
 
 static struct adxcvr *rx_adxcvr;
-static struct adxcvr *tx_adxcvr;
-static struct adxcvr *rx_os_adxcvr;
 
 adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
    uint32_t tx_lane_rate_khz,
@@ -74,33 +72,6 @@ adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
 {
 	int32_t status;
 
-
-	#ifdef ALTERA_PLATFORM
-	struct adxcvr_init rx_adxcvr_init = {
-		"rx_adxcvr",
-		RX_XCVR_BASEADDR,
-		{RX_ADXCFG_0_BASEADDR, RX_ADXCFG_1_BASEADDR, 0, 0},
-		0,
-		rx_lane_rate_khz,
-		device_clock,
-	};
-	struct adxcvr_init tx_adxcvr_init = {
-		"tx_adxcvr",
-		TX_XCVR_BASEADDR,
-		{TX_ADXCFG_0_BASEADDR, TX_ADXCFG_1_BASEADDR, TX_ADXCFG_2_BASEADDR, TX_ADXCFG_3_BASEADDR},
-		TX_PLL_BASEADDR,
-		tx_lane_rate_khz,
-		device_clock,
-	};
-	struct adxcvr_init rx_os_adxcvr_init = {
-		"rx_os_adxcvr",
-		RX_OS_XCVR_BASEADDR,
-		{RX_OS_ADXCFG_0_BASEADDR, RX_OS_ADXCFG_1_BASEADDR, 0, 0},
-		0,
-		rx_os_lane_rate_khz,
-		device_clock,
-	};
-	#else
 	struct adxcvr_init rx_adxcvr_init = {
 		"rx_adxcvr",
 		RX_XCVR_BASEADDR,
@@ -111,7 +82,6 @@ adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
 		rx_lane_rate_khz,
 		device_clock,
 	};
-	#endif
 
 	/* Initialize ADXCR */
 	status = adxcvr_init(&rx_adxcvr, &rx_adxcvr_init);
@@ -121,12 +91,14 @@ adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
 		goto error_8;
 	}
 
-	status = adxcvr_clk_enable(rx_adxcvr);
-	if (status != SUCCESS) {
-		printf("error: %s: adxcvr_clk_enable() failed\n", rx_adxcvr->name);
-		goto error_8;
+	if(rx_adxcvr != NULL){
+		status = adxcvr_clk_enable(rx_adxcvr);
+		if (status != SUCCESS) {
+			printf("error: %s: adxcvr_clk_enable() failed\n", rx_adxcvr->name);
+			goto error_8;
+		}
 	}
-
+	else{}
 	return ADIHAL_OK;
 
 	error_8:
@@ -136,7 +108,8 @@ adiHalErr_t fpga_xcvr_init(const uint32_t rx_lane_rate_khz,
 
 void fpga_xcvr_deinit(void)
 {
-	adxcvr_remove(rx_os_adxcvr);
-	adxcvr_remove(tx_adxcvr);
-	adxcvr_remove(rx_adxcvr);
+	if(rx_adxcvr != NULL){
+		adxcvr_remove(rx_adxcvr);
+	}
+	else{}
 }

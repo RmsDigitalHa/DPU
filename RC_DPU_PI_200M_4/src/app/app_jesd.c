@@ -88,25 +88,37 @@ adiHalErr_t jesd_init(const uint32_t rx_div40_rate_hz,
 	return ADIHAL_OK;
 
 	error_5:
-		axi_jesd204_rx_remove(rx_jesd);
+		if(rx_jesd != NULL){
+			axi_jesd204_rx_remove(rx_jesd);
+		}
+		else{}
 
 	return ADIHAL_ERR;
 }
 
 void jesd_deinit(void)
 {
-	axi_jesd204_rx_remove(rx_jesd);
+	if(rx_jesd != NULL){
+		axi_jesd204_rx_remove(rx_jesd);
+	}
+	else{}
 }
 
 void jesd_status(void)
 {
-	axi_jesd204_rx_status_read(rx_jesd);
-	axi_jesd204_rx_laneinfo_read(rx_jesd, 0);
-	axi_jesd204_rx_laneinfo_read(rx_jesd, 1);
+	if(rx_jesd != NULL){
+		axi_jesd204_rx_status_read(rx_jesd);
+		axi_jesd204_rx_laneinfo_read(rx_jesd, 0);
+		axi_jesd204_rx_laneinfo_read(rx_jesd, 1);
+	}
+	else{}
 
 }
 
 void jesd_rx_watchdog(void)
 {
-	axi_jesd204_rx_watchdog(rx_jesd);
+	if(rx_jesd != NULL){
+		axi_jesd204_rx_watchdog(rx_jesd);
+	}
+	else{}
 }
