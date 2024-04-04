@@ -108,7 +108,7 @@ int Init_ADRV9008(void)
 		4
 	};
 
-	struct axi_adc *rx_adc;
+	struct axi_adc *rx_adc = 0U;
 
 	//Init PS Driver
 	struct xil_spi_init_param adc_spi_param = {
