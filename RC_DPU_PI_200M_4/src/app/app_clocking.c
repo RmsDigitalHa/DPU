@@ -246,7 +246,7 @@ return ADIHAL_ERR;
 
 void clocking_deinit(void)
 {
-	if(rx_clkgen != NULL){
+	if((rx_clkgen != NULL) && (clkchip_device != NULL)){
 		axi_clkgen_remove(rx_clkgen);
 		ad9528_remove(clkchip_device);
 	}

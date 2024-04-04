@@ -376,7 +376,7 @@ int RxDmaData(void)
 			AddrSpecHeader = AddrSpecData - ((ICD_HEADER_SIZE + SPEC_HEADER_SIZE)/4U);
 			AddrSpecPrevHeader = (uint32_t *)&SPEC_BUF_PREV;
 			AddrSpecCurHeader = (uint32_t *)&SPEC_BUF_CUR;
-			if((AddrSpecPrevHeader != NULL) && (AddrSpecHeader != NULL)){
+			if((AddrSpecPrevHeader != NULL) && (AddrSpecCurHeader != NULL) && (AddrSpecHeader != NULL)){
 				if(DPU_STATUS.ScanMode == 0x01U){
 					(void)memcpy(AddrSpecPrevHeader, AddrSpecHeader, sizeof(SPEC_BUF_PREV));
 				}
