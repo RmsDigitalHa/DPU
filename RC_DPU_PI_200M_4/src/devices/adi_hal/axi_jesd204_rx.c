@@ -366,7 +366,6 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 	uint32_t link_disabled;
 	uint32_t link_status;
 	bool restart = false;
-	bool watchdog_status = false;
 	uint32_t i;
 
 	(void)axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_STATE, &link_disabled);
@@ -377,8 +376,7 @@ int32_t axi_jesd204_rx_watchdog(struct axi_jesd204_rx *jesd)
 	(void)axi_jesd204_rx_read(jesd, JESD204_RX_REG_LINK_STATUS, &link_status);
 	if (link_status == 3U) {
 		for (i = 0; i < jesd->num_lanes; i++) {
-			watchdog_status = axi_jesd204_rx_check_lane_status(jesd, i);
-			restart |= watchdog_status;
+			restart = axi_jesd204_rx_check_lane_status(jesd, i);
 		}
 
 		if (restart) {
