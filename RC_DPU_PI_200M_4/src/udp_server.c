@@ -93,8 +93,10 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 	send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
 
-	(void)memcpy(recv_buf_udp, p->payload, p->len);
-	(void)memcpy(reply_buf_udp, recv_buf_udp, p->len);
+	if((p->payload != NULL) && (recv_buf_udp != NULL)){
+		(void)memcpy(recv_buf_udp, p->payload, p->len);
+		(void)memcpy(reply_buf_udp, recv_buf_udp, p->len);
+	}
 
 	recv_icd_header = ParserTCP(recv_buf_udp, (uint16_t)(p->len));
 	SwapOPCODE(reply_buf_udp);		//Source Code <-> Destination Code
@@ -507,8 +509,6 @@ int TransferData(void)
 		//ICD Body
 		(void)memcpy((AddrSpecCurHeader + 2), &DPU_STATUS, 12);
 	}
-	else{}
-
 
 	if(DataReady == 1U){
 		while(true){
