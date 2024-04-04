@@ -53,13 +53,7 @@
 #include "xil_cache.h"
 #include "sleep.h"
 
-#if LWIP_IPV6==1
-#include "lwip/ip.h"
-#else
-#if LWIP_DHCP==1
 #include "lwip/dhcp.h"
-#endif
-#endif
 
 #include "udp_server.h"
 
