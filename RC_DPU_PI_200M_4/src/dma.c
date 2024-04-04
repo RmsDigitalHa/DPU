@@ -110,7 +110,6 @@
 #define RX_BUFFER_HIGH		(MEM_BASE_ADDR + 0x004FFFFF)
 #define MARK_UNCACHEABLE    0x701
 #define TEST_START_VALUE	0xC
-#define POLL_TIMEOUT_COUNTER	1000000U
 
 
 static int RxSetup(XAxiDma * AxiDmaInstPtr);
@@ -208,7 +207,7 @@ static int RxSetup(XAxiDma * AxiDmaInstPtr)
 	int Coalesce = 1;
 	int Status;
 	XAxiDma_Bd BdTemplate;
-	XAxiDma_Bd *BdPtr;
+	XAxiDma_Bd *BdPtr = 0U;
 	XAxiDma_Bd *BdCurPtr;
 	u32 BdCount;
 	u32 FreeBdCount;
@@ -319,12 +318,11 @@ static int RxSetup(XAxiDma * AxiDmaInstPtr)
 int RxDmaData(void)
 {
 	XAxiDma_BdRing *RxRingPtr;
-	XAxiDma_Bd *BdPtr;
+	XAxiDma_Bd *BdPtr = 0U;
 	XAxiDma_Bd *BdCurPtr;
 	int ProcessedBdCount;
 	int FreeBdCount;
 	int Status;
-	uint32_t TimeOut = POLL_TIMEOUT_COUNTER;
 	int BdCount;
 	uint8_t *RxPacketPtr;
 	uint32_t RxPacketSize;
