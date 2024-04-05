@@ -106,8 +106,8 @@ extern "C" {
 #define START_ORX_GAIN_INDEX            (MIN_RX_GAIN_TABLE_INDEX - 1)
 #define MIN_ORX_GAIN_TABLE_INDEX        4
 
-extern taliseRxGainTable_t rxGainTable [61];
-extern taliseOrxGainTable_t orxGainTable [61];
+extern taliseRxGainTable_t rxGainTable [62];
+extern taliseOrxGainTable_t orxGainTable [62];
 
 #ifdef __cplusplus
 }
