@@ -60,12 +60,8 @@
 /* user definition */
 #define DMA_DEV_ID		XPAR_AXIDMA_0_DEVICE_ID
 
-#if LWIP_IPV6==0
-#if LWIP_DHCP==1
 extern volatile int dhcp_timoutcntr;
 err_t dhcp_start(struct netif *netif);
-#endif
-#endif
 
 extern volatile int TcpFastTmrFlag;
 extern volatile int TcpSlowTmrFlag;
