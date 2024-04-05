@@ -424,10 +424,10 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF3, (0x01U));
 
 	if (config->subclass_version == 0U) {
-		(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_SYSREF_CONF,
-				     JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE);
-		(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF2,
-				     JESD204_RX_LINK_CONF2_BUFFER_EARLY_RELEASE);
+		(void)axi_jesd204_rx_write(jesd, (uint32_t)JESD204_RX_REG_SYSREF_CONF,
+				(uint32_t)JESD204_RX_REG_SYSREF_CONF_SYSREF_DISABLE);
+		(void)axi_jesd204_rx_write(jesd, (uint32_t)JESD204_RX_REG_LINK_CONF2,
+				(uint32_t)JESD204_RX_LINK_CONF2_BUFFER_EARLY_RELEASE);
 	}
 	return SUCCESS;
 }
@@ -440,7 +440,7 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 {
 	struct axi_jesd204_rx *jesd;
 	uint32_t magic;
-	uint32_t status;
+	int32_t status;
 
 	jesd = (struct axi_jesd204_rx *)malloc(sizeof(*jesd));
 
@@ -489,7 +489,7 @@ int32_t axi_jesd204_rx_init(struct axi_jesd204_rx **jesd204,
 	(void)axi_jesd204_rx_lane_clk_disable(jesd);
 
 	status = axi_jesd204_rx_apply_config(jesd, &jesd->config);
-	if (status != SUCCESS) {
+	if (status != 0) {
 		goto err;
 	}
 

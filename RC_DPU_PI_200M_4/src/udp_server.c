@@ -69,15 +69,15 @@ static void AssignDefaultIp(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 	xil_printf("Configuring default IP %s \r\n", DEFAULT_IP_ADDRESS);
 
 	err = inet_aton(DEFAULT_IP_ADDRESS, ip);
-	if (err != 1U) {
+	if (err != 1) {
 		xil_printf("Invalid default IP address: %d\r\n", err);
 	}
 	err = inet_aton(DEFAULT_IP_MASK, mask);
-	if (err != 1U) {
+	if (err != 1) {
 		xil_printf("Invalid default IP MASK: %d\r\n", err);
 	}
 	err = inet_aton(DEFAULT_GW_ADDRESS, gw);
-	if (err != 1U) {
+	if (err != 1) {
 		xil_printf("Invalid default gateway address: %d\r\n", err);
 	}
 }
@@ -165,13 +165,13 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[13] = PBIT_STATUS.REF_SIG;
 					reply_buf_udp[14] = PBIT_STATUS.RCFM_PWR;
 					reply_buf_udp[15] = PBIT_STATUS.RCFM_INSERT;
-					reply_buf_udp[16] = PBIT_STATUS.RCFM_TMP;
+					reply_buf_udp[16] = (uint8_t)PBIT_STATUS.RCFM_TMP;
 					reply_buf_udp[17] = RCRM_LNA02;				//Init Val = BYPASS, LNA Mode for check LNA status
 					reply_buf_udp[18] = PBIT_STATUS.LNA2;
 					reply_buf_udp[19] = PBIT_STATUS.LNA3;
 					reply_buf_udp[20] = PBIT_STATUS.RCRM_PWR;
 					reply_buf_udp[21] = PBIT_STATUS.RCRM_INSERT;
-					reply_buf_udp[22] = PBIT_STATUS.RCRM_TMP;
+					reply_buf_udp[22] = (uint8_t)PBIT_STATUS.RCRM_TMP;
 					reply_buf_udp[23] = PBIT_STATUS.DONE_FPGA;
 					reply_buf_udp[24] = PBIT_STATUS.DONE_ADC;
 					reply_buf_udp[25] = PBIT_STATUS.DONE_DDR;
@@ -191,11 +191,11 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[10] = BIT_STATUS.REF_SIG;
 					reply_buf_udp[11] = BIT_STATUS.RCFM_PWR;
 					reply_buf_udp[12] = BIT_STATUS.RCFM_INSERT;
-					reply_buf_udp[13] = BIT_STATUS.RCFM_TMP;
+					reply_buf_udp[13] = (uint8_t)BIT_STATUS.RCFM_TMP;
 					reply_buf_udp[14] = BIT_STATUS.LNA3;
 					reply_buf_udp[15] = BIT_STATUS.RCRM_PWR;
 					reply_buf_udp[16] = BIT_STATUS.RCRM_INSERT;
-					reply_buf_udp[17] = BIT_STATUS.RCRM_TMP;
+					reply_buf_udp[17] = (uint8_t)BIT_STATUS.RCRM_TMP;
 					reply_buf_udp[18] = BIT_STATUS.DONE_FPGA;
 					reply_buf_udp[19] = BIT_STATUS.DONE_ADC;
 					reply_buf_udp[20] = BIT_STATUS.DONE_DDR;
@@ -217,13 +217,13 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 					reply_buf_udp[13] = BIT_STATUS.REF_SIG;
 					reply_buf_udp[14] = BIT_STATUS.RCFM_PWR;
 					reply_buf_udp[15] = BIT_STATUS.RCFM_INSERT;
-					reply_buf_udp[16] = BIT_STATUS.RCFM_TMP;
+					reply_buf_udp[16] = (uint8_t)BIT_STATUS.RCFM_TMP;
 					reply_buf_udp[17] = RCRM_LNA02;
 					reply_buf_udp[18] = BIT_STATUS.LNA2;
 					reply_buf_udp[19] = BIT_STATUS.LNA3;
 					reply_buf_udp[20] = BIT_STATUS.RCRM_PWR;
 					reply_buf_udp[21] = BIT_STATUS.RCRM_INSERT;
-					reply_buf_udp[22] = BIT_STATUS.RCRM_TMP;
+					reply_buf_udp[22] = (uint8_t)BIT_STATUS.RCRM_TMP;
 					reply_buf_udp[23] = BIT_STATUS.DONE_FPGA;
 					reply_buf_udp[24] = BIT_STATUS.DONE_ADC;
 					reply_buf_udp[25] = BIT_STATUS.DONE_DDR;
@@ -418,8 +418,8 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				BIT_STATUS.RCFM_TMP = GetRFTmp(TMP_RCFM_DEV);
 				BIT_STATUS.RCRM_TMP = GetRFTmp(TMP_RCRM_DEV);
 
-				reply_buf_udp[9] = BIT_STATUS.RCFM_TMP;
-				reply_buf_udp[10] = BIT_STATUS.RCRM_TMP;
+				reply_buf_udp[9] = (uint8_t)BIT_STATUS.RCFM_TMP;
+				reply_buf_udp[10] = (uint8_t)BIT_STATUS.RCRM_TMP;
 
 				//RCV Packet
 				(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
