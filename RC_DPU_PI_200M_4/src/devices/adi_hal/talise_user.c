@@ -15,7 +15,7 @@
  *
  * Order: {FE table, External Ctl, TIA/ADC, signed Digital Gain/Atten[10:0], Phase offset}
  */
-taliseRxGainTable_t rxGainTable [61] = {
+taliseRxGainTable_t rxGainTable [62] = {
 	//ADRV Gain 10dB(default)
 	{0, 0, 0, 170, 0},     /* Gain index 255 */	//-1.5dB
 	{0, 0, 0, 180, 0},    /* Gain index 254 */	//-1.0dB
@@ -84,7 +84,7 @@ taliseRxGainTable_t rxGainTable [61] = {
 /**
 * \brief Default ORx gain table settings
 */
-taliseOrxGainTable_t orxGainTable [61] = {
+taliseOrxGainTable_t orxGainTable [62] = {
 	{0, 0, 0, 14},     /* Gain index 255 */
 	{14, 0, 0, 14},    /* Gain index 254 */
 	{27, 0, 0, 15},    /* Gain index 253 */
