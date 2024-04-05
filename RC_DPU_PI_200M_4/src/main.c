@@ -125,11 +125,11 @@ int main(void)
 
 	/* receive and process packets */
 	while (true) {
-		if (TcpFastTmrFlag == true) {
+		if (TcpFastTmrFlag == 1) {
 			tcp_fasttmr();
 			TcpFastTmrFlag = 0;
 		}
-		if (TcpSlowTmrFlag == true) {
+		if (TcpSlowTmrFlag == 1) {
 			tcp_slowtmr();
 			TcpSlowTmrFlag = 0;
 		}

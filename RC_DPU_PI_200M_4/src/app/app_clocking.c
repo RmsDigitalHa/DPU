@@ -100,7 +100,7 @@ ad9528_param.pdata->num_channels = 14;
 ad9528_param.pdata->channels = &ad9528_channels[0];
 
 status = ad9528_init(&ad9528_param);
-if(status == true) {
+if(status == 1) {
 printf("error: ad9528_init() failed with %d\n", status);
 goto error_0;
 }
@@ -232,7 +232,7 @@ if (adrv9009_check_sysref_rate(lmfc_rate_hz, rate_dev)) {
 ret = ad9528_clk_set_rate(clkchip_device, FMC_SYSREF, rate_fmc);
 ret = ad9528_clk_set_rate(clkchip_device, DEV_SYSREF, rate_dev);
 
-if (ret == true) {
+if (ret == 1) {
 printf("Failed to set FMC SYSREF rate to %u Hz: %d\n",
    rate_fmc, ret);
 }

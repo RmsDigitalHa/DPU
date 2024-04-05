@@ -155,7 +155,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 	/**** Prepare Talise Arm binary and Load Arm and	****/
 	/**** Stream processor Binaryes 					****/
 	/*******************************************************/
-	if ((pllLockStatus & 0x01U) == true) {
+	if ((pllLockStatus & 0x01U) == 1U) {
 		talAction = TALISE_initArm(pd, pi);
 		if (talAction != TALACT_NO_ACTION) {
 			/*** < User: decide what to do based on Talise recovery action returned > ***/
@@ -239,7 +239,7 @@ adiHalErr_t talise_setup(taliseDevice_t * const pd, taliseInit_t * const pi)
 		goto error_11;
 	}
 
-	if (errorFlag == true) {
+	if (errorFlag == 1U) {
 		/*< user code - Check error flag to determine ARM  error> */
 		printf("error: Calibrations not completed\n");
 		goto error_11;

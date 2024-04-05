@@ -185,7 +185,7 @@ int Init_ADRV9008(void)
 	status = ChangeLoFreq(&tal, 1000000000U);
 
 
-	if (status == true) {
+	if (status == 1) {
 	printf("axi_adc_init() failed with status %d\n", status);
 	goto error_3;
 	}
