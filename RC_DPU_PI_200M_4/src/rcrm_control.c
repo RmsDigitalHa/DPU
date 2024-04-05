@@ -20,9 +20,9 @@
 #include "Init.h"
 
 
-static XGpio gpio_rcv_monitor; // RC��ȣŽ���� ���� ��ȸ �� ����
-static XGpio pll_lock_status; // PLL Lock ���� �� ����
-static XGpio log_spi, log_value, log_addr; // Log�� �б� ���� ������
+static XGpio gpio_rcv_monitor; // RC占쏙옙호탐占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙회 占쏙옙 占쏙옙占쏙옙
+static XGpio pll_lock_status; // PLL Lock 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
+static XGpio log_spi, log_value, log_addr; // Log占쏙옙 占싻깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
 
 RCRM_MODE rcrm_status;
 
@@ -154,6 +154,7 @@ void MakeRcrmSpiCmdModeCtrl(void)
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFFFFF99U) | ((uint32_t)0U << 5) | ((uint32_t)1U << 1);
 		break;
 	default :
+		printf("MakeRcrmSpiCmdModeCtrl() - Invalid State\n");
 		break;
 	}
 
@@ -175,6 +176,7 @@ void MakeRcrmSpiCmdModeCtrl(void)
 		rcrm_cmd_data = (rcrm_cmd_data & 0xFFCFFFFFU) | ((uint32_t)2U << 20);
 		break;
 	default :
+		printf("MakeRcrmSpiCmdModeCtrl() - Invalid State\n");
 		break;
 	}
 
