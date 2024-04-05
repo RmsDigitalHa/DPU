@@ -368,6 +368,7 @@ uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByt
 		Data_Return = Log_Value;
 		break;
 	default :
+		printf("SPI_ReadReg() - Invalid State\n");
 		break;
 	}
 
