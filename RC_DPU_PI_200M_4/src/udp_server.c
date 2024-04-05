@@ -93,7 +93,7 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 
 	send_packet = pbuf_alloc(PBUF_TRANSPORT, UDP_SEND_BUFSIZE, PBUF_POOL);
 
-	if((p->payload != NULL) && (recv_buf_udp != NULL)){
+	if((p->payload != NULL) && (recv_buf_udp != NULL) && (reply_buf_udp != NULL)){
 		(void)memcpy(recv_buf_udp, p->payload, p->len);
 		(void)memcpy(reply_buf_udp, recv_buf_udp, p->len);
 	}
