@@ -312,8 +312,11 @@ void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, co
 		usleep(10);
 		break;
 	case DPU_LOG :
+		printf("SPI_WriteReg() - Invalid State\n");
 		break;
-	default	:	break;
+	default	:
+		printf("SPI_WriteReg() - Invalid State\n");
+		break;
 	}
 
 }
