@@ -20,10 +20,6 @@
 #include "Init.h"
 
 
-static XGpio gpio_rcv_monitor; // RC占쏙옙호탐占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙회 占쏙옙 占쏙옙占쏙옙
-static XGpio pll_lock_status; // PLL Lock 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
-static XGpio log_spi, log_value, log_addr; // Log占쏙옙 占싻깍옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙
-
 RCRM_MODE rcrm_status;
 
 /*
