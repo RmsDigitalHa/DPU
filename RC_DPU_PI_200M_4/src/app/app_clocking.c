@@ -84,8 +84,8 @@ adiHalErr_t clocking_init(uint32_t rx_div40_rate_hz,
 {
 int32_t status;
 uint64_t dev_clk, fmc_clk;
-uint64_t rate_dev = device_clock_khz * 1000U;
-uint64_t rate_fmc = device_clock_khz * 1000U;
+uint64_t rate_dev = (uint64_t)(device_clock_khz * 1000U);
+uint64_t rate_fmc = (uint64_t)(device_clock_khz * 1000U);
 uint32_t n;
 int ret;
 
