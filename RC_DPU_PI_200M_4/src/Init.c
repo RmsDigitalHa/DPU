@@ -357,13 +357,13 @@ uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByt
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
 		TMP_Value = (((uint16_t)u8Data_LOG[0] & (uint16_t)0x0FU) << 4) | (((uint16_t)u8Data_LOG[1] & (uint16_t)0xF0U) >> 4);
-		Log_Value = (uint16_t)(TMP_Value * Log_Step);
+		Log_Value = (uint16_t)((double)TMP_Value * Log_Step);
 
 		XSpiPs_SetSlaveSelect(&SPI_RF, 2);
 		XSpiPs_PolledTransfer(&SPI_RF, u8SpiData_LOG, u8Data_LOG, NumByte);		// 2=> 16bit (8x2)
 		TMP_Value = (((uint16_t)u8Data_LOG[0] & (uint16_t)0x0FU) << 4) | (((uint16_t)u8Data_LOG[1] & (uint16_t)0xF0U) >> 4);
 
-		Log_Value = (uint16_t)(TMP_Value * Log_Step);
+		Log_Value = (uint16_t)((double)TMP_Value * Log_Step);
 
 		Data_Return = Log_Value;
 		break;
