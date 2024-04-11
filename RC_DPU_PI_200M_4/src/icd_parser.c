@@ -44,8 +44,8 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 
 	TCP_RcvBuf.SRC_CODE = *recv_buffer;
 	TCP_RcvBuf.DEST_CODE = *(recv_buffer + 1U);
-	TCP_RcvBuf.CMD_CODE = ((uint16_t)(*(recv_buffer + 3U) << 8)) | *(recv_buffer + 2U);
-	TCP_RcvBuf.DATA_SIZE = ((uint32_t)(*(recv_buffer + 7U) << 24)) | ((uint32_t)(*(recv_buffer + 6U) << 16)) | ((uint32_t)(*(recv_buffer + 5) << 8)) | *(recv_buffer + 4);
+	TCP_RcvBuf.CMD_CODE = ((uint16_t)(*(recv_buffer + 3U) << 8)) | (uint16_t)(*(recv_buffer + 2U));
+	TCP_RcvBuf.DATA_SIZE = ((uint32_t)(*(recv_buffer + 7U) << 24)) | ((uint32_t)(*(recv_buffer + 6U) << 16)) | ((uint32_t)(*(recv_buffer + 5) << 8)) | (uint32_t)(*(recv_buffer + 4));
 
 
 	uint32_t OPCODE = ((uint32_t)TCP_RcvBuf.SRC_CODE << 24) | ((uint32_t)TCP_RcvBuf.DEST_CODE << 16) | ((uint32_t)TCP_RcvBuf.CMD_CODE);

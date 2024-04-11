@@ -399,8 +399,8 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	uint32_t multiframe_align;
 	uint32_t val;
 
-	octets_per_multiframe = config->frames_per_multiframe *
-				config->octets_per_frame;
+	octets_per_multiframe = (uint32_t)(config->frames_per_multiframe *
+				config->octets_per_frame);
 
 	multiframe_align = (uint32_t)1 << jesd->data_path_width;
 
@@ -411,7 +411,7 @@ static int32_t axi_jesd204_rx_apply_config(struct axi_jesd204_rx *jesd,
 	}
 
 	val = (octets_per_multiframe - 1U);
-	val |= (config->octets_per_frame - 1U) << 16U;
+	val |= (uint32_t)((config->octets_per_frame - 1U) << 16U);
 
 	(void)axi_jesd204_rx_write(jesd, JESD204_RX_REG_LINK_CONF0, val);
 
