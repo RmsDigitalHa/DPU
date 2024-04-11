@@ -404,8 +404,8 @@ return TCP_RcvBuf;
 void SwapOPCODE(uint8_t* buf){
 	uint8_t tmp = 0;
 
-	tmp = buf[0];
-	buf[0] = buf[1];
-	buf[1] = tmp;
+	tmp = (*(buf));
+	(*(buf)) = (*(buf + 1U));
+	(*(buf + 1U)) = tmp;
 }
 
