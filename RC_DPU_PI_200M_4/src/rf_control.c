@@ -250,7 +250,7 @@ void GetStatusPBIT(void){
 
 
 	for(int i = 0; i<10; i ++){
-		Data_PBIT[i] = Buf_Read & (0x1U);
+		Data_PBIT[i] = (uint8_t)(Buf_Read & (0x1U));
 		Buf_Read = Buf_Read >> 1;
 	}
 
@@ -299,7 +299,7 @@ void GetStatusIBIT(void){
 
 
 	for(int i = 0; i<10; i ++){
-		Data_IBIT[i] = Buf_Read & (0x1U);
+		Data_IBIT[i] = (uint8_t)(Buf_Read & (0x1U));
 		Buf_Read = Buf_Read >> 1;
 	}
 
