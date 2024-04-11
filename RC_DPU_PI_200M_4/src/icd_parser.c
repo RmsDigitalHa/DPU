@@ -278,7 +278,7 @@ ICD_HEADER ParserTCP(uint8_t *recv_buffer, uint16_t packet_len)
 	}
 	else if(OPCODE == SET_BIT_CTRL){
 		if((*(recv_buffer + 8U)) == 0U){
-			RF_STATUS.RF_BIT_EN = (*(recv_buffer + 8U));
+			RF_STATUS.RF_BIT_EN = (*(recv_buffer + 9U));
 			SetRcfmStatBitEn(RF_STATUS.RF_BIT_EN);
 
 			freq_buf1 = ((uint64_t)(*(recv_buffer + 17U)) << 24) | ((uint64_t)(*(recv_buffer + 16U)) << 16) | ((uint64_t)(*(recv_buffer + 15U)) << 8) | ((uint64_t)(*(recv_buffer + 14U)) << 0);
