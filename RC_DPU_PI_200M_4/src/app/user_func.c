@@ -186,7 +186,7 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 		(void)memset((uint8_t *)&SPEC_BUF_CUR, 0x00, sizeof(SPEC_BUF_CUR));
 
 		center_freq = FreqList[i] + FREQ_OFFSET - FREQ_NCO;
-		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//?ˆ˜? •(240311)
+		DPU_STATUS.CenterFreq = FreqList[i - 1U];		//¼öÁ¤(240311)
 		SetRcrmStatFreq(FreqList[i - 1U] + FREQ_OFFSET);
 
 		Status = AdrvGainCtrl((uint64_t)(FreqList[i - 1U] + FREQ_OFFSET));
@@ -206,13 +206,13 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 			FrameDone = RTS_SPECTRUM_CTRL_mReadReg(RC_SPCTRUM_BaseAddr, REG_RTS_FRAME_DONE);
 			if(FrameDone == 1U){
 				Done_CNT += 1U;
-				(void)RxDmaData();			//?ˆ˜? •(240311)
+				(void)RxDmaData();			//¼öÁ¤(240311)
 			}
 			if(Done_CNT == (ITER_CNT + 2U)){
 				Done_CNT = 0;
 				break;
 			}
-			else if(Done_CNT > 1U){		//1Cycle??? ê¸°ì¡´ BRAM ì´ˆê¸°?™” ?•„?š”?•¨(x)
+			else if(Done_CNT > 1U){		//1CycleÀº ±âÁ¸ BRAM ÃÊ±âÈ­ ÇÊ¿äÇÔ(x)
 				(void)RxDmaData();
 				Status = IterSpectrum();
 				if (Status != XST_SUCCESS) {
@@ -232,7 +232,7 @@ int CHScanStart(const uint8_t CH, const uint8_t ITER_CNT){
 	return 0;
 }
 
-int BWScanStart(const uint64_t FREQ, uint64_t BW, uint16_t RBW){
+int BWScanStart(const uint64_t FREQ, uint64_t BW, uint32_t RBW){
 	uint64_t center_freq = 0;
 	uint8_t FrameDone = 0;
 	uint8_t Done_CNT = 0;
@@ -299,7 +299,7 @@ static int IterSpectrum(void){
 static int AdrvGainCtrl(const uint64_t FREQ){
 	int Status = 0;
 
-	//2ì°? ?‹œ? œ, EMI, ?™˜ê²½ì‹œ?—˜ ì§„í–‰
+	//2?? ??????, EMI, ???°æ½Ã??? ÁøÇà
 	if((FREQ >= FREQ_400MHz) && (FREQ < FREQ_500MHz)){
 		Status = SetAdrvGain(&tal, 253U);
 	}

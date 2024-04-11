@@ -230,7 +230,7 @@ void SetRcfmStatBitFreq(const uint64_t Freq){
 		Frac_Value = (uint16_t)((((uint64_t)VCOCLK / Prescaler)*1000U) - (Int_Value * 1000U));
 
 
-		SendBuf = ((Int_Value & 0xFFFFU) * Prescaler);
+		SendBuf = (uint16_t)(((Int_Value & 0xFFFFU) * Prescaler));
 		SPI_WriteReg(LMX2592, 0x26U, SendBuf, 3U);
 		SendBuf = Frac_Value & 0xFFFFU;
 		SPI_WriteReg(LMX2592, 0x2DU, SendBuf, 3U);

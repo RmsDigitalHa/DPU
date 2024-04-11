@@ -278,14 +278,14 @@ void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, co
 	switch(dev){
 	case LMX2592 :
 		if(NumByte == 3U){
-			Addr_LMX = (Addr & (0xFFU));
+			Addr_LMX = (uint8_t)(Addr & (0xFFU));
 			Send_Buf = ((uint64_t)val & 0x0000FFFFU);
 
 			Buffer = (((uint64_t)Addr_LMX << 16) | Send_Buf);
 
-			u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16U);
-			u8SpiData_RF[1] = ((Buffer & (0x00FF00U))>>8U);
-			u8SpiData_RF[2] =  (Buffer & (0x0000FFU));
+			u8SpiData_RF[0] = (uint8_t)((Buffer & (0xFF0000U))>>16U);
+			u8SpiData_RF[1] = (uint8_t)((Buffer & (0x00FF00U))>>8U);
+			u8SpiData_RF[2] =  (uint8_t)(Buffer & (0x0000FFU));
 		}
 		else{}
 
@@ -299,10 +299,10 @@ void SPI_WriteReg(const uint8_t dev, const uint16_t Addr, const uint32_t val, co
 		if(NumByte == 4U){
 			Send_Buf = val;
 
-			u8SpiData_RF[0] = ((Send_Buf & (0xFF000000U))>>24);
-			u8SpiData_RF[1] = ((Send_Buf & (0x00FF0000U))>>16);
-			u8SpiData_RF[2] = ((Send_Buf & (0x0000FF00U))>>8);
-			u8SpiData_RF[3] = (Send_Buf & (0x000000FFU));
+			u8SpiData_RF[0] = (uint8_t)((Send_Buf & (0xFF000000U))>>24);
+			u8SpiData_RF[1] = (uint8_t)((Send_Buf & (0x00FF0000U))>>16);
+			u8SpiData_RF[2] = (uint8_t)((Send_Buf & (0x0000FF00U))>>8);
+			u8SpiData_RF[3] = (uint8_t)(Send_Buf & (0x000000FFU));
 		}
 		else{}
 
@@ -335,7 +335,7 @@ uint16_t SPI_ReadReg(const uint8_t dev, const uint8_t Addr, const uint8_t NumByt
 		Addr_RF = ((uint16_t)Addr & 0xFFU);
 		Buffer = (((uint32_t)Addr_RF << 16) | ((uint32_t)1U << 23));
 
-		u8SpiData_RF[0] = ((Buffer & (0xFF0000U))>>16);
+		u8SpiData_RF[0] = (uint8_t)((Buffer & (0xFF0000U))>>16);
 		u8SpiData_RF[1] = 0;
 		u8SpiData_RF[2] = 0;
 

@@ -399,8 +399,8 @@ void RecvCallback(void *arg, struct udp_pcb *tpcb,
 				log_val = SPI_ReadReg(DPU_LOG, 0U, 2U);
 
 				reply_buf_udp[4] = 0x03U;
-				reply_buf_udp[9] =  ((log_val >> 0U) & 0xFFU);
-				reply_buf_udp[10] =  ((log_val >> 8U) & 0xFFU);
+				reply_buf_udp[9] =  (uint8_t)((log_val >> 0U) & 0xFFU);
+				reply_buf_udp[10] =  (uint8_t)((log_val >> 8U) & 0xFFU);
 
 				//RCV Packet
 				(void)memcpy(send_packet->payload, reply_buf_udp, p->len + 2);
